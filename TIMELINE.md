@@ -21,7 +21,7 @@ base Me(3f²−e²), tiled by copies of the triangle (ef, f²−e², f²); a pri
 | 2026-09-13 | GitHub `erdos_634_proof`, last public commit `4bb61193` | State of the public preprint: primes ≡ 3 (mod 4) excluded except the class ≡ 11 (mod 12), which reduces to the scale-one base-β targets T_1(e,f); the family e = 1 is excluded in Lean. |
 | 2026-09-29 15:10 | GitHub `DenisUkranian/erdos-634-tilings`, commit `0730aafe` (D. Paliy) | First public proof of the prime case: no tiling of T_1(e,f) or W_1(e,f) for any member, by a column induction at scale one, and the deduction that a prime p is a tile count iff p = 2, 3 or p ≡ 1 (mod 4). |
 
-## Pre-release (private until publication)
+## Pre-release (private)
 
 | Date (UTC) | Record | Content |
 |---|---|---|
