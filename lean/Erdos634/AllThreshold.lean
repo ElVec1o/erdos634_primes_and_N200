@@ -1,0 +1,125 @@
+/-
+AllThreshold.lean -- aggregate of the threshold program of the base-β row, separate from `Erdos634.All`.
+
+Kept out of `Erdos634.All` for memory.  `All` does not import this file and this file does not import `All`.
+
+Contents: the seed at scale `f` (`WSeedG*`), the collars (`CollarE1*`, `CollarG*`), the residue seeds (`Residue*`):
+every member has a tiling at every scale `M ≥ f`; the threshold statement and its reductions (`UniformThreshold`,
+`ThresholdReduce`, `ThresholdBlind`); the kernel-checked tilings `R272`, `R425`, `R224`, `R320` with `W13`, `W23`,
+`S5N320`; the exclusions below the scale `f` for the members `(1, f)`: `W2E1*` (the triangle `W_2`), `SideRun*` (the
+side theorem, `W_M` for `M < f`, `T_M` for `2M < f`), `E1ScaleTwo`.
+-/
+import Erdos634.Draft.WSeedG
+import Erdos634.Draft.WSeedGAssemble
+import Erdos634.Draft.WSeedGW
+import Erdos634.Draft.WClosedBase
+import Erdos634.R272TilingBridge
+import Erdos634.R425TilingBridge
+import Erdos634.Draft.W13
+import Erdos634.Draft.CollarE1Geom
+import Erdos634.Draft.CollarE1
+import Erdos634.Draft.UniformThreshold
+import Erdos634.Draft.CollarGGeom
+import Erdos634.Draft.CollarG
+import Erdos634.R320TilingBridge
+import Erdos634.Draft.S5N320
+import Erdos634.Draft.ThresholdReduce
+import Erdos634.R224TilingBridge
+import Erdos634.Draft.W23
+import Erdos634.Draft.ResidueTools
+import Erdos634.Draft.ResidueBlocks
+import Erdos634.Draft.ResidueStrips
+import Erdos634.Draft.ResidueSeedBlocks
+import Erdos634.Draft.ResidueSeedTarget
+import Erdos634.Draft.ResidueSeed
+import Erdos634.Draft.ThresholdBlind
+import Erdos634.Draft.W2E1Words
+import Erdos634.Draft.W2E1Tools
+import Erdos634.Draft.W2E1Frame
+import Erdos634.Draft.W2E1HalfTurn
+import Erdos634.Draft.W2E1Last
+import Erdos634.Draft.W2E1
+import Erdos634.Draft.SideRunWords
+import Erdos634.Draft.SideRunTools
+import Erdos634.Draft.SideRunFrame
+import Erdos634.Draft.SideRunLattice
+import Erdos634.Draft.SideRunChord
+import Erdos634.Draft.SideRunRow
+import Erdos634.Draft.SideRunK
+import Erdos634.Draft.SideRunSources
+import Erdos634.Draft.SideRunRules
+import Erdos634.Draft.SideRunMain
+import Erdos634.Draft.SideRun
+import Erdos634.Draft.E1ScaleTwo
+import Erdos634.Draft.SideRunHalf
+import Erdos634.Draft.LayerE1Tools
+import Erdos634.Draft.LayerE1Geom
+import Erdos634.Draft.LayerE1
+import Erdos634.Draft.SignedDecompE1
+import Erdos634.Draft.ChordCut
+import Erdos634.Draft.ChordCutWitness
+import Erdos634.Draft.ReframeD
+import Erdos634.Draft.LayerE1Chord
+import Erdos634.Draft.ReframeB
+import Erdos634.Draft.ReframeBWall
+import Erdos634.Draft.ChordCutTiles
+import Erdos634.Draft.ReframeCWedge
+import Erdos634.Draft.ReframeC
+import Erdos634.Draft.ReframeDCevian
+import Erdos634.Draft.SignedDecompG
+import Erdos634.Draft.SignedDecompW
+import Erdos634.Draft.WStripArith
+import Erdos634.Draft.WStripGeom
+import Erdos634.Draft.WStrip
+import Erdos634.Draft.WStripChord
+import Erdos634.Draft.LayerGGeom
+import Erdos634.Draft.LayerGTools
+import Erdos634.Draft.LayerG
+import Erdos634.Draft.LayerGChord
+import Erdos634.Draft.LayerGPieces
+import Erdos634.Draft.LayerGWitness
+import Erdos634.Draft.SideRunGArith
+import Erdos634.Draft.SideRunGFrame
+import Erdos634.Draft.SideRunGLattice
+import Erdos634.Draft.SideRunGWitness
+import Erdos634.Draft.SideRunGChord
+import Erdos634.Draft.SideRunGChordB
+import Erdos634.Draft.SideRunGRow
+import Erdos634.Draft.SideRunGRowB
+import Erdos634.Draft.SideRunGK
+import Erdos634.Draft.SideRunGSources
+import Erdos634.Draft.SideRunGSourcesB
+import Erdos634.Draft.SideRunGSourcesC
+import Erdos634.Draft.SideRunGRules
+import Erdos634.Draft.SideRunGMain
+import Erdos634.Draft.SideRunGAngles
+import Erdos634.Draft.SideRunGJChord
+import Erdos634.Draft.SideRunGJRow
+import Erdos634.Draft.SideRunGJK
+import Erdos634.Draft.SideRunGCornerA
+import Erdos634.Draft.SideRunGCornerRun
+import Erdos634.Draft.SideRunGMirror
+import Erdos634.Draft.SideRunGMStep
+import Erdos634.Draft.SideRunGMStepB
+import Erdos634.Draft.SideRunGMStepC
+import Erdos634.Draft.SideRunGMoA
+import Erdos634.Draft.SideRunGMoB
+import Erdos634.Draft.SideRunGMo
+import Erdos634.Draft.SideRunGCornerWords
+import Erdos634.Draft.SideRunGCornerRules
+import Erdos634.Draft.SideRunGCornerSide
+import Erdos634.Draft.SideRunGCornerMirror
+import Erdos634.Draft.SideRunGCornerMain
+import Erdos634.Draft.SideRunGCornerMainB
+import Erdos634.Draft.SideRunGCornerWitness
+import Erdos634.Draft.SideRunGThickCount
+import Erdos634.Draft.SideRunGThick
+import Erdos634.Draft.SideRunGThetaWords
+import Erdos634.Draft.SideRunGThetaRun
+import Erdos634.Draft.SideRunGThetaRules
+import Erdos634.Draft.SideRunGThetaMain
+import Erdos634.Draft.ThetaKill
+import Erdos634.Draft.ThetaWitness
+import Erdos634.Draft.ThetaAngles
+import Erdos634.Draft.SRunChord
+import Erdos634.Draft.NoThetaRegion

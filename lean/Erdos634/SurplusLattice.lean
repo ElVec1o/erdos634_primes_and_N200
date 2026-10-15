@@ -1,0 +1,112 @@
+/-
+SurplusLattice.lean — the surplus lattice of line mismatches in base-`β` tilings (Erdős #634).
+No imports, no axioms: kernel-checked with the core toolchain only (`omega`, `decide`).
+
+Along any maximal straight segment of a tiling by the base-`β` tile
+`(a,b,c) = (ef, f²−e², f²)`, both sides are partitioned into whole tile edges of equal total
+length, so the multiset surplus `(dP,dQ,dR)` (a-, b-, c-count differences) satisfies
+`a·dP + b·dQ + c·dR = 0`.  The surplus lattice theorem states that the solution set is
+exactly the rank-2 lattice
+    Λ = ℤ·R_c ⊕ ℤ·R_b2,   R_c = (f, 0, −e),   R_b2 = (f−e, −f, f−e).
+`R_c` encodes the relation `e·c = f·a` and `R_b2` the relation `f·b = (f−e)(a+c)`; these are the
+only primitive mismatches a segment can carry.  Consequences: a `b`-count mismatch needs at least
+`f` surplus `b`-edges on a side, and a pure `a/c` mismatch needs `f` surplus `a`-edges against `e`
+surplus `c`-edges — the quantitative inputs of the corner-block induction.
+
+This file kernel-checks the theorem for the members `(e,f) = (1,2)` (`N = 11m²`: the member with
+kernel-verified tilings at `m = 2,3`), `(2,3)`, `(1,3)`, `(5,6)` (`N = 83`) and `(4,7)`
+(`N = 131`).  The statement is uniform; the general `(e,f)` proof (three lines: reduce mod `f`, use
+`gcd(e,f) = 1` twice) is each instance below with the Bézout data inlined, discharged by `omega`.
+Membership of the two generators, and the identities `R_b3 = f·R_b2 − (f−e)·R_c` and (for `e = 1`
+only) `R_b1 = −R_b2 − (f−1)·R_c`, are checked as well.  The `b`-vs-`a`-only mismatch `j·b = p·a`
+needs `a = ef ∣ j` at **every** member (from `gcd(a,b) = 1`), so the `e = 1`/`e ≥ 2` dichotomy is
+the *threshold*: the least admissible `j` is `ef`, which equals `f` exactly when `e = 1`.  Checked
+at `(1,2)` (threshold `2 = f`, attained), `(2,3)` (threshold `6 = 2f`) and `(5,6)` (threshold
+`30 = 5f`).
+-/
+
+namespace Erdos634.SurplusLattice
+
+/-! ## (e,f) = (1,2): tile (2,3,4) -/
+
+/-- The surplus lattice at `(e,f) = (1,2)`: every length-balanced surplus decomposes over
+`R_c = (2,0,−1)`, `R_b2 = (1,−2,1)`. -/
+theorem lattice_12 (dP dQ dR : Int) (h : 2*dP + 3*dQ + 4*dR = 0) :
+    ∃ k s : Int, dP = 2*k + s ∧ dQ = -2*s ∧ dR = -k + s := by
+  obtain ⟨t, ht⟩ : ∃ t, dQ = 2*t := ⟨dQ/2, by omega⟩
+  exact ⟨-t - dR, -t, by omega, by omega, by omega⟩
+
+/-- Converse: the lattice lies in the length-zero plane (both generators balance). -/
+theorem lattice_12_conv (k s : Int) :
+    2*(2*k + s) + 3*(-2*s) + 4*(-k + s) = 0 := by omega
+
+/-! ## (e,f) = (1,3): tile (3,8,9) -/
+
+theorem lattice_13 (dP dQ dR : Int) (h : 3*dP + 8*dQ + 9*dR = 0) :
+    ∃ k s : Int, dP = 3*k + 2*s ∧ dQ = -3*s ∧ dR = -k + 2*s := by
+  obtain ⟨t, ht⟩ : ∃ t, dQ = 3*t := ⟨dQ/3, by omega⟩
+  exact ⟨-2*t - dR, -t, by omega, by omega, by omega⟩
+
+theorem lattice_13_conv (k s : Int) :
+    3*(3*k + 2*s) + 8*(-3*s) + 9*(-k + 2*s) = 0 := by omega
+
+/-! ## (e,f) = (2,3): tile (6,5,9) -/
+
+theorem lattice_23 (dP dQ dR : Int) (h : 6*dP + 5*dQ + 9*dR = 0) :
+    ∃ k s : Int, dP = 3*k + s ∧ dQ = -3*s ∧ dR = -2*k + s := by
+  obtain ⟨t, ht⟩ : ∃ t, dQ = 3*t := ⟨dQ/3, by omega⟩
+  refine ⟨(dP + t)/3 , -t, by omega, by omega, by omega⟩
+
+theorem lattice_23_conv (k s : Int) :
+    6*(3*k + s) + 5*(-3*s) + 9*(-2*k + s) = 0 := by omega
+
+/-! ## (e,f) = (5,6): tile (30,11,36) — the frontier member N = 83 -/
+
+theorem lattice_56 (dP dQ dR : Int) (h : 30*dP + 11*dQ + 36*dR = 0) :
+    ∃ k s : Int, dP = 6*k + s ∧ dQ = -6*s ∧ dR = -5*k + s := by
+  obtain ⟨t, ht⟩ : ∃ t, dQ = 6*t := ⟨dQ/6, by omega⟩
+  refine ⟨(dP + t)/6, -t, by omega, by omega, by omega⟩
+
+theorem lattice_56_conv (k s : Int) :
+    30*(6*k + s) + 11*(-6*s) + 36*(-5*k + s) = 0 := by omega
+
+/-! ## (e,f) = (4,7): tile (28,33,49) — the frontier member N = 131 -/
+
+theorem lattice_47 (dP dQ dR : Int) (h : 28*dP + 33*dQ + 49*dR = 0) :
+    ∃ k s : Int, dP = 7*k + 3*s ∧ dQ = -7*s ∧ dR = -4*k + 3*s := by
+  obtain ⟨t, ht⟩ : ∃ t, dQ = 7*t := ⟨dQ/7, by omega⟩
+  refine ⟨(dP + 3*t)/7, -t, by omega, by omega, by omega⟩
+
+theorem lattice_47_conv (k s : Int) :
+    28*(7*k + 3*s) + 33*(-7*s) + 49*(-4*k + 3*s) = 0 := by omega
+
+/-! ## The species identities and the e=1 / e≥2 dichotomy -/
+
+/-- `R_b3 = f·R_b2 − (f−e)·R_c` at `(1,2)`: the b-vs-c-only mismatch `f²·b = (f²−e²)·c`
+(`4·3 = 3·4`) is not primitive. -/
+theorem rb3_composite_12 :
+    (0 : Int) = 2*1 - 1*2 ∧ (-4 : Int) = 2*(-2) - 1*0 ∧ (3 : Int) = 2*1 - 1*(-1) := by
+  refine ⟨by omega, by omega, by omega⟩
+
+/-- `e = 1` species: `(f²−1)·a = f·b` holds at `(1,2)` (`3·2 = 2·3`). -/
+theorem rb1_exists_12 : (2*2 - 1*1)*2 = 2*3 := by decide
+
+/-- Dichotomy at `(2,3)`: `j·b = p·a` forces `ef = 6 ∣ j` (`5j = 6p ⟹ 6 ∣ 5j ⟹ 6 ∣ j` since
+`gcd(5,6) = 1`).  The threshold is `ef = 6`, twice `f`, not `f` itself: that is the content of the
+`e ≥ 2` side of the dichotomy. -/
+theorem no_short_ba_23 (j p : Int) (h : 5*j = 6*p) : (6 : Int) ∣ j := by
+  exact ⟨j/6, by omega⟩
+
+/-- Dichotomy at `(5,6)`: `11j = 30p ⟹ ef = 30 ∣ j` — five times `f`. -/
+theorem no_short_ba_56 (j p : Int) (h : 11*j = 30*p) : (30 : Int) ∣ j := by
+  exact ⟨j/30, by omega⟩
+
+/-- The `e = 1` side, for contrast: at `(1,2)` the same relation `j·b = p·a` forces only
+`ef = 2 ∣ j`, and `j = f = 2` is *attained* (`rb1_exists_12`).  So the bound `0 < j < f` being
+impossible is **not** what separates `e = 1` from `e ≥ 2` — it holds at every member, since
+`gcd(a,b) = 1` always gives `a = ef ∣ j`.  The separation is that the least admissible `j` is
+`ef`, which equals `f` exactly when `e = 1`. -/
+theorem no_short_ba_12 (j p : Int) (h : 3*j = 2*p) : (2 : Int) ∣ j := by
+  exact ⟨j/2, by omega⟩
+
+end Erdos634.SurplusLattice

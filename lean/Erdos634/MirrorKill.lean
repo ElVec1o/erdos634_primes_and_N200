@@ -1,0 +1,134 @@
+import Mathlib.Tactic
+
+/-!
+# The isosceles mirror reduces Route 1 to the handled case
+
+The base-β target is `(f³, f³, e N₀)`: isosceles.  Reflection in its axis therefore carries tilings
+to tilings, reversing the base word and swapping the two side words.
+
+## The reduction
+
+A route-1 base word is `W = a^i c a^j b a^{k'}` with `i, j, k' ≥ 1` and `i + j + k' = f`
+(`Route1`).  Its reverse is
+
+  `W^R = a^{k'} b a^j c a^i`.
+
+Three combinatorial facts:
+
+* `k_ge_two`: `k' ≥ 2` automatically.  The reduction to base words puts the `b` of `W` at position
+  `i + j + 2` and requires that to be at most `f = i + j + k'`, which is exactly `k' ≥ 2`.  The case
+  `k' = 1`, where `W^R` would put its `b` in position `2` and be inadmissible, never occurs.
+* `rev_b_position`: the `b` of `W^R` sits at position `k' + 1`, and `3 ≤ k' + 1 ≤ f - 1`, so `W^R`
+  is itself an admissible base word.
+* `rev_prefix_all_a`: every letter of `W^R` before its `b` is an `a`; there are exactly `k'` of them.
+
+The cascade argument kills precisely the base words whose `b` is preceded only by `a`-letters:
+walking the `a`-run, each junction carries a `β`-slot whose tile must present the next base edge
+from the flanks `{a, c}`, and the `b`-edge is neither.  Route 1 escapes that cascade only because a
+`c` intervenes before the `b`; after reversal no `c` does.  So the mirror sends every route-1
+configuration to one the cascade already handles.
+
+## Hypothesis
+
+`cascade_kills` is the cascade itself, named as a hypothesis in the manner of `ChordInterface`: a
+base word whose `b` is preceded only by `a`-letters admits no tiling, for a side whose initial
+`c`-block is `1` (initial block `≥ 2` being `DoubleC.doublec_impossible`).  `mirror_reduces_route1`
+is then the reduction, and it is proved.
+
+The mirror swaps the two side words, so the side hypothesis must be re-checked on the mirrored
+tiling.  The combinatorial reduction below is unconditional; the side bookkeeping is a separate
+obligation.
+
+No `sorry`.
+-/
+
+namespace Erdos634.MirrorKill
+
+/-- A route-1 word, by its three `a`-run lengths, with `thm:e1reduce`'s constraint that the `b`
+sits in positions `3 … f` — the `b` of `a^i c a^j b a^{k'}` is at position `i + j + 2`. -/
+structure Word (f : ℕ) where
+  i : ℕ
+  j : ℕ
+  k : ℕ
+  hi : 1 ≤ i
+  hj : 1 ≤ j
+  hk : 1 ≤ k
+  hsum : i + j + k = f
+  /-- `thm:e1reduce`: the `b` lies in positions `3 … f`. -/
+  hbpos : i + j + 2 ≤ f
+
+/-- **`k' ≥ 2` is automatic.**  The `b` of `W` is at position `i + j + 2 ≤ f = i + j + k'`. -/
+theorem k_ge_two {f : ℕ} (w : Word f) : 2 ≤ w.k := by
+  have := w.hsum; have := w.hbpos; omega
+
+/-- **The reversed word is admissible.**  Its `b` sits at position `k' + 1`, and
+`3 ≤ k' + 1 ≤ f - 1`. -/
+theorem rev_b_position {f : ℕ} (w : Word f) : 3 ≤ w.k + 1 ∧ w.k + 1 ≤ f - 1 := by
+  have h2 := k_ge_two w
+  have := w.hsum; have := w.hi; have := w.hj
+  exact ⟨by omega, by omega⟩
+
+/-- The word itself, `W = a^i c a^j b a^{k'}`, as a list of letters. -/
+def letters {f : ℕ} (w : Word f) : List Char :=
+  List.replicate w.i 'a' ++ ['c'] ++ List.replicate w.j 'a' ++ ['b'] ++ List.replicate w.k 'a'
+
+/-- The mirrored word, `W^R`. -/
+def revLetters {f : ℕ} (w : Word f) : List Char := (letters w).reverse
+
+/-- **`W^R = a^{k'} b a^j c a^i`.**  The reversal computed, not asserted. -/
+theorem revLetters_eq {f : ℕ} (w : Word f) :
+    revLetters w =
+      List.replicate w.k 'a' ++ ['b'] ++ List.replicate w.j 'a' ++ ['c'] ++
+        List.replicate w.i 'a' := by
+  simp [revLetters, letters, List.reverse_append, List.append_assoc]
+
+/-- **Every letter before the `b` of the reversed word is an `a`.**  Stated about `revLetters`
+itself: its first `k'` letters are `a`-letters. -/
+theorem rev_prefix_all_a {f : ℕ} (w : Word f) :
+    (revLetters w).take w.k = List.replicate w.k 'a' := by
+  rw [revLetters_eq]
+  simp [List.append_assoc]
+
+/-- **The `b` of `W^R` sits at index `k'`** (position `k' + 1`, one-based). -/
+theorem rev_b_index {f : ℕ} (w : Word f) : (revLetters w)[w.k]? = some 'b' := by
+  rw [revLetters_eq]
+  simp [List.append_assoc]
+
+/-- The reversed word contains no `c` before its `b`: the prefix is `a`-letters only. -/
+theorem rev_no_c_before_b {f : ℕ} (w : Word f) :
+    'c' ∉ (revLetters w).take w.k := by
+  rw [rev_prefix_all_a]
+  simp
+
+/-- **The reduction.**  Given the cascade (the kill for base words whose `b` is preceded only by
+`a`-letters) and the mirror, no route-1 word admits a tiling.
+
+The two hypotheses are about different predicates: `tiles` is "this route-1 word `W` admits a
+tiling", `cascadeWord pre` is "a base word whose `b` is preceded by exactly `pre` `a`-letters and
+nothing else admits a tiling", the shape the cascade kills.  `mirror` is the transport
+`tiles W → cascadeWord k'` (reflection in the isosceles axis, reversing the base word), supplied by
+`rev_prefix_all_a`/`rev_b_index` at the combinatorial level and by the reflection at the geometric
+level.  `k' ≥ 2` (`k_ge_two`) puts the image in the cascade's range. -/
+theorem mirror_reduces_route1 {f : ℕ} (w : Word f)
+    (tiles : Word f → Prop) (cascadeWord : ℕ → Prop)
+    (mirror : ∀ v : Word f, tiles v → cascadeWord v.k)
+    (cascade_kills : ∀ pre : ℕ, 2 ≤ pre → ¬ cascadeWord pre) :
+    ¬ tiles w :=
+  fun h => cascade_kills w.k (k_ge_two w) (mirror w h)
+
+/-- At `f = 4` the single route-1 word is `a c a b a a`, with `(i,j,k') = (1,1,2)`; its reverse is
+`a a b a c a`, the word `thm:walls14` names.  `k' = 2 ≥ 2`, as the general fact requires. -/
+theorem f_four_witness : ∃ w : Word 4, w.i = 1 ∧ w.j = 1 ∧ w.k = 2 :=
+  ⟨{ i := 1, j := 1, k := 2, hi := by norm_num, hj := by norm_num, hk := by norm_num,
+     hsum := by norm_num, hbpos := by norm_num }, rfl, rfl, rfl⟩
+
+end Erdos634.MirrorKill
+
+#print axioms Erdos634.MirrorKill.k_ge_two
+#print axioms Erdos634.MirrorKill.rev_b_position
+#print axioms Erdos634.MirrorKill.revLetters_eq
+#print axioms Erdos634.MirrorKill.rev_prefix_all_a
+#print axioms Erdos634.MirrorKill.rev_b_index
+#print axioms Erdos634.MirrorKill.rev_no_c_before_b
+#print axioms Erdos634.MirrorKill.mirror_reduces_route1
+#print axioms Erdos634.MirrorKill.f_four_witness

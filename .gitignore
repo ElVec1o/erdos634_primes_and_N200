@@ -1,4 +1,3 @@
-private/
 .DS_Store
 *.aux
 *.log
@@ -7,3 +6,5 @@ private/
 *.fdb_latexmk
 *.synctex.gz
 lean/.lake/
+rust/*/target/
+rust/mrv2/out/

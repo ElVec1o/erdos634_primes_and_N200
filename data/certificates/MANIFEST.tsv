@@ -1,0 +1,28 @@
+# Large search certificates that are not stored in the repository; regenerate with  code/regen_cert.sh NAME  (or  all).
+# One row per certificate.  Columns:
+#   name         certificate name: the Lean modules are lean/Erdos634/Refl/M<name>Inst.lean, M<name>Data<i>.lean,
+#                (M<name>SoundP<j>.lean,) M<name>Sound.lean
+#   instance     name of the search run (file names under rust/mrv2/out)
+#   tile         side lengths of the tile, in the order given to both programs
+#   target       side lengths of the target triangle, in the mrv2 orientation (base, right side, left side)
+#   N            number of tiles
+#   mode, la     branching order and lookahead of the float search rust/mrv2
+#   nodes        number of nodes of the float refutation tree written by rust/mrv2 (field CERT= of its output line,
+#                nogood subtrees included).  The exact replay checks this tree node by node.  For EQ135 the tree is
+#                restricted at the root and replayed by rust/certgenx in mirror mode; the exact certificate checked
+#                by the Lean kernel then has 1,326,256 nodes (the number stated in the paper), against 1,822,966 here.
+#   tree_bytes, tree_sha256   size and SHA-256 of the tree file
+#   lean_files, lean_bytes    number and total size of the generated Lean modules
+#   lean_sha256  SHA-256 of the concatenation Inst, Data0, Data1, ..., SoundP0, SoundP1, ..., Sound
+#   gen          (optional) generator: empty = rust/certgenm; certgenm+split:<PER> = rust/certgenm, then
+#                code/split_sound.py cuts M<name>Sound.lean into parts of PER theorems; certgenx:<mirror>:<root slots>
+#                = rust/certgenx (streaming; soundness in parts), with the search restricted at the root to the given
+#                slots (MRV_ROOTSLOTS, MRV_ROOTTREE=1) and the other root placements refuted by Refl.sound_mirror.
+name	instance	tile	target	N	mode	la	nodes	tree_bytes	tree_sha256	lean_files	lean_bytes	lean_sha256	gen
+S1N156	s1_156	12 7 16	128 234 128	156	band:16	1	234239	22068574	7abae690471b269dc122d8cb686e534583fceb3ee801ab673461ca3e70f17b82	350	131152113	03641074cd1be5e52b825bfef01d19ce644156a953234f50d86ebff5fff3e1bf
+ISO154	iso_154	8 7 13	91 154 91	154	band:32	2	63895	6393410	b04ff41b328d7320f49bc177eab683e00f33ded9a35131292495d54c49171b2b	96	37494154	35fc1c34570cac0037f06b9a9845b6009adfe48b2f8c3fa1a6387293acc64950
+S4N184	s4_184	10 21 25	184 210 250	184	lex	2	71173	4673649	a532b9633a962b579d25f19ee5cfc32349c49783df2f427ba1a4d6af96c95523	110	36527877	dd5babc3e962429229252e09b8115fec876d6d340ae39d5c30b035f0d9c3b2a9
+ISO132	iso_132	5 3 7	42 66 42	132	band:16	2	233117	24479231	363566da425962645d46777979afb74093c3ee94bc0ebac255254cdc0b8899a5	344	138725477	7ee5163206952e47fcf0fcfdb1fe8589501dc1c514e97e5995919b68148117fc
+S3N161	s3_161	12 7 16	112 161 112	161	band:32	2	345746	41190306	46cbe7df89db83a7d1d475588f22ee11acd8bf605e70e2f643ee34b3804f9a8f	525	208637575	411ae45b03ff5ccea552c97468ad415f8f5c4d94079b1d7754ff7eeee218cd66	certgenm+split:4000
+ISO184	iso_184	7 8 13	104 184 104	184	band:32	2	165736	17171580	f0339786b899d81ada3e8b5c2213edfae27d018fe93f549c8ff8eff770727001	246	100146151	d23a290e38bbf1b3259120af332568ef531c852e803b0abb13b51a9243719c50
+EQ135	eq_135_ht	3 5 7	45 45 45	135	lex	1	1822966	130446426	7ac8f50641a05cf929d1d0775c01dbfadf39184d0a4d91bbb18908e9d606e3aa	2791	1057047899	e7e87910a95013b0a0054ec05c798d2541de4ecc9534618e52b89235278560aa	certgenx:1:4,5

@@ -1602,11 +1602,13 @@ them tile is open; Laczkovich relates the possible tiles to rational points on e
 \cite{LaczkovichEll}. For the tile $(3,5,7)$ the sides $15$, $30$ and $45$ have no tiling and the side $60$ has
 one.
 \item \emph{Type \textup{(H)} on the other targets.} The number of tiles is $m^2N_0$ with $N_0$ given by
-Propositions~\ref{prop:forms} and~\ref{prop:spectrum}. Zhang \cite{Zhang} constructs tilings for $m$ in
-residue classes from a bound on, and the ledger \cite{PaliyLedger} announces further multipliers. For small
+Propositions~\ref{prop:forms} and~\ref{prop:spectrum}. Zhang \cite{Zhang} constructs tilings for every
+sufficiently large $m$ in certain residue classes, and the ledger \cite{PaliyLedger} announces further multipliers. For small
 $m$ both outcomes occur: $143$ on $F_2$ and $88$ on $F_4$ are realized for the tile $(3,5,7)$, and $990$
 on $F_3$ for the tile $(8,7,13)$, the triangle $(169,286,315)$, by a tiling of Paliy \cite{PaliyTilings}
-that is kernel-checked here (\lean{N990.tileCount_990}); while the
+that is kernel-checked here (\lean{N990.tileCount_990}), and $330$ on $F_4$ for the tile $(7,8,13)$, the
+triangle $(91,176,195)$, by an explicit tiling found by exact search and kernel-checked here
+(\lean{N330.tileCount_330}); the ledger \cite{PaliyLedger} announces this row for every multiplier; while the
 pairs of this type for $N=33$, $105$, $120$, $132$, $154$ and $184$ have no tiling, these $N$ not being tile
 counts. A criterion is not known to us.
 \item \emph{Type \textup{(T)}, the targets $T_M(e,f)$.} Question~\ref{q:threshold}. A tiling exists for
@@ -1859,7 +1861,7 @@ clamping, and Lemma~\ref{lem:figures} as statements on the multiplicities.
 The library builds with Lean~4 version 4.30.0 and Mathlib at the tag \texttt{v4.30.0}, as pinned in
 \texttt{lean/lakefile.toml} and \texttt{lean/lean-toolchain}. A reader checks a numbered statement by building
 the aggregate named in Table~\ref{tab:map} and printing the axioms of its declarations. The aggregates are to
-be built one at a time: a single \texttt{lean} process needs up to about $8$~GB of memory for the largest
+be built one at a time: a single \texttt{lean} process needs up to about $13.5$~GB of memory for the largest
 modules. The aggregate \lean{All} contains the whole proof of Theorem~\ref{thm:primes} and no search
 certificate. The seven certificates used by \lean{AllCert1} to \lean{AllCert5} are not stored in the
 repository; the script \texttt{code/regen\_cert.sh} regenerates each of them from the manifest

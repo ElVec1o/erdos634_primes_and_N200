@@ -1,0 +1,137 @@
+import Erdos634.BaseWalkGeneral
+import Erdos634.CChord
+
+/-!
+# The base decomposition, for any real base-β dissection
+
+Erdős #634. `base_walk_pos_general` gives the real walk equation with `Rc ≥ 1` for the β-to-apex leg
+(β at `pts k`, `3α` at `pts (k+1)`) of any real base-β dissection (not for every side). NOTE: the
+wrappers below take `hLen` = the base length `e(3f²-e²)` for that leg, whose length is `f³`; the two
+are never equal for a real dissection (`MirrorStripR2Real.base_ne_leg`; `f³ = e(3f²-e²)` fails for
+coprime members), so their hypothesis bundle is unsatisfiable and their conclusion vacuous.
+This file casts that to the `ℤ`-typed arithmetic `CChord.lean` already has
+(`base_dichotomy_thick`, itself composing `base_trichotomy` with the γ-trap's
+`z ≥ 1`), formally a consequence for a real dissection (but see the vacuity NOTE above).
+
+Axiom-clean; no `sorry`.
+-/
+
+open Erdos634.Geometry Erdos634.Geometry.Dissection Erdos634.SideWall Erdos634.TilePlacement
+open Erdos634.SideWalk
+
+/-- **The γ-trap's walk equation, as `ℤ` arithmetic**, given the target's known integer side
+lengths. Casts `base_walk_pos_general`'s real conclusion directly. -/
+theorem base_walk_pos_int {N : ℕ} (hN : 0 < N) (D : CongruentDissection N)
+    (α β γ : ℝ)
+    (hαβ : α ≠ β) (hαγ : α ≠ γ) (hαπ : α ≠ Real.pi) (hα0 : α ≠ 0)
+    (hβγ : β ≠ γ) (hβπ : β ≠ Real.pi) (hβ0 : β ≠ 0)
+    (hγπ : γ ≠ Real.pi) (hγ0 : γ ≠ 0) (hπ0 : Real.pi ≠ 0)
+    (hγdef : γ = 2 * α + β) (hrel : 3 * α + 2 * β = Real.pi)
+    (hirr : ¬ ∃ r : ℚ, α = (r : ℝ) * Real.pi)
+    (hscalene : ∀ m m' : Fin 3, m ≠ m' → sideOpp D.model m ≠ sideOpp D.model m')
+    (hα' : cornerAngle (D.model.pts 1) (D.model.pts 0) (D.model.pts 2) = α)
+    (hβ' : cornerAngle (D.model.pts 2) (D.model.pts 1) (D.model.pts 0) = β)
+    (hγ' : cornerAngle (D.model.pts 0) (D.model.pts 2) (D.model.pts 1) = γ)
+    (k : Fin 3)
+    (hdirab : (dirFun D.target k).linear (D.target.pts k)
+      ≤ (dirFun D.target k).linear (D.target.pts (k + 1)))
+    (hcornerbase : cornerAngle (D.target.pts (k + 1)) (D.target.pts k)
+      (D.target.pts (k + 2)) = β)
+    (hcornerapex : cornerAngle (D.target.pts (k + 1 + 1)) (D.target.pts (k + 1))
+      (D.target.pts (k + 1 + 2)) = 3 * α)
+    (e0 f0 L0 : ℕ)
+    (hA : sideOpp D.model 0 = ((e0 * f0 : ℕ) : ℝ))
+    (hB : sideOpp D.model 1 = ((f0 * f0 - e0 * e0 : ℕ) : ℝ))
+    (hC : sideOpp D.model 2 = ((f0 * f0 : ℕ) : ℝ))
+    (hLen : dist (D.target.pts k) (D.target.pts (k+1)) = ((L0 : ℕ) : ℝ)) :
+    ∃ x y z : ℕ, 1 ≤ z ∧ x * (e0 * f0) + y * (f0 * f0 - e0 * e0) + z * (f0 * f0) = L0 := by
+  obtain ⟨Pc, Qc, Rc, hRpos, heq⟩ :=
+    base_walk_pos_general hN D α β γ hαβ hαγ hαπ hα0 hβγ hβπ hβ0 hγπ hγ0 hπ0 hγdef hrel hirr
+      hscalene hα' hβ' hγ' k hdirab hcornerbase hcornerapex
+  refine ⟨Pc, Qc, Rc, hRpos, ?_⟩
+  have hcast : ((Pc * (e0 * f0) + Qc * (f0 * f0 - e0 * e0) + Rc * (f0 * f0) : ℕ) : ℝ)
+      = (L0 : ℝ) := by
+    push_cast
+    rw [hA, hB, hC] at heq
+    push_cast at heq
+    linarith
+  exact_mod_cast hcast
+
+/-- **The base decomposition, as a conditional on any real base-β dissection at a separated member.** Given
+a `CongruentDissection` whose model has the base-β `(e,f)` side lengths `ef, f²-e², f²` and whose
+target's side `k` has the base's own known length `e(3f²-e²)`, at a separated member
+(`f²>2ef+e²`) the base admits exactly the two decompositions `(0,e,2e)` or `(f,e,e)`: the γ-trap's
+`z≥1` combined with `base_trichotomy`.
+
+**WARNING: this conclusion is vacuous.** The `∃ x y z` binds outside the disjunction
+and nothing ties `x,y,z` to `D`, so `⟨0, e0, 2*e0, Or.inl ⟨rfl,rfl,rfl⟩⟩` proves it with no
+hypotheses at all (machine-checked). Conjoining the walk equation does not help, since `(0,e,2e)`
+satisfies it identically. The real counts exist inside `SideWalk.side_walk_pos2_of_dissection`'s
+proof but are discarded when packed existentially. This statement carries no dissection-level content. -/
+theorem base_decomposition_general {N : ℕ} (hN : 0 < N) (D : CongruentDissection N)
+    (α β γ : ℝ)
+    (hαβ : α ≠ β) (hαγ : α ≠ γ) (hαπ : α ≠ Real.pi) (hα0 : α ≠ 0)
+    (hβγ : β ≠ γ) (hβπ : β ≠ Real.pi) (hβ0 : β ≠ 0)
+    (hγπ : γ ≠ Real.pi) (hγ0 : γ ≠ 0) (hπ0 : Real.pi ≠ 0)
+    (hγdef : γ = 2 * α + β) (hrel : 3 * α + 2 * β = Real.pi)
+    (hirr : ¬ ∃ r : ℚ, α = (r : ℝ) * Real.pi)
+    (hscalene : ∀ m m' : Fin 3, m ≠ m' → sideOpp D.model m ≠ sideOpp D.model m')
+    (hα' : cornerAngle (D.model.pts 1) (D.model.pts 0) (D.model.pts 2) = α)
+    (hβ' : cornerAngle (D.model.pts 2) (D.model.pts 1) (D.model.pts 0) = β)
+    (hγ' : cornerAngle (D.model.pts 0) (D.model.pts 2) (D.model.pts 1) = γ)
+    (k : Fin 3)
+    (hdirab : (dirFun D.target k).linear (D.target.pts k)
+      ≤ (dirFun D.target k).linear (D.target.pts (k + 1)))
+    (hcornerbase : cornerAngle (D.target.pts (k + 1)) (D.target.pts k)
+      (D.target.pts (k + 2)) = β)
+    (hcornerapex : cornerAngle (D.target.pts (k + 1 + 1)) (D.target.pts (k + 1))
+      (D.target.pts (k + 1 + 2)) = 3 * α)
+    (e0 f0 : ℕ) (he0 : 1 ≤ e0) (hef0 : e0 < f0) (hco : Nat.Coprime e0 f0)
+    (hsep : 2 * e0 * f0 + e0 * e0 < f0 * f0)
+    (hA : sideOpp D.model 0 = ((e0 * f0 : ℕ) : ℝ))
+    (hB : sideOpp D.model 1 = ((f0 * f0 - e0 * e0 : ℕ) : ℝ))
+    (hC : sideOpp D.model 2 = ((f0 * f0 : ℕ) : ℝ))
+    (hLen : dist (D.target.pts k) (D.target.pts (k+1))
+      = ((e0 * (3 * (f0 * f0) - e0 * e0) : ℕ) : ℝ)) :
+    ∃ x y z : ℕ, (x = 0 ∧ y = e0 ∧ z = 2 * e0) ∨ (x = f0 ∧ y = e0 ∧ z = e0) := by
+  obtain ⟨x, y, z, hz, heq⟩ := base_walk_pos_int hN D α β γ hαβ hαγ hαπ hα0 hβγ hβπ hβ0 hγπ hγ0 hπ0
+    hγdef hrel hirr hscalene hα' hβ' hγ' k hdirab hcornerbase hcornerapex
+    e0 f0 (e0 * (3 * (f0*f0) - e0*e0)) hA hB hC hLen
+  exact ⟨x, y, z, Erdos634.CChord.base_dichotomy_thick he0 hef0 hco hsep hz heq⟩
+
+/-- **`cor:basedi2e`, as a conditional on any real base-β dissection.** Same as
+`base_decomposition_general` but with the weaker hypothesis `f > 2e` in place of separation
+(`f² > 2ef + e²`), via `CChord.base_dichotomy_2e`'s harder, genuinely different argument.
+
+**WARNING: vacuous, for exactly the reason recorded on `base_decomposition_general`
+above.** The `ℤ` arithmetic it calls (`CChord.base_dichotomy_2e`) is unaffected. -/
+theorem base_decomposition_2e {N : ℕ} (hN : 0 < N) (D : CongruentDissection N)
+    (α β γ : ℝ)
+    (hαβ : α ≠ β) (hαγ : α ≠ γ) (hαπ : α ≠ Real.pi) (hα0 : α ≠ 0)
+    (hβγ : β ≠ γ) (hβπ : β ≠ Real.pi) (hβ0 : β ≠ 0)
+    (hγπ : γ ≠ Real.pi) (hγ0 : γ ≠ 0) (hπ0 : Real.pi ≠ 0)
+    (hγdef : γ = 2 * α + β) (hrel : 3 * α + 2 * β = Real.pi)
+    (hirr : ¬ ∃ r : ℚ, α = (r : ℝ) * Real.pi)
+    (hscalene : ∀ m m' : Fin 3, m ≠ m' → sideOpp D.model m ≠ sideOpp D.model m')
+    (hα' : cornerAngle (D.model.pts 1) (D.model.pts 0) (D.model.pts 2) = α)
+    (hβ' : cornerAngle (D.model.pts 2) (D.model.pts 1) (D.model.pts 0) = β)
+    (hγ' : cornerAngle (D.model.pts 0) (D.model.pts 2) (D.model.pts 1) = γ)
+    (k : Fin 3)
+    (hdirab : (dirFun D.target k).linear (D.target.pts k)
+      ≤ (dirFun D.target k).linear (D.target.pts (k + 1)))
+    (hcornerbase : cornerAngle (D.target.pts (k + 1)) (D.target.pts k)
+      (D.target.pts (k + 2)) = β)
+    (hcornerapex : cornerAngle (D.target.pts (k + 1 + 1)) (D.target.pts (k + 1))
+      (D.target.pts (k + 1 + 2)) = 3 * α)
+    (e0 f0 : ℕ) (he0 : 1 ≤ e0) (hef2 : 2 * e0 < f0) (hco : Nat.Coprime e0 f0)
+    (hA : sideOpp D.model 0 = ((e0 * f0 : ℕ) : ℝ))
+    (hB : sideOpp D.model 1 = ((f0 * f0 - e0 * e0 : ℕ) : ℝ))
+    (hC : sideOpp D.model 2 = ((f0 * f0 : ℕ) : ℝ))
+    (hLen : dist (D.target.pts k) (D.target.pts (k+1))
+      = ((e0 * (3 * (f0 * f0) - e0 * e0) : ℕ) : ℝ)) :
+    ∃ x y z : ℕ, (x = 0 ∧ y = e0 ∧ z = 2 * e0) ∨ (x = f0 ∧ y = e0 ∧ z = e0) := by
+  have hef0 : e0 < f0 := by omega
+  obtain ⟨x, y, z, hz, heq⟩ := base_walk_pos_int hN D α β γ hαβ hαγ hαπ hα0 hβγ hβπ hβ0 hγπ hγ0 hπ0
+    hγdef hrel hirr hscalene hα' hβ' hγ' k hdirab hcornerbase hcornerapex
+    e0 f0 (e0 * (3 * (f0*f0) - e0*e0)) hA hB hC hLen
+  exact ⟨x, y, z, Erdos634.CChord.base_dichotomy_2e he0 hef2 hco hz heq⟩
