@@ -1,7 +1,11 @@
 # Congruent dissections of a triangle: prime counts, the counts up to 200, and a family of isosceles targets
 
+[![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
+
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
+
+**Archive:** Zenodo, doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433) (all versions); version 1.0: doi:[10.5281/zenodo.23400434](https://doi.org/10.5281/zenodo.23400434).
 
 **Paper:** `paper/erdos634_primes_and_N200.pdf`, October 2026 (source `paper/erdos634_primes_and_N200.tex`).
 
