@@ -19,6 +19,7 @@ base Me(3f²−e²), tiled by copies of the triangle (ef, f²−e², f²); a pri
 | 2026-09-10 | Zenodo v3.1, [10.5281/zenodo.22690471](https://doi.org/10.5281/zenodo.22690471) | |
 | 2026-09-12 06:28 | Zenodo v3.2, [10.5281/zenodo.22721069](https://doi.org/10.5281/zenodo.22721069) | Contains the Lean theorem `E1BaseWord.e1_family_f_ge_3_congruent`: no tiling of the base-β target T_1(1,f), f ≥ 3, so no prime of the form 3f² − 1 ≥ 26 is a tile count (47, 107, 191, …). |
 | 2026-09-13 | GitHub `erdos_634_proof`, last public commit `4bb61193` | State of the public preprint: primes ≡ 3 (mod 4) excluded except the class ≡ 11 (mod 12), which reduces to the scale-one base-β targets T_1(e,f); the family e = 1 is excluded in Lean. |
+| 2026-09-29 15:10 | GitHub `DenisUkranian/erdos-634-tilings`, commit `0730aafe` (D. Paliy) | First public proof of the prime case: no tiling of T_1(e,f) or W_1(e,f) for any member, by a column induction at scale one, and the deduction that a prime p is a tile count iff p = 2, 3 or p ≡ 1 (mod 4). |
 
 ## Pre-release (private until publication)
 
@@ -27,6 +28,9 @@ base Me(3f²−e²), tiled by copies of the triangle (ef, f²−e², f²); a pri
 | 2026-10-12 09:42 | GitHub [ElVec1o/erdos_634_private](https://github.com/ElVec1o/erdos_634_private), first snapshot (source commit `787c2ded`) | The full development of 26 September to 12 October 2026 listed below: papers, Lean formalization, verification code and data. Later snapshots record each further result with its source commit. |
 
 ## Development record (working repository)
+
+The proof of the prime case in this repository was obtained independently of Paliy's, by different arguments
+at scale one, and was kept private until its publication here; the commits below record its course.
 
 | Date | Source commit | Result |
 |---|---|---|

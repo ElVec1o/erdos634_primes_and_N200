@@ -110,6 +110,12 @@ depends on the standard axioms only. The formal statement and the definitions it
 the mathematical ones within this work, and not yet by an independent reader. With this qualification, it says that no prime $p\equiv3\pmod4$ with $p>3$ is a tile count, and in particular that no triangle can be
 cut into $19$ congruent triangles. The formal statement is displayed in Section~\ref{sub:formalprime}.
 
+\noindent\emph{Priority.} A proof of Theorem~\ref{thm:primes} was first made public by D.~Paliy on 29
+September 2026 \cite{PaliyPrime}, by a column induction from a corner of the scale-one targets. The proof given
+here was obtained independently, by different arguments at scale one (Section~\ref{sub:scaleone}); its
+exclusion of the family $e=1$ was public on 12 September 2026 \cite{Zenodo32}, and the rest was completed
+without being made public at the time.
+
 \medskip
 The formal proof of Theorem~\ref{thm:primes} is a case analysis on the tile. Arithmetic conditions close
 every case except three targets of the tile $(ef,f^2-e^2,f^2)$: the base-$\beta$ target $T_1(e,f)$, with $3f^2-e^2$
@@ -769,7 +775,9 @@ In \cite{BeesonIII} the base-$\beta$ targets are treated in Theorem~14, which as
 divides the colouring number of the tiling; for a tiling of $T_m(e,f)$ this is the assertion $f\mid m$. The
 $99$-tiling of $T_3(1,2)$, the triangle $(24,24,33)$, by the tile $(2,3,4)$ is a counterexample; it is
 kernel-checked (Proposition~\ref{prop:tilings}). The preprint \cite{BeesonNoPrime} refers to
-\cite{BeesonIII} for the tiles with $3\alpha+2\beta=\pi$.
+\cite{BeesonIII} for the tiles with $3\alpha+2\beta=\pi$. The exclusion of $T_1(e,f)$ and $W_1(e,f)$ for every
+member, and with it Theorem~\ref{thm:primes}, was first published by Paliy \cite{PaliyPrime}, with a
+different proof.
 \end{remark}
 
 \subsection{The base-$\beta$ targets at scale one}\label{sub:scaleone}
@@ -1373,7 +1381,8 @@ or an initial run of $k\ge e+2=5$ tiles of type $C_1$.
 Parts of these corollaries were known. At $M=1$ they give no new statement: $T_1(e,f)$ and $W_1(e,f)$ have
 no tiling by Theorem~\ref{thm:scaleone}. The pairs $W_2(2,3)$, $W_2(3,4)$, $W_2(5,6)$ and $W_2(2,5)$ were
 excluded before by search certificates, in the formal exclusions of $56$, $92$, $188$ and $184$
-(Section~\ref{sub:excl}); for them the corollaries are a second argument. The ledger \cite{PaliyLedger}
+(Section~\ref{sub:excl}); for them the corollaries are a second argument. The scale-one statements were
+proved first by Paliy \cite{PaliyPrime}. The ledger \cite{PaliyLedger}
 states that every side of a tiled $W_M(e,f)$ or $T_M(e,f)$ carries two whole edges of length $f^2$, and for
 $W_2(f-1,f)$ it records the forced word $c,c,a,a$ on the side $Mfb$. We have not compared the proofs, and we
 make no claim of priority.
@@ -1917,6 +1926,14 @@ triangle tilings}, project note dated 30 September 2026, in the same repository 
 \bibitem{PaliySectors} D.~Paliy, \emph{Uniform arithmetic sectors and asymptotic concentration for congruent
 triangle dissections}, project note dated 1 October 2026, in the same repository (file
 \texttt{research/uniform-sectors/PROOF.md}); unrefereed.
+
+\bibitem{PaliyPrime} D.~Paliy, \emph{No scale-one triangle in either rational Group-1 family}, and the
+deduction of the prime case, repository \texttt{github.com/DenisUkranian/erdos-634-tilings}, files
+\texttt{docs/prime-case-candidate.md} and \texttt{docs/prime-case-dependencies.md}, first published 29
+September 2026 (commit \texttt{0730aafe}); unrefereed.
+
+\bibitem{Zenodo32} V.~Bonfioli, \emph{A signed-direction invariant for triangle tilings, and the exclusion of
+primes congruent to 3 modulo 4}, version 3.2, Zenodo, 12 September 2026, doi:10.5281/zenodo.22721069.
 
 \bibitem{PaliyLedger} D.~Paliy, claim ledger \texttt{STATUS.md} of the repository
 \texttt{github.com/DenisUkranian/erdos-634-tilings}, research snapshot v0.3.0 of 8 October 2026 with the
