@@ -25,7 +25,7 @@ base Me(3f²−e²), tiled by copies of the triangle (ef, f²−e², f²); a pri
 
 | Date (UTC) | Record | Content |
 |---|---|---|
-| 2026-10-12 09:42 | GitHub [ElVec1o/erdos_634_private](https://github.com/ElVec1o/erdos_634_private), first snapshot (source commit `787c2ded`) | The full development of 26 September to 12 October 2026 listed below: papers, Lean formalization, verification code and data. Later snapshots record each further result with its source commit. |
+| 2026-10-12 09:42 | Private GitHub repository of the author (not public), first snapshot (source commit `787c2ded`) | The full development of 26 September to 12 October 2026 listed below: papers, Lean formalization, verification code and data. Later snapshots record each further result with its source commit. |
 
 ## Development record (working repository)
 
