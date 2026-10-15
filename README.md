@@ -206,6 +206,7 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 |---|---|
 | `README.md` | this index |
 | `TIMELINE.md` | dated record of the results and of their public and pre-release copies |
+| `.zenodo.json` | archive metadata for Zenodo |
 | `LICENSE` | CC BY 4.0 for the text and data (`paper/`, `data/`), MIT for the code (`code/`, `lean/`, `rust/`) |
 | `.gitignore` | excludes build products (`lean/.lake/`, `rust/*/target/`, `rust/mrv2/out/`) and LaTeX auxiliary files |
 | `paper/` | `erdos634_primes_and_N200.tex` and `.pdf` (the paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |

@@ -1,0 +1,33 @@
+{
+  "title": "Congruent dissections of a triangle: prime counts, the counts up to 200, and a family of isosceles targets",
+  "description": "A positive integer N is a tile count if some triangle can be cut into N pairwise congruent triangles; Erdős asked for the set of tile counts (Problem 634). The problem is not solved here. With every cited step checked in Lean 4 against the standard axioms only: (1) a prime p is a tile count if and only if p = 3 or p ≢ 3 (mod 4); (2) for 1 ≤ N ≤ 200 the tile counts are exactly 105 explicit values (the last value settled, 135, is excluded by a kernel-checked search certificate); (3) for a tile with angles (α, β, 2π/3), α/π irrational, a signed-direction functional gives two integrality conditions, and no prime number of such tiles tiles an isosceles, non-equilateral triangle; (4) for the base-β targets T_M(e,f) tiled by (ef, f²−e², f²), a tiling exists for every M ≥ f, none for M = 1, none when 2Me < f; the remaining scales are stated precisely. A proof of (1) was first made public by D. Paliy on 29 September 2026; the proof here was obtained independently. The repository contains the paper, the Lean library, the certificate manifest with a regeneration script, and the Rust search and replay programs. The work was carried out with the assistance of Claude (Anthropic) throughout, under the author's direction.",
+  "creators": [
+    {
+      "name": "Bonfioli, Vico"
+    }
+  ],
+  "keywords": [
+    "Erdős problem 634",
+    "triangle tiling",
+    "congruent triangles",
+    "discrete geometry",
+    "Lean 4",
+    "formal verification"
+  ],
+  "license": "cc-by-4.0",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20961918",
+      "relation": "references",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/ElVec1o/erdos634_primes_and_N200",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
