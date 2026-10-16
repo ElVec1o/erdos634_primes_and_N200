@@ -1668,6 +1668,18 @@ $455$, and $517$, $2261$, $2485$, $3901$, are the first of the classes $7$ and $
 verdict. Computation~\ref{comp:c3} counts the squarefree $N\le10^5$ that the present conditions do not
 decide; some of them are tile counts, for instance $897$.
 
+\subsection{Non-squarefree $N$}
+For non-squarefree $N$ the decidable condition \lean{NSQMMain.not_tile_of_conditionsNSQ'} excludes $N$ when, in
+every branch of the classification, no scale whose square divides $N$ satisfies the count of that branch. We
+evaluated it, sharpened by Corollary~\ref{cor:ebelow} on the base-$\beta$ and $W$ branches, by the bound $te\ge2f$
+of the $\theta$ targets (\lean{ThetaKill.theta_te_ge}), and by the exclusion of the pairs $(2,2(2k+1))$ in the
+branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), on all non-squarefree $N\le10^6$
+(a computation; only the condition is formal). Of the $392\,074$ such $N$, $44\,363$ are excluded, $101\,139$ are tile
+counts by the known families, and $246\,572$ are undecided. Every undecided value fails the branch $\gamma=2\alpha$:
+its tiles $(u^2,v^2-u^2,uv)$ give $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the
+side words of the isosceles target with base angles $\alpha$ exist, so only a geometric argument can exclude these
+values. For $39\,216$ of them this branch is the only obstruction.
+
 \subsection{Decidability}
 
 \begin{proposition}[\sW]\label{prop:decidable}
