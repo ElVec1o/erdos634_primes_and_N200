@@ -393,6 +393,7 @@ Table 3.
 | Proposition 7.7 | F | `Erdos634.Draft.Blind.invariant_blind` | `Draft/ThresholdBlind.lean` | AllThreshold |
 | Section 8.2 (text) | F | `Erdos634.Draft.N330.tileCount_330` | `Draft/N330.lean` | All |
 | Section 8.2 (text) | F | `Erdos634.Draft.N897.tileCount_897` | `Draft/N897.lean` | All |
+| Section 8.2 (text) | F | `Erdos634.Draft.S2All.s2_family_all` (every 0 < p < q; Paliy's five-piece layout) | `Draft/S2All.lean` | All |
 | Section 8.2 (text) | F | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | S | none |  |  |
 | Proposition 8.1 | W | none |  |  |

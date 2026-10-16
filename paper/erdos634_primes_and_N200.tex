@@ -1653,10 +1653,12 @@ for the member $(2,3)$ the scale $t=8$ has a tiling, with $320$ tiles, kernel-ch
 \item \emph{Type \textup{(T)}, the targets with angles $(\alpha,\alpha,\alpha+2\beta)$ and
 $(2\alpha,\alpha,2\beta)$.} The number of tiles is $r^2(f^2-e^2)(2f^2-e^2)$ on the first
 (\lean{BADL2.theoremA_L2_full}); on the second a layout gives $(2q^2-p^2)(3q^2-p^2)$ tiles for
-coprime $0<p<q$ with $q^2>2p^2$ (\lean{S2G.s2_family_gen}). The first squarefree number of the second family
-that the layout does not reach is $897$, for $(p,q)=(3,4)$; it is a tile count, by a tiling of the triangle
-$(256,368,273)$ by copies of $(12,7,16)$ constructed by Paliy \cite{PaliyTilings} and kernel-checked here
-(\lean{N897.tileCount_897}). Which other members have tilings is open.
+coprime $0<p<q$ with $q^2>2p^2$ (\lean{S2G.s2_family_gen}), and a second layout, D.~Paliy's, gives the same
+count for every $0<p<q$ without condition on $q^2-2p^2$ \cite{PaliyTilings}: five pieces meet at one point, the
+tile scaled by $b$ twice, by $a$ and by $2q^2-p^2$, and a parallelogram of $2bp^2$ tiles. Its formal proof for all
+$p<q$ is \lean{S2All.s2_family_all}; every inequality it needs has nonnegative coefficients in $(p,q-p)$. The case
+$(p,q)=(3,4)$ is the $897$-tiling of $(256,368,273)$ by $(12,7,16)$ (\lean{N897.tileCount_897}). With the scaling of tilings, every
+$k^2(2q^2-p^2)(3q^2-p^2)$, $k\ge1$, $0<p<q$, is a tile count.
 \end{itemize}
 
 \subsection{Squarefree $N$}

@@ -1658,3 +1658,5 @@ import Erdos634.Draft.PropNorm -- ℤ[√3] is a Euclidean domain and a PID; pri
 import Erdos634.Draft.HeurFanLaw -- finite form of the fan law: floor(beta/alpha) table for f = 4..10; no completion
 import Erdos634.Draft.HeurFinDep -- finite form of the dependence statement: no completion for every f >= 3; tests_uniform at the tile angles; d_BG instances
 import Erdos634.Draft.HeurFib -- finite form of the Fibonacci statement: recurrence, a+2 Fibonacci, ratio vs phi on the reported list
+import Erdos634.Draft.S2AllTheta
+import Erdos634.Draft.S2All

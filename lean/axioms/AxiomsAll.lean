@@ -1,3 +1,4 @@
+import Erdos634.Draft.S2All
 /-
 Axioms of the declarations of the Lean map table of the paper (and of the tilings with 330, 897 and 990
 tiles) whose module lies in the import closure of `Erdos634.All`. After building `Erdos634.All`, run
@@ -94,3 +95,4 @@ import Erdos634.R88TilingBridge
 #print axioms Erdos634.Draft.N330.tileCount_330
 #print axioms Erdos634.Draft.N897.tileCount_897
 #print axioms Erdos634.Draft.N990.tileCount_990
+#print axioms Erdos634.Draft.S2All.s2_family_all
