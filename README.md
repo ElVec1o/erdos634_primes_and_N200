@@ -395,6 +395,7 @@ Table 3.
 | Section 8.2 (text) | F | `Erdos634.Draft.N897.tileCount_897` | `Draft/N897.lean` | All |
 | Section 8.2 (text) | F | `Erdos634.Draft.S2All.s2_family_all` (every 0 < p < q; Paliy's five-piece layout) | `Draft/S2All.lean` | All |
 | Section 8.2 (text) | F | `Erdos634.Draft.F4All.f4_family` (F4 row, every 0 < a < b; Paliy's construction) | `Draft/F4All.lean` | All |
+| Section 8.2 (text) | F | `Erdos634.Draft.F3All.f3_family` (F3 row, every 0 < a < b; Paliy's construction) | `Draft/F3All.lean` | All |
 | Section 8.2 (text) | F | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | S | none |  |  |
 | Proposition 8.1 | W | none |  |  |

@@ -1,3 +1,4 @@
+import Erdos634.Draft.F3All
 import Erdos634.Draft.F4All
 import Erdos634.Draft.S2All
 /-
@@ -98,3 +99,4 @@ import Erdos634.R88TilingBridge
 #print axioms Erdos634.Draft.N990.tileCount_990
 #print axioms Erdos634.Draft.S2All.s2_family_all
 #print axioms Erdos634.Draft.F4All.f4_family
+#print axioms Erdos634.Draft.F3All.f3_family
