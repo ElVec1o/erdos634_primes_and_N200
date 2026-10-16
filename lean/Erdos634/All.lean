@@ -1660,3 +1660,4 @@ import Erdos634.Draft.HeurFinDep -- finite form of the dependence statement: no 
 import Erdos634.Draft.HeurFib -- finite form of the Fibonacci statement: recurrence, a+2 Fibonacci, ratio vs phi on the reported list
 import Erdos634.Draft.S2AllTheta
 import Erdos634.Draft.S2All
+import Erdos634.Draft.F4All
