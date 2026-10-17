@@ -1667,3 +1667,15 @@ import Erdos634.Draft.EqSemigroup
 import Erdos634.Draft.Iso357Semigroup
 import Erdos634.Draft.ZhangProps
 import Erdos634.Draft.LaczFamily
+import Erdos634.Draft.HerdtBase
+import Erdos634.Draft.HerdtAtoms
+import Erdos634.Draft.HerdtPts
+import Erdos634.Draft.HerdtSep1
+import Erdos634.Draft.HerdtSep2
+import Erdos634.Draft.HerdtSep3
+import Erdos634.Draft.HerdtSep4
+import Erdos634.Draft.HerdtSub
+import Erdos634.Draft.HerdtTile
+import Erdos634.Draft.HerdtReal0
+import Erdos634.Draft.HerdtReal
+import Erdos634.Draft.HerdtFamily

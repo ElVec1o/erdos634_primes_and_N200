@@ -1,3 +1,4 @@
+import Erdos634.Draft.HerdtFamily
 import Erdos634.Draft.LaczFamily
 import Erdos634.Draft.ZhangProps
 import Erdos634.Draft.Iso357Semigroup
@@ -109,3 +110,5 @@ import Erdos634.R88TilingBridge
 #print axioms Erdos634.Draft.ZhangEqui.zhang_equi_m
 #print axioms Erdos634.Draft.ZhangProps.zhang_five
 #print axioms Erdos634.Draft.LaczFamily.lacz_family_uncond
+#print axioms Erdos634.Draft.HerdtFamily.herdt_family
+#print axioms Erdos634.Draft.HerdtFamily.herdt_uniform

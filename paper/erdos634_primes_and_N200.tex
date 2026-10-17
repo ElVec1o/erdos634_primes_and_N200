@@ -1675,19 +1675,35 @@ targets $F_3$ sharpened to a square-discriminant test (\lean{NSQMMainZ.not_tile_
 every branch of the classification, no scale whose square divides $N$ satisfies the count of that branch. We
 evaluated it, sharpened by Corollary~\ref{cor:ebelow} on the base-$\beta$ and $W$ branches, by the bound $te\ge2f$
 of the $\theta$ targets (\lean{ThetaKill.theta_te_ge}), and by the exclusion of the pairs $(2,2(2k+1))$ in the
-branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), and by Corollary~\ref{cor:thickw}(a) on the $W$
-branch, on all non-squarefree $N\le10^6$ (a computation; the conditions are formal). The known families are those of Theorem~\ref{thm:200} and the formal families $S_2$, $F_4$ and $F_3$ above, scaled by squares.
-Of the $392\,074$ such $N$, $59\,881$ are excluded, $101\,566$ are tile counts by the known families, and $230\,627$ are
-undecided. Every undecided value fails the branch $\gamma=2\alpha$:
-its tiles $(u^2,v^2-u^2,uv)$ give $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the
-side words of the isosceles target with base angles $\alpha$ exist, so only a geometric argument can exclude these
-values.
+branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), on all non-squarefree $N\le10^6$ (a computation; the conditions are formal). The known families are those of Theorem~\ref{thm:200} and the formal families $S_2$, $F_4$ and $F_3$ above, scaled by squares.
+Of the $392\,074$ such $N$, $53\,973$ are excluded by the formal conditions, $102\,471$ are tile counts by the known families
+(including the families of this section) and $235\,630$ are undecided. Corollary~\ref{cor:thickw}(a) is proved in the paper
+but not yet formalized; it excludes a further $5\,908$ of the undecided values (sound, not exhaustive). Of the $236\,962$
+values left by the conditions alone, $203\,146$ fail the branch $\gamma=2\alpha$ and for $39\,216$ this branch is the only
+obstruction; the others are not excluded by it. For a value failing the branch, the tiles $(u^2,v^2-u^2,uv)$ give
+$N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the side words of the isosceles target with
+base angles $\alpha$ exist, so only a geometric argument can exclude these values.
 
 This branch does have tilings beyond the known ones for the tile $(4,5,6)$ ($u=2$, $v=3$, at $g=15$ and $g=183$).
 Laczkovich's decomposition of the $183$-tiling into seven triangles similar to the tile and one parallelogram
 closes for every $(u,v)$ with $u<v<2u$ and $(v^2-u^2)^3v^2>u^8$: with $b=v^2-u^2$ and $g_0=v(u^4-u^2v^2+v^4)$, the number
 $b\,(2buv\,g_0)^2$ is a tile count (\lean{LaczFamily.lacz_family_uncond}); for $(u,v)=(3,5)$ this is a first tiling of
 the branch with $u\ge3$. In all tilings of the branch known to us no side carries an edge of length $a=u^2$.
+
+\begin{theorem}[Herdt's macro-dissection, uniform in the tile; \sF]\label{thm:herdt}
+Let $u<v<2u$ be coprime with $(v^2-u^2)^3v^2>u^8$, $b=v^2-u^2$, and $\mathrm{Vp}=b^3v^2-u^8$. With
+$g_0=2v\bigl(\mathrm{Vp}+(u^4+buv)(u^4+bv^2)\bigr)$, the number $b\,(s g_0)^2$ is a tile count of the tile
+$(u^2,v^2-u^2,uv)$ for every $s\ge1$ (\lean{HerdtFamily.herdt_uniform}; the finer form \lean{HerdtFamily.herdt_family}).
+\end{theorem}
+\begin{proof}[Sketch]
+The isosceles target with base angles $\alpha$ is cut into seven triangles similar to the tile and four parallelograms
+filled with rows of $b\times c$ bricks, as in B.~Herdt's $1125$-tiling by $(4,5,6)$ (the instance $(u,v)=(2,3)$, published
+by Beeson \cite{BeesonIso}). The side lengths of the pieces are linear in the scale; the existence of positive integer
+multiplicities for the pieces is two linear Diophantine equations whose solvability is exactly the inequality above.
+\end{proof}
+The instances $(u,v)=(3,5)$ ($N=19\,600$) and $(4,7)$ ($N=130\,977$) are tilings of the branch at scales far below those
+of Laczkovich's construction above; the control $(2,3)$ gives $N=1125$, Herdt's tiling. The general family is ours;
+the instance and its publication are Herdt's and Beeson's. This decides no new value of the census $N\le10^6$.
 
 \begin{conjecture}\label{conj:aprime}
 In every dissection of the isosceles triangle with base angles $\alpha$ into copies of the tile

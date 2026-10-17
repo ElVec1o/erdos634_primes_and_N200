@@ -21,6 +21,12 @@ base Me(3f²−e²), tiled by copies of the triangle (ef, f²−e², f²); a pri
 | 2026-09-13 | GitHub `erdos_634_proof`, last public commit `4bb61193` | State of the public preprint: primes ≡ 3 (mod 4) excluded except the class ≡ 11 (mod 12), which reduces to the scale-one base-β targets T_1(e,f); the family e = 1 is excluded in Lean. |
 | 2026-09-29 15:10 | GitHub `DenisUkranian/erdos-634-tilings`, commit `0730aafe` (D. Paliy) | First public proof of the prime case: no tiling of T_1(e,f) or W_1(e,f) for any member, by a column induction at scale one, and the deduction that a prime p is a tile count iff p = 2, 3 or p ≡ 1 (mod 4). |
 
+## Corrections to releases v1.5 to v1.9.1 (stated in v1.10)
+
+* The non-squarefree census of v1.5 to v1.9.1 (59,881 excluded / 101,566 known / 230,627 undecided for the 392,074 non-squarefree N <= 10^6) added 5,908 values excluded by Corollary thickw(a) to the formal count. That corollary is proved in the paper and is not formalized. Formal figures with all families of v1.10: 53,973 excluded / 102,471 known / 235,630 undecided; thickw(a) excludes a further 5,908 (sound, not exhaustive).
+* The sentence "every undecided value fails the branch gamma = 2 alpha" was false (27,812 of the 230,627 do not). Correct: 203,146 of the 236,962 values left by the conditions fail the branch, and for 39,216 it is the only obstruction.
+* Squarefree open values for N <= 10^6: 803 (a stopping-bound bug in the S2 sieve had omitted two known values).
+
 ## Pre-release (private)
 
 | Date (UTC) | Record | Content |
