@@ -219,6 +219,14 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the seven large search certificates that are not stored |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules) |
 
+## Release v1.12: Theorems C and D' on the target with base angles alpha (hand proofs, NOT formalized)
+
+* Paper Section 8.5 (`sub:aprimehand`): **Theorem C** (Thm 8.11) and **Theorem D'** with **Lemma K** (Thm 8.12). For the gamma = 2 alpha tile (u^2, v^2-u^2, uv), u < v < 2u coprime, d = v-u, and an integer g, the isosceles triangle T(g) (base angles alpha, N = g^2 (v^2-u^2)) has no tiling if g d < u (Theorem C), and, for g >= 2, if (g-1) d < u (Theorem D'). Consequences: W_2 (every integer g = 2), and Conjecture A' for d = 1.
+* Standing: **written proofs (mark W), adversarially audited twice inside the project, not formalized, no outside check.** The formal count of v1.11 (71,039 excluded / 102,471 known / 218,564 undecided) is unchanged. Lean drafts for the arithmetic layer exist in the working repository and are not compiled, so nothing is claimed of them.
+* Honest gaps: (G1) the unstopped half of Lemma K is neither used nor claimed; (G2) D' is for g >= 2; (G3) the scope is integer g (the parametrisation of the pairs of the leaf is elementary, a reduction for rational g is not given); (G4) a remark about exit-march data is off by one for (3,5) and is not used.
+* Hand-level census (separate from the formal count): of the 201,952 non-squarefree N <= 10^6 failing the branch gamma = 2 alpha, 167,727 have every pair covered by D' (150,381 by C alone); 39,213 fail only this branch in the working classification (34,372 for C alone). Not recomputed with the v1.11 leaves.
+* Method credit: the rigidity window and the row induction are from Beeson and Rosu's prime-tilings preprint (October 2026); the transfer to gamma = 2 alpha (fan lemma at straight points, the windows u and v, Lemma K) is ours.
+
 ## Release v1.11: non-squarefree census, formal count raised
 
 * New Lean theorems `NSQM.not_tile_of_conditionsNSQzE` (pi/3 pair leaf by `E60Irr.e60Pair_of_not_isSquare`, no squarefree hypothesis) and `NSQM.not_tile_of_conditionsNSQzET` (also the S4 leaf by `SideRunGA.thickw_a`, Corollary 1.10(a), now formal; `thickw_a` is no longer outside the count). Rust mirror: `allncond2 --nsq-e`, `--nsq-et` (selftest, 0 mismatches).

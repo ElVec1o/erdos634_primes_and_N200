@@ -47,6 +47,7 @@ at scale one, and was kept private until its publication here; the commits below
 | 2026-10-09 to 2026-10-11 | several | Every N ≤ 104 decided in Lean; the tiling of the triangle (39, 49, 55) by 143 copies of (3, 5, 7) found and kernel-checked (`594d54cb`). |
 | 2026-10-14 | `de4280e1` | 135 is not a tile count (kernel-checked certificate); with it, every N ≤ 200 is decided in Lean. |
 | 2026-10-18 | `51d017de` | Non-squarefree census with the pi/3 pair leaf and the formal thickw(a): 71,039 excluded / 102,471 known / 218,564 undecided (N <= 10^6); release v1.11. |
+| 2026-10-18 | working repository (hand proofs, no Lean) | Theorems C and D' and Lemma K for the gamma = 2 alpha target T(g): no tiling if (g-1)(v-u) < u, g >= 2; W_2 and Conjecture A' for d = 1; written proofs, audited twice inside the project, not formalized; release v1.12. |
 
 ## Authorship
 

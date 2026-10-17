@@ -1722,7 +1722,7 @@ $(u^2,v^2-u^2,uv)$, some leg carries no edge of length $u^2$; consequently $g\ge
 
 \noindent If $g<v$, a word on a leg that contains an edge $c$ contains an edge $a$, so the conjecture gives $g\ge v$; it
 holds on every tiling known to us and on all small instances searched, and it would decide about $199\,000$ of the
-undecided $N\le10^6$ above.
+undecided $N\le10^6$ above. Conjecture~\ref{conj:aprime} is proved for $v-u=1$ and the case $g=2$ is proved for every pair, by Theorem~\ref{thm:Dprime} below (Section~\ref{sub:aprimehand}; written proof, not formalized); the case $d\ge2$, $g\ge\lceil u/d\rceil+1$ is open.
 
 \begin{remark}[The equilateral triangle of side $ab$]\label{rem:eqgate}
 For a tile $(a,b,c)$ with an angle $2\pi/3$, the isosceles target with legs $bc$ and base $b(a+2b)$ is the union of two
@@ -1731,6 +1731,169 @@ an equilateral target has side $ab$ and $ab$ tiles. Whether the equilateral tria
 copies of the tile therefore decides, for squarefree $N\le10^6$, about $490$ of the undecided values in the isosceles
 and equilateral branches together. For $(3,5,7)$ the sides $15$, $30$, $45$ are not tiled and $60$ is.
 \end{remark}
+
+\subsection{The target with base angles $\alpha$: exclusions proved by hand, not formalized}\label{sub:aprimehand}
+
+This subsection is new in this release. Every statement in it is marked \sW: it has a written proof, which has been read
+adversarially a second time within this work (two audit notes, one for Theorem~\ref{thm:C}, one for Lemma~\ref{lem:K} and
+Theorem~\ref{thm:Dprime}; verdict: sound at the level of hand proofs), and none of it is formalized. Nothing in it enters
+the formal counts of this paper, and no outside reader has checked it. Two ingredients are Lean theorems (the identity
+used in Step~\ref{step:q1} below, and the parametrisation of the pairs, for which a draft exists that has not been
+compiled and is therefore not claimed).
+
+\medskip\noindent\textbf{Method and credit.} The method is that of Beeson and Ro\c{s}u \cite{BeesonRosu}, who prove the
+prime case for the targets $(2\alpha,\beta,\alpha+\beta)$ and $(\beta,\beta,3\alpha)$ by an induction on the rows of a
+\emph{quadratic tiling} built on a run of equal edges, which is fuelled by the \emph{rigidity window}: a segment shorter than
+the minimal relation among the edge lengths has only the pure decomposition into edges. Their paper credits G.~Ro\c{s}u and
+AI assistance. We do not use their results, only the idea. What is ours is the transfer to the tile with $\gamma=2\alpha$:
+the fan lemma at straight points (which replaces the inequality $\gamma>\pi/2$ that their proofs use), the separation of the
+rigidity window into the two numbers $u$ and $v$, the form of their Lemma~34 that we call Lemma~\ref{lem:34}, and
+Lemma~\ref{lem:K}, which uses the window $v$ at the base corners. The proofs of Lemmas~\ref{lem:33}--\ref{lem:34} follow
+the corresponding proofs of \cite{BeesonRosu} step by step, and we say below where a step changes.
+
+\medskip\noindent\textbf{Setting.} Let $u<v<2u$ be coprime, $d=v-u$, and let the tile have sides $a=u^2$, $b=v^2-u^2$,
+$c=uv$ and angles $\alpha,\beta,\gamma$ opposite $a,b,c$, so that $\gamma=2\alpha$, $\beta=\pi-3\alpha$ and
+$\cos\alpha=v/2u$. Let $T(g)$ be the isosceles triangle with base angles $\alpha$, legs $gub$ and base $gvb$, so that a tiling has
+$N=g^2b$ tiles; $g\ge1$ is an integer. For the pairs that occur in the leaf of the branch $\gamma=2\alpha$ this is no
+restriction: a pair $(M,M')$ with $MM'=N$, $3M<M'$ and $M\equiv M'\pmod 2$ gives $g=\gcd(M'-M,M'+M)/2\in\Z$,
+$M=gd$, $M'=g(2u+d)$, $\gcd(u,u+d)=1$, $0<d<u$ and $N=g^2b$, and conversely. (This is elementary; the Lean draft
+\lean{Draft/ThmCPair.lean} of it has not been compiled.) The edges $a$, $b$, $c$ have their ends marked by the angles
+$(\beta,\gamma)$, $(\alpha,\gamma)$, $(\alpha,\beta)$. A \emph{c-run} on a side $S$ of $T(g)$ is a maximal set of consecutive
+edges $c$ on $S$. A run is \emph{stopped} at an end $V$ if $V$ is a vertex of $T(g)$, or the next tile along $S$ has its angle $\gamma$ at $V$.
+
+\begin{lemma}[Fan lemma; \sW]\label{lem:fan}
+$p\alpha+q\beta+r\gamma=\pi$ with $p,q,r\in\N$ if and only if $(p,q,r)\in\{(3,1,0),(1,1,1)\}$.
+\end{lemma}
+\begin{proof}
+Since $\cos\alpha=v/2u\in(\tfrac12,1)$ is rational, $\alpha\notin\Q\pi$ (Niven). Now $p\alpha+q\beta+r\gamma=
+(p-3q+2r)\alpha+q\pi$, which equals $\pi$ only if $q=1$ and $p+2r=3$.
+\end{proof}
+Hence at a point of a side of $T(g)$ other than a vertex there is exactly one angle $\beta$ and at most one $\gamma$; the
+angles $\alpha$ and $\beta$ of a tile are never cut; a sector $\gamma$ is a $\gamma$-tile or two $\alpha$-tiles; the sector
+$\pi-\gamma$ is one $\alpha$-tile and one $\beta$-tile; the corners of $T(g)$ (angle $\alpha$) carry one tile, the apex (angle
+$\pi-2\alpha=\alpha+\beta$) one tile with $\alpha$ and one with $\beta$; and no tile has $\gamma$ at a vertex of $T(g)$. We
+use only these consequences.
+
+\begin{lemma}[Rigidity; \sW]\label{lem:rigid}
+The triples $(x,y,z)\in\Z^3$ with $xa+yb+zc=0$ are $(y'u+vs,\;uy',\;-us-y'v)$, $y',s\in\Z$. Consequently, for a segment of
+length $n\cdot a$, $n\cdot b$ or $n\cdot c$ cut into edges $a,b,c$: \textup{(RA)} $na$ is cut into $n$ edges $a$ if $n\le v-1$;
+\textup{(RB)} $nb$ is cut into $n$ edges $b$ if $n\le u-1$; \textup{(RC)} $nc$ contains no edge $b$ if $n\le v-1$, and is cut into
+$n$ edges $c$ if $n\le u-1$. The values $n=v$ for $a$ and $c$ and $n=u$ for $b$ are attained: $va=uc$, $ub=d(a+c)$, $vc=u(a+b)$.
+\end{lemma}
+\begin{proof}
+From $xu^2+y(v^2-u^2)+zuv=0$ and $\gcd(u,v^2-u^2)=1$ we get $u\mid y$; put $y=uy'$. Dividing by $u$ gives
+$u(x-y'u)=-v(y'v+z)$, so $x-y'u=vs$ and $z=-us-y'v$. A decomposition $na=x'a+yb+zc$ gives the relation $(x'-n,y,z)$ with $x',y,z\ge0$, so $y'\ge0$. If $y'\ge1$ then $z\ge0$ gives $s\le-y'v/u<-y'$, so $-s\ge y'+1$ and $n=x'-y'u-vs\ge v(y'+1)-y'u>v$; if $y'=0$ and $s\ne0$ then $s<0$ and $n=x'-vs\ge v$.
+The statements (RB) and (RC) follow in the same way from the relations $(x,y-n,z)$ and $(x,y,z-n)$. (The same
+statements were verified by exact computation for all coprime $u<70$.)
+\end{proof}
+
+\begin{lemma}[Side words; \sW]\label{lem:words}
+If a leg $gub$ is cut into $x$ edges $a$, $y$ edges $b$, $z$ edges $c$, then $(x,y,z)=(md+jv,\;u(g-m),\;md-ju)$ with
+$0\le m\le g$, $j\in\Z$ and $md+jv\ge0$, $md-ju\ge0$. If the base $gvb$ is cut so, then $(x,y,z)=(Md+jv,\;gv-Mu,\;Md-ju)$
+with $0\le M\le\lfloor gv/u\rfloor$ and $j$ subject to the same inequalities.
+\end{lemma}
+\begin{proof}
+Lemma~\ref{lem:rigid} applied to the relation $(x,y-gu,z)$, resp.\ $(x,y-gv,z)$, with the substitution $s=m+j$, resp.\ $s=M+j$.
+\end{proof}
+
+\begin{lemma}[Stopped runs are long, away from the corners; \sW]\label{lem:33}
+Let $U$ be a point of a side $S$ of $T(g)$, not a vertex, and $T_1$ a tile with its angle $\alpha$ at $U$, its edge $c$ on $S$ and
+its edge $b$ on a ray $UW$ into the triangle. Suppose that a tile with a vertex at $U$, on the other side of $UW$ from $T_1$, has
+an edge $a$ or $c$ on $UW$. Then the run of $c$-edges that starts at $U$ with $T_1$ and has $n\le u-1$ edges is not stopped at its far end.
+\end{lemma}
+
+\begin{proof}[Proof (that of {\cite[Lemmas~32 and~33]{BeesonRosu}}, with the changes noted)]
+Take coordinates $x(i,j)=U+ic\,\hat\imath+jb\,\hat\jmath$, with $\hat\imath$ along $S$ and $\hat\jmath$ along $UW$. Let $\Delta_{i,j}$ be
+the translate of $T_1$ by $x(i,j)$ and $\nabla_{i,j}$ its image under the half-turn about the midpoint of its edge $a$
+(so that $\Delta_{i,j}\cup\nabla_{i,j}$ is a parallelogram with sides $b$ and $c$). Let $\mathcal T(s,r)$ be the trapezoid with
+vertices $U,\,x(s,0),\,x(s-r,r),\,x(0,r)$ cut into the $\Delta_{i,j}$ and $\nabla_{i,j}$ it contains, and $H(w)$ the statement that
+$\mathcal T(w,w)$ occurs in the dissection; $H(1)$ is the tile $T_1$. Suppose the run has $n\le u-1$ edges and is stopped at $V=x(n,0)$.
+The induction shows that $H(w)$ implies $w<n$ and $H(w+1)$ for $1\le w\le n$; for $w=n$ this is absurd. The step $H(w)\Rightarrow H(w+1)$ is:
+the ray $UW$ stays a wall beyond $P=x(0,w)$, because $wb$ has no decomposition other than into edges $b$ (RB, $w<u$) (the hypothesis on the tile across $UW$ is what makes $UW$ a wall at its start, as in \cite{BeesonRosu}); the diagonal $PQ$, $Q=x(w,0)$, has length $wa$ and no decomposition other than into $w$ edges $a$ (RA), so the tiles on its far side
+form a column of $\nabla$'s, whose orientation is forced from the end $\beta$ at $P$ (two $\gamma$ at a point are excluded by Lemma~\ref{lem:fan}); the sectors that remain at
+the lattice points of $PQ$ are filled by translates $\Delta$, the only alternative, an edge $b$ running along a row from a lattice point, being excluded by the trapezoid argument of
+\cite[Lemma~32]{BeesonRosu}, which uses (RA), (RC) and that the points involved are interior to $T(g)$ (they lie on rays that are never along a side). At $Q$ the stop gives the contradiction:
+if the tile next on $S$ has its $\gamma$ at $V$ it meets the $\gamma$ of $\nabla_{n-1,0}$, two $\gamma$ at a point; $V$ is not a vertex of $T(g)$ for the same reason.
+The only change from \cite{BeesonRosu} is that every use of $\gamma>\pi/2$ there is at a straight point, where Lemma~\ref{lem:fan} replaces it, so that no regime assumption on $(u,v)$ is needed.
+\end{proof}
+
+\begin{lemma}[Runs starting at a base corner; \sW]\label{lem:K}
+Let $g\ge2$, let $O$ be a base corner of $T(g)$ with its tile $T_1$ having the edge $c$ on one side $S$ and the edge $b$ on the other side $S'$.
+A run of $n$ edges $c$ on $S$ starting at $O$ is not stopped at its far end if $n\le v-1$. Equivalently: a $c$-run on $S$ starting at a corner and stopped at both ends
+has at least $v$ edges.
+\end{lemma}
+\begin{proof}
+The proof of Lemma~\ref{lem:33} is repeated with $U=O$ and one change. The ray $UW$ is now the side $S'$ of
+$T(g)$, a wall without any hypothesis on a tile across; and for $w\le v-1$ the point $P=x(0,w)$ is interior to $S'$ ($wb<vb<2ub\le gub$, and $vb\le gvb/2$, for $g\ge2$), so $S'$
+continues beyond $P$. The rigidity of $wb$ (window $u$) is therefore not needed, and what remains are the rigidity (RA) of $wa$ and (RC) of the lengths $(s-r-i_0)c<nc$, whose windows are $v$.
+So the induction runs up to $w=v-1$, and a corner whose far vertex is a base corner of $T(g)$ is excluded outright since the angle left there cannot be filled.
+\end{proof}
+\begin{remark}
+The window $v$ is sharp for this argument: at $n=v$ the diagonal $va=uc$ has a second decomposition. In the $19\,600$-tiling of the branch, one leg starts at a
+corner with a run of $3=u$ edges $c$, followed by $b$'s; that run is not stopped. We use of Lemma~\ref{lem:K} only the stopped statement. The unstopped half
+(that $\mathcal T(n,n)$ occurs and that the side $S'$ then begins with $\min(n,v)$ edges $b$) is not proved by the argument above, which closes its induction
+at $w=n$ with the stop, and is neither used nor claimed (audit gap G1).
+\end{remark}
+
+\begin{lemma}[A side carries a long run stopped at both ends; \sW]\label{lem:34}
+Let $S$ be a side of $T(g)$. \textup{(i)} Some $c$-run on $S$ is stopped at both ends. \textup{(ii)} Suppose that whenever a tile has its
+angle $\alpha$ at an end $V$ of $S$ with its edge $c$ on $S$, another tile with a vertex at $V$ has an edge $a$ or $c$ on the ray
+along the edge $b$ of the first tile. Then every $c$-run on $S$ stopped at both ends has at least $u$ edges. \textup{(iii)} For $g\ge2$ and without that
+hypothesis: every side of $T(g)$ carries a $c$-run stopped at both ends with at least $u$ edges, and with at least $v$ edges if it starts at a base corner.
+\end{lemma}
+\begin{proof}
+(i) Each edge $a$ or $b$ has exactly one end with $\gamma$, an edge $c$ has none, no two $\gamma$ meet at a point of $S$ and no $\gamma$ is at a vertex of $T(g)$. Consider a maximal stretch $e_1,\dots,e_k$ of edges $a,b$.
+If $e_1$ has its $\gamma$ on the right, so does $e_2$ (the common point would carry two $\gamma$), and so on, so $e_k$ has its $\gamma$ at its right end. Hence either $e_1$ has $\gamma$ at its left end, which stops the run
+on the left of the stretch (and is impossible at a vertex), or $e_k$ has $\gamma$ at its right end, which stops the run on the right. If there is no $c$-edge on $S$ at all, the same argument puts a $\gamma$ at a vertex. So with $s\ge1$ runs
+there are $s+1$ gaps (before the first run, between runs, after the last; an empty gap at an end of $S$ is a vertex, which stops the adjacent run by definition), each gap stops an end of an adjacent run, and the $s+1$ stopped ends are distinct. If every run had at most one stopped end there would be at most $s$.
+
+(ii), (iii) Let $R$ be a run stopped at both ends. Each of its edges has its ends $\alpha,\beta$ in one of two orders, and $\beta|\beta$ does not occur, so $R$ reads $(\beta\alpha)^k(\alpha\beta)^l$. If $k,l\ge1$ there is a junction $\alpha|\alpha$;
+its sector is $\pi-2\alpha=\alpha+\beta$, which contains a $\beta$-tile whose edge on the ray along the $b$-edge of the tile on its side is $a$ or $c$ (the edges at $\beta$); applying Lemma~\ref{lem:33} to the part of $R$ on that side of the junction,
+which is stopped at its far end, gives $|R|\ge u$. If $k=0$, $R$ starts with $\alpha$ at its left end $X$ (the case $l=0$ is the mirror image). If $X$ is stopped by a $\gamma$-tile, the fan at $X$ is $\gamma,\beta,\alpha$ and the $\beta$-tile is across the ray along the $b$-edge of the first tile of $R$:
+again Lemma~\ref{lem:33}. If $X$ is the apex, the hypothesis of (ii) (or, in (iii), the property of the apex: one $\alpha$-tile, one $\beta$-tile, sharing the ray) provides the tile across. If $X$ is a base corner, the hypothesis of (ii) is violated (the corner carries one tile), so
+in (ii) $R$ does not start there; in (iii) Lemma~\ref{lem:K} gives $|R|\ge v\ge u$. Part (iii) follows from (i) and these cases.
+\end{proof}
+
+\begin{theorem}[\sW; proved by hand, not formalized]\label{thm:C}
+Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge1$ an integer with $gd<u$ (equivalently $\lfloor gv/u\rfloor\, d<u$). Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$.
+\end{theorem}
+\begin{proof}
+For $g=1$ this is known (Beeson \cite[Thm.~11.7]{BeesonIso}; \lean{GPairArith}); let $g\ge2$. If $gd<u$ then $gv/u<g+1$, so $m\le g$ and $M\le g$ in Lemma~\ref{lem:words}, hence $md,Md<u<v$, which forces $j=0$ and $z=md$ resp.\ $Md$: every
+word of a leg and of the base has fewer than $u$ edges $c$. The two corner tiles of $T(g)$ have the edges $b$ and $c$ at their angle $\alpha$. If one of them has $b$ on its leg, then the hypothesis of Lemma~\ref{lem:34}(ii) holds on that leg (vacuously at that corner, and by the property of the apex at the other end),
+so the leg carries a $c$-run of at least $u$ edges: impossible. Hence both have $c$ on the leg and $b$ on the base; then the hypothesis holds on the base at both ends, and the base carries a $c$-run of at least $u$ edges: impossible.
+\end{proof}
+
+\begin{theorem}[\sW; proved by hand, not formalized]\label{thm:Dprime}
+Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge2$ an integer with $(g-1)(v-u)<u$. Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$.
+\end{theorem}
+\begin{proof}
+\emph{Step 1.}\label{step:q1} Let $A$ be the leg whose end at the apex carries the angle $\alpha$ of a tile; by Lemma~\ref{lem:fan} exactly one leg does. The counting of the angles $\beta$ along a leg (\lean{APrimeLeg.RealLeg.counting_identity}, a Lean theorem about the chain of tiles along a leg, which we use in the form: the number $q$ of edges $b$ on $A$ is at least $1$)
+shows that $A$ has an edge $b$. So $q=u(g-m)\ge1$, that is $m\le g-1$, in the word of Lemma~\ref{lem:words}.
+\emph{Step 2.} Then $md\le(g-1)d<u<v$, hence $j=0$ and the word of $A$ is $(md,\,u(g-m),\,md)$ with $md<u$ edges $c$.
+\emph{Step 3.} By Lemma~\ref{lem:34}(iii) the leg $A$ carries a $c$-run with at least $u$ edges. This contradicts Step~2.
+\end{proof}
+
+\begin{corollary}[\sW]\label{cor:W2}
+\textup{(a)} $T(2)$ has no tiling by any tile $(u^2,v^2-u^2,uv)$ with $u<v<2u$ coprime: this is the statement for every integer $g=2$ (the pairs $W_2$). \textup{(b)} If $v-u=1$, then $T(g)$ has no tiling for $2\le g\le u$, that is for every $g<v$:
+Conjecture~\ref{conj:aprime} holds for $d=1$. \textup{(c)} Theorem~\ref{thm:C} is the case $gd<u$ of Theorem~\ref{thm:Dprime}; the latter adds exactly the value $g=\lceil u/d\rceil$ for each pair with $d\ge2$, and $g=u$ for $d=1$.
+\end{corollary}
+\begin{proof}
+(a) $(g-1)d=d<u$. (b) $(g-1)\cdot1<u$ if and only if $g\le u$. (c) $gd<u$ implies $(g-1)d<u$, and $(g-1)d<u\le gd$ for $g=\lceil u/d\rceil$.
+\end{proof}
+
+\paragraph{Gaps stated honestly.}
+(G1) The unstopped half of Lemma~\ref{lem:K} is not used and not claimed. (G2) Theorem~\ref{thm:Dprime} is for $g\ge2$; $g=1$ is the known case. (G3) The scope is integer $g$; for the pairs that occur in the leaf this is
+the parametrisation above, but a reduction from a general non-squarefree $b$ with $g\in\Q$ is not given here. (G4) The explanation that this gives of the exit-march data of the working notes is off by one for $(u,v)=(3,5)$; it is a remark and is not used.
+Also, no tiling is refuted: the known tilings of the branch have $g=15,35,63,183$, all with $v\mid g$, and satisfy neither condition; the controls (the 22 registry rows of the branch with $(g-1)d<u$ are all
+no-tiling, mostly engine verdicts) cannot discriminate, and the real tilings $19\,600$ and $130\,977$ were checked to satisfy the fan lemma at every point of every side and to carry the stopped runs the lemmas predict (lengths $80$, $231$ on a leg,
+$45$, $112$ from the apex).
+
+\paragraph{Census (hand level; separate from the formal count).}
+Among the $201\,952$ non-squarefree $N\le10^6$ that fail the branch $\gamma=2\alpha$ (classification of the working pass that precedes the sharpened leaves of this release), $167\,727$ have every pair $(u,v,g)$ of the branch, with the pairs excluded above
+($g=1$, and $g=2$ with $v-u=1$ and $u+v\ge7$) removed, satisfying $(g-1)(v-u)<u$; for Theorem~\ref{thm:C} alone the figure is $150\,381$, and Conjecture~\ref{conj:aprime} would give $198\,991$. Of the $167\,727$ values, $39\,213$ fail
+no other leaf in that classification ($34\,372$ with Theorem~\ref{thm:C} alone), and would therefore be excluded by Theorem~\ref{thm:Dprime}; they include $132$, $135$, $156$, $171$ (decided formally by other methods), and $204$, $228$, $276$, $279$, $304$, $315$, $348$, $372$.
+These counts depend on the hand proof and on that classification, they were not recomputed with the leaves of this release, and they are \emph{not} added to the formal count of this paper (Section~\ref{sub:formalprime}). What remains
+open on the branch: $g\ge v$ (the divisibility $v\mid g$ of every known tiling is a conjecture) and, for $d\ge2$, $g\ge\lceil u/d\rceil+1$; the first instances are $(3,5)$ with $g=3$ ($N=144$, no tiling by the finite search below $200$), $(4,7)$ with $g=3$ ($N=297$), $(5,8)$ with $g=3$ ($N=351$), $(5,7)$ with $g=4$ ($N=384$).
 
 \subsection{Decidability}
 
@@ -1943,6 +2106,9 @@ of Claude (Anthropic) throughout, under the author's direction.
 
 \bibitem{BeesonI} M.~Beeson, \emph{Triangle tiling I: The tile is similar to ABC or has a right angle},
 arXiv:1206.2231.
+
+\bibitem{BeesonRosu} M.~Beeson and G.~Ro\c{s}u, \emph{Tiling a triangle into a prime number of congruent triangles}, preprint,
+version of 16 October 2026 (it replaces the earlier proofs of the two shapes $(2\alpha,\beta,\alpha+\beta)$ and $(\beta,\beta,3\alpha)$).
 
 \bibitem{BeesonNoPrime} M.~Beeson, \emph{No prime tiling of an isosceles triangle}, arXiv:2607.19572
 [math.MG], 21 July 2026.
