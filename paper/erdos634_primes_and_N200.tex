@@ -1682,6 +1682,29 @@ its tiles $(u^2,v^2-u^2,uv)$ give $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ 
 side words of the isosceles target with base angles $\alpha$ exist, so only a geometric argument can exclude these
 values.
 
+This branch does have tilings beyond the known ones for the tile $(4,5,6)$ ($u=2$, $v=3$, at $g=15$ and $g=183$).
+Laczkovich's decomposition of the $183$-tiling into seven triangles similar to the tile and one parallelogram
+closes for every $(u,v)$ with $u<v<2u$ and $(v^2-u^2)^3v^2>u^8$: with $b=v^2-u^2$ and $g_0=v(u^4-u^2v^2+v^4)$, the number
+$b\,(2buv\,g_0)^2$ is a tile count (\lean{LaczFamily.lacz_family_uncond}); for $(u,v)=(3,5)$ this is a first tiling of
+the branch with $u\ge3$. In all tilings of the branch known to us no side carries an edge of length $a=u^2$.
+
+\begin{conjecture}\label{conj:aprime}
+In every dissection of the isosceles triangle with base angles $\alpha$ into copies of the tile
+$(u^2,v^2-u^2,uv)$, some leg carries no edge of length $u^2$; consequently $g\ge v$.
+\end{conjecture}
+
+\noindent If $g<v$, a word on a leg that contains an edge $c$ contains an edge $a$, so the conjecture gives $g\ge v$; it
+holds on every tiling known to us and on all small instances searched, and it would decide about $199\,000$ of the
+undecided $N\le10^6$ above.
+
+\begin{remark}[The equilateral triangle of side $ab$]\label{rem:eqgate}
+For a tile $(a,b,c)$ with an angle $2\pi/3$, the isosceles target with legs $bc$ and base $b(a+2b)$ is the union of two
+copies of the tile scaled by $b$ and the equilateral triangle of side $ab$, and every undecided squarefree instance on
+an equilateral target has side $ab$ and $ab$ tiles. Whether the equilateral triangle of side $ab$ can be cut into $ab$
+copies of the tile therefore decides, for squarefree $N\le10^6$, about $490$ of the undecided values in the isosceles
+and equilateral branches together. For $(3,5,7)$ the sides $15$, $30$, $45$ are not tiled and $60$ is.
+\end{remark}
+
 \subsection{Decidability}
 
 \begin{proposition}[\sW]\label{prop:decidable}

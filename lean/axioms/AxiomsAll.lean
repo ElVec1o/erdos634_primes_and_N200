@@ -1,3 +1,4 @@
+import Erdos634.Draft.LaczFamily
 import Erdos634.Draft.ZhangProps
 import Erdos634.Draft.Iso357Semigroup
 import Erdos634.Draft.EqSemigroup
@@ -107,3 +108,4 @@ import Erdos634.R88TilingBridge
 #print axioms Erdos634.Draft.Iso357Semigroup.iso357_semigroup
 #print axioms Erdos634.Draft.ZhangEqui.zhang_equi_m
 #print axioms Erdos634.Draft.ZhangProps.zhang_five
+#print axioms Erdos634.Draft.LaczFamily.lacz_family_uncond
