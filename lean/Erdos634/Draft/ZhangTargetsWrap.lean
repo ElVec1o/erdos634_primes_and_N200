@@ -2,14 +2,18 @@ import Mathlib.Tactic
 import Erdos634.ZhangTargets
 
 /-!
-# Zhang target arithmetic: wrapper
+# rem:zhangsmall / rem:zhangsharp — Zhang target arithmetic: wrapper
+   (PROVED, cited declarations VERIFIED)
 
-- each searched target holds exactly N tiles (Heron identities).
-- the non-representable widths are exactly the gaps (Frobenius gaps).
+Rows 60–61 of PAPER_MAP:
+- `rem:zhangsmall`: each searched target holds exactly N tiles (Heron identities).
+- `rem:zhangsharp`: the non-representable widths are exactly the gaps (Frobenius gaps).
 
 All theorems in `ZhangTargets.lean` are `by decide`, kernel-certified, no axioms.
-The (3,5,7), (7,8,13), (5,16,19) triangle identities are certified here.
-This wrapper re-exposes them under the `Draft` namespace.
+The paper's (3,5,7), (7,8,13), (5,16,19) triangle identities are certified here.
+
+**These are VERIFIED** (cited declarations VERIFIED per PAPER_MAP row 60-61).
+This wrapper simply re-exposes them under the `Draft` namespace.
 -/
 
 namespace Erdos634.Draft.ZhangTargetsWrap

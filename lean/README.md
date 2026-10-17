@@ -214,6 +214,7 @@ and running the corresponding file in `axioms/`.
 | Section 8.2 (text) | `Erdos634.Draft.F3All.f3_family` | `Draft/F3All.lean` (+ F3Core, F3Defs, F3Disj1-4, F3Sub, F3Tile, F3Asm) | All |
 | Section 6 (text) | `Erdos634.Draft.EqSemigroup.eq357_semigroup` | `Draft/EqSemigroup.lean` | All |
 | Section 6 (text) | `Erdos634.Draft.Iso357Semigroup.iso357_semigroup` | `Draft/Iso357Semigroup.lean` | All |
+| Section 8.2 (text) | `Erdos634.Draft.ZhangEqui.zhang_equi_m`, `Erdos634.Draft.ZhangProps.zhang_five` | `Draft/ZhangEqui.lean`, `Draft/ZhangProps.lean` (+ ZhangBase, ZhangTrap, ZhangRot, ZhangIso, ZhangF1) | All |
 | Section 8.2 (text) | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | none (status S: a count by a program, not checked by the kernel) |  |  |
 | Proposition 8.1 | none (status W: written proof, not formalized) |  |  |
