@@ -1672,14 +1672,24 @@ decide; some of them are tile counts, for instance $897$.
 \subsection{Non-squarefree $N$}
 For non-squarefree $N$ the decidable condition \lean{NSQMMain.not_tile_of_conditionsNSQ'}, with its leaf for the
 targets $F_3$ sharpened to a square-discriminant test (\lean{NSQMMainZ.not_tile_of_conditionsNSQz}), excludes $N$ when, in
-every branch of the classification, no scale whose square divides $N$ satisfies the count of that branch. We
-evaluated it, sharpened by Corollary~\ref{cor:ebelow} on the base-$\beta$ and $W$ branches, by the bound $te\ge2f$
+every branch of the classification, no scale whose square divides $N$ satisfies the count of that branch. Two further leaves
+are sharpened in Lean. The leaf for the pairs of the equilateral target (the $\pi/3$ and $2\pi/3$ pairs) uses the
+irrationality of the $\pi/3$ pairs with a non-square discriminant, for every $N$ and without a squarefree hypothesis
+(\lean{E60Irr.e60Pair_of_not_isSquare}, \lean{NSQMMainZE.not_tile_of_conditionsNSQzE}); and the leaf of the cevian targets
+$W$ uses Corollary~\ref{cor:thickw}(a) in addition to Corollary~\ref{cor:ebelow}(a)
+(\lean{NSQRWT.rwStatement_nsqT}, \lean{NSQMMainZET.not_tile_of_conditionsNSQzET}; the previous release had
+Corollary~\ref{cor:thickw}(a) as a hand-proved statement outside the count). We evaluated this condition, sharpened by
+Corollary~\ref{cor:ebelow} on the base-$\beta$ branch, by the bound $te\ge2f$
 of the $\theta$ targets (\lean{ThetaKill.theta_te_ge}), and by the exclusion of the pairs $(2,2(2k+1))$ in the
-branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), on all non-squarefree $N\le10^6$ (a computation; the conditions are formal). The known families are those of Theorem~\ref{thm:200} and the formal families $S_2$, $F_4$ and $F_3$ above, scaled by squares.
-Of the $392\,074$ such $N$, $53\,973$ are excluded by the formal conditions, $102\,471$ are tile counts by the known families
-(including the families of this section) and $235\,630$ are undecided. Corollary~\ref{cor:thickw}(a) is proved in the paper
-but not yet formalized; it excludes a further $5\,908$ of the undecided values (sound, not exhaustive). Of the $236\,962$
-values left by the conditions alone, $203\,146$ fail the branch $\gamma=2\alpha$ and for $39\,216$ this branch is the only
+branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), on all non-squarefree $N\le10^6$ (a computation; the conditions are formal).
+The known families are those of Theorem~\ref{thm:200} and the formal families $S_2$, $F_4$ and $F_3$ above, scaled by squares.
+Of the $392\,074$ such $N$, $71\,039$ are excluded by the formal conditions, $102\,471$ are tile counts by the known families
+(including the families of this section) and $218\,564$ are undecided; the three sets are disjoint, as checked on the
+lists of values. Of the $71\,039$ excluded values, $62\,150$ are excluded by the single Lean theorem
+\lean{NSQMMainZET.not_tile_of_conditionsNSQzET}; the other $8\,889$ are excluded by the conditions together with the
+sharpenings on the base-$\beta$ branch (Corollary~\ref{cor:ebelow}(b), $2Me<f$) and on the branch $\gamma=2\alpha$, each of
+which is a formal statement, but their combination with the other leaves is made by the computation and not by one Lean
+theorem. Of the $218\,564$ undecided values, $201\,952$ fail the branch $\gamma=2\alpha$ and for $74\,697$ this branch is the only
 obstruction; the others are not excluded by it. For a value failing the branch, the tiles $(u^2,v^2-u^2,uv)$ give
 $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the side words of the isosceles target with
 base angles $\alpha$ exist, so only a geometric argument can exclude these values.

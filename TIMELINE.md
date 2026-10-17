@@ -46,6 +46,7 @@ at scale one, and was kept private until its publication here; the commits below
 | 2026-10-06 | `5d9b7d8a` (recorded 2026-10-08) | Internal audit of `theoremP_6`: the Lean statement matched against the mathematical statement; dependencies read in full. |
 | 2026-10-09 to 2026-10-11 | several | Every N ≤ 104 decided in Lean; the tiling of the triangle (39, 49, 55) by 143 copies of (3, 5, 7) found and kernel-checked (`594d54cb`). |
 | 2026-10-14 | `de4280e1` | 135 is not a tile count (kernel-checked certificate); with it, every N ≤ 200 is decided in Lean. |
+| 2026-10-18 | `51d017de` | Non-squarefree census with the pi/3 pair leaf and the formal thickw(a): 71,039 excluded / 102,471 known / 218,564 undecided (N <= 10^6); release v1.11. |
 
 ## Authorship
 

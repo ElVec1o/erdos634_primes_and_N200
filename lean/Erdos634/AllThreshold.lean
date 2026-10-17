@@ -123,3 +123,6 @@ import Erdos634.Draft.ThetaWitness
 import Erdos634.Draft.ThetaAngles
 import Erdos634.Draft.SRunChord
 import Erdos634.Draft.NoThetaRegion
+import Erdos634.Draft.NSQRWT
+import Erdos634.Draft.NSQMMainZET
+import Erdos634.Draft.NSQMMainZETWitness

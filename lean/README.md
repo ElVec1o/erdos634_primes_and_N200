@@ -7,7 +7,7 @@ This directory is the Lean 4 library `Erdos634` that accompanies the paper
 
 * `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`: Lean `v4.30.0`, Mathlib tag `v4.30.0`
   (commit `c5ea00351c28e24afc9f0f84379aa41082b1188f`) and its dependencies, pinned.
-* `Erdos634/`: 4408 modules. 3327 are written modules; 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
+* `Erdos634/`: 4412 modules. 3331 are written modules; 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
   generated search certificates of moderate size. The seven largest certificates (4462 generated modules, about
   1.7 GB) are not stored; `code/regen_cert.sh` regenerates them (see below).
 * `Erdos634.lean`: the library root; it imports `Erdos634.All`.
@@ -19,8 +19,8 @@ union would need too much memory:
 
 | aggregate | modules | contents |
 |---|---|---|
-| `Erdos634.All` | 3092 | every module whose import closure contains no search certificate, among them the whole proof of Theorem 1.1 (primes) |
-| `Erdos634.AllThreshold` | 1238 | the base-β row (Section 7), with 182 certificate modules |
+| `Erdos634.All` | 3093 | every module whose import closure contains no search certificate, among them the whole proof of Theorem 1.1 (primes) |
+| `Erdos634.AllThreshold` | 1241 | the base-β row (Section 7), with 182 certificate modules |
 | `Erdos634.AllSpectrum` | 2481 | the statements on the values up to 200 that use a search certificate, with 1081 certificate modules |
 | `Erdos634.AllCert1` | 2480 | 154, 156, scale two, thresholds; certificates S1N156, ISO154, S4N184 |
 | `Erdos634.AllCert2` | 1116 | 132; certificate ISO132 |
@@ -62,7 +62,7 @@ Every `#print axioms` line should read `[propext, Classical.choice, Quot.sound]`
 Measured on the author's machine (Apple silicon, 24 GB), serial build with Mathlib from the cache: the closure of
 Theorem 1.1 (`Draft/PrimeCharacterization.lean`, `Draft/TheoremP6.lean`, 399 modules) in about 50 minutes; modules
 that check explicit tilings or large decision tables take one to three minutes each, so that a serial build of all
-of `All` (3092 modules) takes many hours. Peak memory of one `lean` process: 13.4 GB.
+of `All` (3093 modules) takes many hours. Peak memory of one `lean` process: 13.4 GB.
 
 ### The large certificates
 
@@ -215,6 +215,8 @@ and running the corresponding file in `axioms/`.
 | Section 6 (text) | `Erdos634.Draft.EqSemigroup.eq357_semigroup` | `Draft/EqSemigroup.lean` | All |
 | Section 6 (text) | `Erdos634.Draft.Iso357Semigroup.iso357_semigroup` | `Draft/Iso357Semigroup.lean` | All |
 | Section 8 (text) | `Erdos634.Draft.HerdtFamily.herdt_uniform` (Herdt macro-dissection uniform in (u,v), (v²−u²)³v² > u⁸) | `Draft/HerdtFamily.lean` | All |
+| Section 8.2 (text) | `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzE` | `Draft/NSQMMainZE.lean` | All |
+| Section 8.2 (text) | `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzET` (+ `no_dissection_168`, `no_dissection_248`) | `Draft/NSQMMainZET.lean`, `Draft/NSQRWT.lean`, `Draft/NSQMMainZETWitness.lean` | AllThreshold |
 | Section 8.2 (text) | `Erdos634.Draft.ZhangEqui.zhang_equi_m`, `Erdos634.Draft.ZhangProps.zhang_five` | `Draft/ZhangEqui.lean`, `Draft/ZhangProps.lean` (+ ZhangBase, ZhangTrap, ZhangRot, ZhangIso, ZhangF1) | All |
 | Section 8.2 (text) | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | none (status S: a count by a program, not checked by the kernel) |  |  |

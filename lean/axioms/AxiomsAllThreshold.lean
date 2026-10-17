@@ -57,3 +57,6 @@ import Erdos634.Draft.WStripChord
 #print axioms Erdos634.Draft.E1ScaleTwo.thresholdAt_e1_of
 #print axioms Erdos634.Draft.SideRun.thresholdAt_e1_le_half
 #print axioms Erdos634.Draft.Blind.invariant_blind
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzET
+#print axioms Erdos634.Draft.NSQM.no_dissection_168
+#print axioms Erdos634.Draft.NSQM.no_dissection_248

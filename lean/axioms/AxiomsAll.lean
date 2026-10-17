@@ -112,3 +112,4 @@ import Erdos634.R88TilingBridge
 #print axioms Erdos634.Draft.LaczFamily.lacz_family_uncond
 #print axioms Erdos634.Draft.HerdtFamily.herdt_family
 #print axioms Erdos634.Draft.HerdtFamily.herdt_uniform
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzE
