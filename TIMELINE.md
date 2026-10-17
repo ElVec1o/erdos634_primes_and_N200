@@ -48,6 +48,7 @@ at scale one, and was kept private until its publication here; the commits below
 | 2026-10-14 | `de4280e1` | 135 is not a tile count (kernel-checked certificate); with it, every N ≤ 200 is decided in Lean. |
 | 2026-10-18 | `51d017de` | Non-squarefree census with the pi/3 pair leaf and the formal thickw(a): 71,039 excluded / 102,471 known / 218,564 undecided (N <= 10^6); release v1.11. |
 | 2026-10-18 | working repository (hand proofs, no Lean) | Theorems C and D' and Lemma K for the gamma = 2 alpha target T(g): no tiling if (g-1)(v-u) < u, g >= 2; W_2 and Conjecture A' for d = 1; written proofs, audited twice inside the project, not formalized; release v1.12. |
+| 2026-10-18 | release v1.12.1 (paper-only correction) | Correction: the v1.12 hand-level census of Theorems C and D' undercounted (older label dump). Correct: 74,158 of the 74,697 values failing only gamma = 2 alpha are D'-covered (C alone 64,961), 539 not; hand-level triple 145,197 / 102,471 / 144,406; formal triple unchanged. |
 
 ## Authorship
 
