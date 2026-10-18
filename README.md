@@ -226,10 +226,18 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `LICENSE` | CC BY 4.0 for the text and data (`paper/`, `data/`), MIT for the code (`code/`, `lean/`, `rust/`) |
 | `.gitignore` | excludes build products (`lean/.lake/`, `rust/*/target/`, `rust/mrv2/out/`) and LaTeX auxiliary files |
 | `paper/` | `erdos634_primes_and_N200.tex` and `.pdf` (the paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
-| `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4412 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
+| `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4518 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
 | `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts) |
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the seven large search certificates that are not stored |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules) |
+
+## Release v1.13: Theorem D' (and C, W_2, A' for d = 1) formalized; census with the final chain
+
+* **Theorem D'** (paper Section 8.5, Thm 8.12) is now a Lean theorem: `ThmD.thmDStatement_geo` and `ThmD.thmD_standalone` (about 105 modules `Draft/ThmD*.lean`, `Draft/ThmC*.lean`, in `Erdos634.AllThreshold`), standard axioms, no `sorry`. The irrationality of alpha/pi is derived inside the proof (Niven). **Theorem C**, **W_2** (every integer g = 2) and **Conjecture A' for v-u = 1** are cases of it (marks F). A statement-match audit inside the project found no soundness issue; no outside reader has checked it. Lemmas 8.x (fan, rigidity, words, 33, K, 34) stay marked W as separate statements; the Lean proof contains its own versions.
+* **Credit:** the method (rigidity window, Lemmas 30, 32, 33, 34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu's prime-tilings preprint (16 October 2026); the transfer to gamma = 2 alpha is ours. Each module names this in its docstring.
+* **Final chain:** `NSQM.not_tile_of_conditionsNSQzETWD` (`CN'zETWD N` implies N is not a tile count, unconditional) = the earlier conditions with the G leaf by Theorem D' and the S5 leaf by the word test (`NSQMS5W`, from `SideRunGT.theta_word_hasSides`). Witnesses: 204, 268, 276, 279 are excluded only by D' and the word leaf together (`no_dissection_276`, `cnzETWD_204`, ...); the condition fails at the tile counts 72, 143, 320.
+* **Census** of the 392,074 non-squarefree N <= 10^6: **199,140 excluded / 102,471 known / 90,463 undecided** (v1.11: 71,039 / 102,471 / 218,564; the 128,101 new exclusions are the contribution of D' and the word leaf; known tile counts excluded: 0; self-test of `allncond2 --nsq-etw` with 0 mismatches). 62,150 of the excluded are covered by the single theorem `NSQMMainZET.not_tile_of_conditionsNSQzET`; 136,990 by the final chain together with the formal sharpening Corollary ebelow(b), the combination being made by the computation. The tool itself reports K = 101,184 / U = 91,750; the 1,287 values of U that are tile counts by the families of v1.10 and v1.11 (1,332 in all, 45 already in the tool's K) give the figures above.
+* The hand-level triple 145,197 / 102,471 / 144,406 of v1.12.1 is superseded by the formal one.
 
 ## Correction (v1.12.1)
 

@@ -24,6 +24,16 @@ import Erdos634.Draft.WSeedGAssemble
 import Erdos634.Draft.WSeedGW
 import Erdos634.Draft.WStrip
 import Erdos634.Draft.WStripChord
+import Erdos634.Draft.NSQMMainZETWitness
+import Erdos634.Draft.NSQMS5W
+import Erdos634.Draft.NSQMMainZETW
+import Erdos634.Draft.NSQMMainZETWWitness
+import Erdos634.Draft.ThmDStatementGeo
+import Erdos634.Draft.ThmDChain
+import Erdos634.Draft.ThmDChainW
+import Erdos634.Draft.ThmDChainWitnessC
+import Erdos634.Draft.ThmDChainWitnessW
+import Erdos634.Draft.SideRunGThetaMain
 
 #print axioms Erdos634.Draft.UniformThreshold.not_betaTilable_one
 #print axioms Erdos634.Draft.Residue.betaTilable_ge
@@ -60,3 +70,17 @@ import Erdos634.Draft.WStripChord
 #print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzET
 #print axioms Erdos634.Draft.NSQM.no_dissection_168
 #print axioms Erdos634.Draft.NSQM.no_dissection_248
+#print axioms Erdos634.Draft.ThmD.thmD_standalone
+#print axioms Erdos634.Draft.ThmD.thmDStatement_geo
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETD
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETWD
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETW
+#print axioms Erdos634.Draft.NSQM.raStatement_of_s5w
+#print axioms Erdos634.Draft.SideRunGT.theta_word_hasSides
+#print axioms Erdos634.Draft.NSQM.no_dissection_276
+#print axioms Erdos634.Draft.NSQM.cnzETWD_204
+#print axioms Erdos634.Draft.NSQM.cnzETWD_268
+#print axioms Erdos634.Draft.NSQM.cnzETWD_279
+#print axioms Erdos634.Draft.NSQM.not_cnzETWD_72
+#print axioms Erdos634.Draft.NSQM.not_cnzETWD_143
+#print axioms Erdos634.Draft.NSQM.not_cnzETWD_320

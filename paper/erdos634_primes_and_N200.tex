@@ -1685,16 +1685,20 @@ Corollary~\ref{cor:ebelow} on the base-$\beta$ branch, by the bound $te\ge2f$
 of the $\theta$ targets (\lean{ThetaKill.theta_te_ge}), and by the exclusion of the pairs $(2,2(2k+1))$ in the
 branch $\gamma=2\alpha$ (\lean{GLIFinal.leafG_of_dissection}), on all non-squarefree $N\le10^6$ (a computation; the conditions are formal).
 The known families are those of Theorem~\ref{thm:200} and the formal families $S_2$, $F_4$ and $F_3$ above, scaled by squares.
-Of the $392\,074$ such $N$, $71\,039$ are excluded by the formal conditions, $102\,471$ are tile counts by the known families
-(including the families of this section) and $218\,564$ are undecided; the three sets are disjoint, as checked on the
-lists of values. Of the $71\,039$ excluded values, $62\,150$ are excluded by the single Lean theorem
-\lean{NSQMMainZET.not_tile_of_conditionsNSQzET}; the other $8\,889$ are excluded by the conditions together with the
-sharpenings on the base-$\beta$ branch (Corollary~\ref{cor:ebelow}(b), $2Me<f$) and on the branch $\gamma=2\alpha$, each of
+Of the $392\,074$ such $N$, $199\,140$ are excluded by the formal conditions, $102\,471$ are tile counts by the known families
+(including the families of this section) and $90\,463$ are undecided; the three sets are disjoint, as checked on the
+lists of values, and no tile count is excluded. This is the census of the final chain: the leaf $G$ is Theorem~\ref{thm:Dprime}
+(\lean{ThmD.thmDStatement_geo}) and the leaf $S_5$ is the word test (\lean{NSQM.not_tile_of_conditionsNSQzETWD}, Section~\ref{sub:aprimehand}). The previous release had
+$71\,039$ / $102\,471$ / $218\,564$ (without the leaf $G$ of Theorem~\ref{thm:Dprime} and without the word leaf; Theorem~\ref{thm:Dprime} had then a written proof, not formalized); the
+difference, $128\,101$ values, is the formal contribution of Theorem~\ref{thm:Dprime} and the word leaf, and the number of known values is unchanged. Of the $199\,140$ excluded values, $62\,150$ are excluded by the single Lean theorem
+\lean{NSQMMainZET.not_tile_of_conditionsNSQzET}; the other $136\,990$ are excluded by the conditions with the leaf $G$ of Theorem~\ref{thm:Dprime} and the word leaf, together with the
+sharpenings on the base-$\beta$ branch (Corollary~\ref{cor:ebelow}(b), $2Me<f$), each of
 which is a formal statement, but their combination with the other leaves is made by the computation and not by one Lean
-theorem. Of the $218\,564$ undecided values, $201\,952$ fail the branch $\gamma=2\alpha$ and for $74\,697$ this branch is the only
-obstruction; the others are not excluded by it. For a value failing the branch, the tiles $(u^2,v^2-u^2,uv)$ give
+theorem. The computation (the Rust program \texttt{allncond2} with the options \texttt{--nsq-etw} and \texttt{NSQ\_GD=1}) agrees with a literal triple loop on all $N\le3000$ (self-test, $0$ mismatches), with the Lean witnesses above, and with Theorem~\ref{thm:200} on $N\le200$ ($0$ mismatches). Of the $90\,463$ undecided values, the branches that fail are, in order of the number of values for which they are the only obstruction, the
+base-$\beta$ branch with $t\ge2$ ($28\,615$ values for which it is the only obstruction), the cevian targets $W$ ($18\,619$), the branch $\gamma=2\alpha$ ($10\,964$), the atom branch $S_5$ ($2\,468$); these counts are for the tool's undecided set of $91\,750$, which still contains $1\,287$ values later found to be tile counts by the families above.
+For a value failing the branch $\gamma=2\alpha$, the tiles $(u^2,v^2-u^2,uv)$ give
 $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the side words of the isosceles target with
-base angles $\alpha$ exist, so only a geometric argument can exclude these values.
+base angles $\alpha$ exist, so only a geometric argument can exclude those values whose $g$ is too large for Theorem~\ref{thm:Dprime}.
 
 This branch does have tilings beyond the known ones for the tile $(4,5,6)$ ($u=2$, $v=3$, at $g=15$ and $g=183$).
 Laczkovich's decomposition of the $183$-tiling into seven triangles similar to the tile and one parallelogram
@@ -1724,7 +1728,7 @@ $(u^2,v^2-u^2,uv)$, some leg carries no edge of length $u^2$; consequently $g\ge
 
 \noindent If $g<v$, a word on a leg that contains an edge $c$ contains an edge $a$, so the conjecture gives $g\ge v$; it
 holds on every tiling known to us and on all small instances searched, and it would decide about $199\,000$ of the
-undecided $N\le10^6$ above. Conjecture~\ref{conj:aprime} is proved for $v-u=1$ and the case $g=2$ is proved for every pair, by Theorem~\ref{thm:Dprime} below (Section~\ref{sub:aprimehand}; written proof, not formalized); the case $d\ge2$, $g\ge\lceil u/d\rceil+1$ is open.
+undecided $N\le10^6$ above. Conjecture~\ref{conj:aprime} is proved for $v-u=1$ and the case $g=2$ is proved for every pair, by Theorem~\ref{thm:Dprime} below (Section~\ref{sub:aprimehand}; formal); the case $d\ge2$, $g\ge\lceil u/d\rceil+1$ is open.
 
 \begin{remark}[The equilateral triangle of side $ab$]\label{rem:eqgate}
 For a tile $(a,b,c)$ with an angle $2\pi/3$, the isosceles target with legs $bc$ and base $b(a+2b)$ is the union of two
@@ -1734,14 +1738,17 @@ copies of the tile therefore decides, for squarefree $N\le10^6$, about $490$ of 
 and equilateral branches together. For $(3,5,7)$ the sides $15$, $30$, $45$ are not tiled and $60$ is.
 \end{remark}
 
-\subsection{The target with base angles $\alpha$: exclusions proved by hand, not formalized}\label{sub:aprimehand}
+\subsection{The target with base angles $\alpha$: Theorems C and D$'$}\label{sub:aprimehand}
 
-This subsection is new in this release. Every statement in it is marked \sW: it has a written proof, which has been read
-adversarially a second time within this work (two audit notes, one for Theorem~\ref{thm:C}, one for Lemma~\ref{lem:K} and
-Theorem~\ref{thm:Dprime}; verdict: sound at the level of hand proofs), and none of it is formalized. Nothing in it enters
-the formal counts of this paper, and no outside reader has checked it. Two ingredients are Lean theorems (the identity
-used in Step~\ref{step:q1} below, and the parametrisation of the pairs, for which a draft exists that has not been
-compiled and is therefore not claimed).
+Theorem~\ref{thm:Dprime} (and with it Theorem~\ref{thm:C} and Corollary~\ref{cor:W2}) is formal: it is the Lean theorem
+\lean{ThmD.thmDStatement_geo}. The form \lean{ThmD.thmD_standalone} states it for a pair $(M,M')$ with $MM'=N$, $3M<M'$,
+$M\equiv M'\pmod2$ and the decidable condition of the branch; the passage to the $(u,v,g)$ form below is
+\lean{ThmC.pair_param}. It has the standard axioms and no \texttt{sorry}, and takes about $105$ modules
+\texttt{Draft/ThmD*.lean}, \texttt{Draft/ThmC*.lean} of \texttt{AllThreshold}. The irrationality of $\alpha/\pi$ is derived
+inside the proof (Niven, from $\cos\alpha=v/2u$). The Lean proof follows the architecture of the written proof below, which is kept as
+the explanation; Lemmas~\ref{lem:fan}--\ref{lem:34} stay marked \sW{} because they are not separate Lean statements in the form given
+here (the Lean proof contains its own versions, in the modules \texttt{ThmDStep33*}, \texttt{ThmDK2*}, \texttt{ThmDRow*}, \texttt{ThmDL32*}). The formal statement has been compared with the written one by an
+audit inside the project (no soundness issue found); no outside reader has checked it.
 
 \medskip\noindent\textbf{Method and credit.} The method is that of Beeson and Ro\c{s}u \cite{BeesonRosu}, who prove the
 prime case for the targets $(2\alpha,\beta,\alpha+\beta)$ and $(\beta,\beta,3\alpha)$ by an induction on the rows of a
@@ -1764,8 +1771,7 @@ $c=uv$ and angles $\alpha,\beta,\gamma$ opposite $a,b,c$, so that $\gamma=2\alph
 $\cos\alpha=v/2u$. Let $T(g)$ be the isosceles triangle with base angles $\alpha$, legs $gub$ and base $gvb$, so that a tiling has
 $N=g^2b$ tiles; $g\ge1$ is an integer. For the pairs that occur in the leaf of the branch $\gamma=2\alpha$ this is no
 restriction: a pair $(M,M')$ with $MM'=N$, $3M<M'$ and $M\equiv M'\pmod 2$ gives $g=\gcd(M'-M,M'+M)/2\in\Z$,
-$M=gd$, $M'=g(2u+d)$, $\gcd(u,u+d)=1$, $0<d<u$ and $N=g^2b$, and conversely. (This is elementary; the Lean draft
-\lean{Draft/ThmCPair.lean} of it has not been compiled.) The edges $a$, $b$, $c$ have their ends marked by the angles
+$M=gd$, $M'=g(2u+d)$, $\gcd(u,u+d)=1$, $0<d<u$ and $N=g^2b$, and conversely. (This is elementary and is compiled in \lean{Draft/ThmCPair.lean}.) The edges $a$, $b$, $c$ have their ends marked by the angles
 $(\beta,\gamma)$, $(\alpha,\gamma)$, $(\alpha,\beta)$. A \emph{c-run} on a side $S$ of $T(g)$ is a maximal set of consecutive
 edges $c$ on $S$. A run is \emph{stopped} at an end $V$ if $V$ is a vertex of $T(g)$, or the next tile along $S$ has its angle $\gamma$ at $V$.
 
@@ -1862,7 +1868,7 @@ again Lemma~\ref{lem:33}. If $X$ is the apex, the hypothesis of (ii) (or, in (ii
 in (ii) $R$ does not start there; in (iii) Lemma~\ref{lem:K} gives $|R|\ge v\ge u$. Part (iii) follows from (i) and these cases.
 \end{proof}
 
-\begin{theorem}[\sW; proved by hand, not formalized]\label{thm:C}
+\begin{theorem}[\sF; the case $gd<u$ of Theorem~\ref{thm:Dprime}]\label{thm:C}
 Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge1$ an integer with $gd<u$ (equivalently $\lfloor gv/u\rfloor\, d<u$). Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$.
 \end{theorem}
 \begin{proof}
@@ -1871,7 +1877,7 @@ word of a leg and of the base has fewer than $u$ edges $c$. The two corner tiles
 so the leg carries a $c$-run of at least $u$ edges: impossible. Hence both have $c$ on the leg and $b$ on the base; then the hypothesis holds on the base at both ends, and the base carries a $c$-run of at least $u$ edges: impossible.
 \end{proof}
 
-\begin{theorem}[\sW; proved by hand, not formalized]\label{thm:Dprime}
+\begin{theorem}[\sF; \lean{ThmD.thmD_standalone}, \lean{ThmD.thmDStatement_geo}]\label{thm:Dprime}
 Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge2$ an integer with $(g-1)(v-u)<u$. Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$.
 \end{theorem}
 \begin{proof}
@@ -1881,7 +1887,7 @@ shows that $A$ has an edge $b$. So $q=u(g-m)\ge1$, that is $m\le g-1$, in the wo
 \emph{Step 3.} By Lemma~\ref{lem:34}(iii) the leg $A$ carries a $c$-run with at least $u$ edges. This contradicts Step~2.
 \end{proof}
 
-\begin{corollary}[\sW]\label{cor:W2}
+\begin{corollary}[\sF{}; cases of Theorem~\ref{thm:Dprime}]\label{cor:W2}
 \textup{(a)} $T(2)$ has no tiling by any tile $(u^2,v^2-u^2,uv)$ with $u<v<2u$ coprime: this is the statement for every integer $g=2$ (the pairs $W_2$). \textup{(b)} If $v-u=1$, then $T(g)$ has no tiling for $2\le g\le u$, that is for every $g<v$:
 Conjecture~\ref{conj:aprime} holds for $d=1$. \textup{(c)} Theorem~\ref{thm:C} is the case $gd<u$ of Theorem~\ref{thm:Dprime}; the latter adds exactly the value $g=\lceil u/d\rceil$ for each pair with $d\ge2$, and $g=u$ for $d=1$.
 \end{corollary}
@@ -1889,18 +1895,23 @@ Conjecture~\ref{conj:aprime} holds for $d=1$. \textup{(c)} Theorem~\ref{thm:C} i
 (a) $(g-1)d=d<u$. (b) $(g-1)\cdot1<u$ if and only if $g\le u$. (c) $gd<u$ implies $(g-1)d<u$, and $(g-1)d<u\le gd$ for $g=\lceil u/d\rceil$.
 \end{proof}
 
-\paragraph{Gaps stated honestly.}
+\paragraph{Scope.}
 (G1) The unstopped half of Lemma~\ref{lem:K} is not used and not claimed. (G2) Theorem~\ref{thm:Dprime} is for $g\ge2$; $g=1$ is the known case. (G3) The scope is integer $g$; for the pairs that occur in the leaf this is
-the parametrisation above, but a reduction from a general non-squarefree $b$ with $g\in\Q$ is not given here. (G4) The explanation that this gives of the exit-march data of the working notes is off by one for $(u,v)=(3,5)$; it is a remark and is not used.
+the parametrisation above (\lean{ThmC.pair_param}, formal), but a reduction from a general non-squarefree $b$ with $g\in\Q$ is not given here. (G4) The explanation that this gives of the exit-march data of the working notes is off by one for $(u,v)=(3,5)$; it is a remark and is not used.
 Also, no tiling is refuted: the known tilings of the branch have $g=15,35,63,183$, all with $v\mid g$, and satisfy neither condition; the controls (the 22 registry rows of the branch with $(g-1)d<u$ are all
 no-tiling, mostly engine verdicts) cannot discriminate, and the real tilings $19\,600$ and $130\,977$ were checked to satisfy the fan lemma at every point of every side and to carry the stopped runs the lemmas predict (lengths $80$, $231$ on a leg,
 $45$, $112$ from the apex).
 
-\paragraph{Census (hand level; separate from the formal count).}
-Among the $201\,952$ non-squarefree $N\le10^6$ that fail the branch $\gamma=2\alpha$ (classification of the v1.11 label dump, re-sieve values removed), $167\,727$ have every pair $(u,v,g)$ of the branch, with the pairs excluded above
-($g=1$, and $g=2$ with $v-u=1$ and $u+v\ge7$) removed, satisfying $(g-1)(v-u)<u$; for Theorem~\ref{thm:C} alone the figure is $150\,381$, and Conjecture~\ref{conj:aprime} would give $198\,991$. Of the $218\,564$ undecided values of the formal census, $74\,697$ fail only the branch $\gamma=2\alpha$; for $74\,158$ of them every pair of the branch is covered by Theorem~\ref{thm:Dprime} ($64\,961$ with Theorem~\ref{thm:C} alone), and $539$ are not. These $74\,158$ values would be excluded by Theorem~\ref{thm:Dprime}; the smallest are $171$, $204$, $228$, $276$, $279$, $304$, $315$, $348$, $372$, $380$, $387$, $460$. With Theorem~\ref{thm:Dprime} (hand proof, not formalized) the triple of the census would read $145\,197$ excluded, $102\,471$ known, $144\,406$ undecided; the formal triple $71\,039$ / $102\,471$ / $218\,564$ is unchanged. (Version 1.12 quoted $39\,213$ and $34\,372$, computed on an older label dump; they undercounted.)
-These counts depend on the hand proof and on that classification, and they are \emph{not} added to the formal count of this paper (Section~\ref{sub:formalprime}). What remains
-open on the branch: $g\ge v$ (the divisibility $v\mid g$ of every known tiling is a conjecture) and, for $d\ge2$, $g\ge\lceil u/d\rceil+1$; the first instances are $(3,5)$ with $g=3$ ($N=144$, no tiling by the finite search below $200$), $(4,7)$ with $g=3$ ($N=297$), $(5,8)$ with $g=3$ ($N=351$), $(5,7)$ with $g=4$ ($N=384$).
+\paragraph{Census (formal chain).}
+Theorem~\ref{thm:Dprime} replaces the leaf $G$ of the condition of Section~\ref{sub:formalprime} for all $N$: the pair test is
+the decidable \texttt{GammaChkD}, and the final condition $\mathrm{CN'zETWD}$ (the earlier conditions with the leaf $G$ of Theorem~\ref{thm:Dprime}
+and the leaf $S_5$ by the word test \texttt{S5wChk}, which uses the side words of the $\theta$ targets, \lean{SideRunGT.theta_word_hasSides}) gives
+\lean{NSQM.not_tile_of_conditionsNSQzETWD}: $\mathrm{CN'zETWD}(N)$ implies that $N$ is not a tile count, for every $N$, with the standard axioms. Among the
+$128\,101$ values newly excluded, the smallest are $171$, $204$, $228$, $276$, $279$, $304$, $315$, $348$, $372$, $380$, $387$, $459$; $204$, $268$, $276$, $279$ are
+excluded only by Theorem~\ref{thm:Dprime} and the word leaf together (\lean{NSQM.cnzETWD_204}, \lean{NSQM.cnzETWD_268}, \lean{NSQM.no_dissection_276}, \lean{NSQM.cnzETWD_279}), and the
+condition fails at the tile counts $72$, $143$, $320$ (\lean{NSQM.not_cnzETWD_72}, \lean{NSQM.not_cnzETWD_143}, \lean{NSQM.not_cnzETWD_320}), as it must.
+The census of the $392\,074$ non-squarefree $N\le10^6$ with this chain is given in Section~\ref{sub:formalprime}.
+What remains open on the branch: $g\ge v$ (the divisibility $v\mid g$ of every known tiling is a conjecture) and, for $d\ge2$, $g\ge\lceil u/d\rceil+1$; the first instances are $(3,5)$ with $g=3$ ($N=144$, no tiling by the finite search below $200$), $(4,7)$ with $g=3$ ($N=297$), $(5,8)$ with $g=3$ ($N=351$), $(5,7)$ with $g=4$ ($N=384$).
 
 \subsection{Decidability}
 

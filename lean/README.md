@@ -16,7 +16,7 @@ and layouts of D. Paliy. See the paper's bibliography.
 
 * `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`: Lean `v4.30.0`, Mathlib tag `v4.30.0`
   (commit `c5ea00351c28e24afc9f0f84379aa41082b1188f`) and its dependencies, pinned.
-* `Erdos634/`: 4412 modules. 3331 are written modules; 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
+* `Erdos634/`: 4518 modules. 3437 are written modules; 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
   generated search certificates of moderate size. The seven largest certificates (4462 generated modules, about
   1.7 GB) are not stored; `code/regen_cert.sh` regenerates them (see below).
 * `Erdos634.lean`: the library root; it imports `Erdos634.All`.
@@ -29,7 +29,7 @@ union would need too much memory:
 | aggregate | modules | contents |
 |---|---|---|
 | `Erdos634.All` | 3093 | every module whose import closure contains no search certificate, among them the whole proof of Theorem 1.1 (primes) |
-| `Erdos634.AllThreshold` | 1241 | the base-β row (Section 7), with 182 certificate modules |
+| `Erdos634.AllThreshold` | 1347 | the base-β row (Section 7), with 182 certificate modules |
 | `Erdos634.AllSpectrum` | 2481 | the statements on the values up to 200 that use a search certificate, with 1081 certificate modules |
 | `Erdos634.AllCert1` | 2480 | 154, 156, scale two, thresholds; certificates S1N156, ISO154, S4N184 |
 | `Erdos634.AllCert2` | 1116 | 132; certificate ISO132 |
@@ -226,6 +226,9 @@ and running the corresponding file in `axioms/`.
 | Section 8 (text) | `Erdos634.Draft.HerdtFamily.herdt_uniform` (Herdt macro-dissection uniform in (u,v), (v²−u²)³v² > u⁸) | `Draft/HerdtFamily.lean` | All |
 | Section 8.2 (text) | `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzE` | `Draft/NSQMMainZE.lean` | All |
 | Section 8.2 (text) | `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzET` (+ `no_dissection_168`, `no_dissection_248`) | `Draft/NSQMMainZET.lean`, `Draft/NSQRWT.lean`, `Draft/NSQMMainZETWitness.lean` | AllThreshold |
+| Theorem 8.12 (Theorem D'; with Theorem 8.11 (C) and Corollary W_2, A' for d = 1 as cases) | `Erdos634.Draft.ThmD.thmD_standalone`, `Erdos634.Draft.ThmD.thmDStatement_geo` | `Draft/ThmDStatementGeo.lean` (about 105 modules `Draft/ThmD*.lean`, `Draft/ThmC*.lean`, `Draft/APrime*.lean`) | AllThreshold |
+| Section 8.2 (text), final chain | `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETWD`, `Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETW`, `Erdos634.Draft.NSQM.raStatement_of_s5w`, `Erdos634.Draft.SideRunGT.theta_word_hasSides` | `Draft/ThmDChainW.lean`, `Draft/NSQMMainZETW.lean`, `Draft/NSQMS5W.lean`, `Draft/SideRunGThetaMain.lean` | AllThreshold |
+| Section 8.2 (text), witnesses | `Erdos634.Draft.NSQM.cnzETWD_204`, `cnzETWD_268`, `no_dissection_276`, `cnzETWD_279`, `not_cnzETWD_72`, `not_cnzETWD_143`, `not_cnzETWD_320` | `Draft/ThmDChainWitnessW.lean`, `Draft/ThmDChainWitnessC.lean` | AllThreshold |
 | Section 8.2 (text) | `Erdos634.Draft.ZhangEqui.zhang_equi_m`, `Erdos634.Draft.ZhangProps.zhang_five` | `Draft/ZhangEqui.lean`, `Draft/ZhangProps.lean` (+ ZhangBase, ZhangTrap, ZhangRot, ZhangIso, ZhangF1) | All |
 | Section 8.2 (text) | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | none (status S: a count by a program, not checked by the kernel) |  |  |

@@ -126,3 +126,11 @@ import Erdos634.Draft.NoThetaRegion
 import Erdos634.Draft.NSQRWT
 import Erdos634.Draft.NSQMMainZET
 import Erdos634.Draft.NSQMMainZETWitness
+import Erdos634.Draft.NSQMS5W
+import Erdos634.Draft.NSQMMainZETW
+import Erdos634.Draft.NSQMMainZETWWitness
+import Erdos634.Draft.ThmDStatementGeo
+import Erdos634.Draft.ThmDChain
+import Erdos634.Draft.ThmDChainW
+import Erdos634.Draft.ThmDChainWitnessC
+import Erdos634.Draft.ThmDChainWitnessW
