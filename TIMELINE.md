@@ -60,3 +60,4 @@ at scale one, and was kept private until its publication here; the commits below
 The research, the proofs and the formalization are by Vico Bonfioli, carried out throughout with the assistance of
 Claude (Anthropic), which was used for exploration, computation, proof drafting and Lean development under the
 author's direction.
+| 2026-10-18 | release v2.0 | Self-contained readable paper (34 pp) replaces the first paper (kept as `_v1`); records Theorem D' for every g >= 1, the single theorem for 199,140 exclusions, 204/228 certificates, 22 R8 tile counts, squarefree open 771/791; adds docs/TALK.md, docs/FAQ.md and a reading record. |

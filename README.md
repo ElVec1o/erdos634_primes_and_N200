@@ -7,7 +7,7 @@ throughout, under the author's direction.
 
 **Archive:** Zenodo, doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433) (all versions); version 1.0: doi:[10.5281/zenodo.23400434](https://doi.org/10.5281/zenodo.23400434).
 
-**Paper:** `paper/erdos634_primes_and_N200.pdf`, October 2026 (source `paper/erdos634_primes_and_N200.tex`).
+**Paper (version 2.0):** `paper/erdos634_primes_and_N200.pdf`, October 2026 (source `paper/erdos634_primes_and_N200.tex`); the first paper is `paper/erdos634_primes_and_N200_v1.pdf`. Talk and FAQ: `docs/`.
 
 Standing marks used below, as in the paper: **F** = theorem of the accompanying Lean 4 library, with the standard axioms
 only (`propext`, `Classical.choice`, `Quot.sound`) and no `sorry`; **W** = written proof in the paper, not formalized;
@@ -225,11 +225,28 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `.zenodo.json` | archive metadata for Zenodo |
 | `LICENSE` | CC BY 4.0 for the text and data (`paper/`, `data/`), MIT for the code (`code/`, `lean/`, `rust/`) |
 | `.gitignore` | excludes build products (`lean/.lake/`, `rust/*/target/`, `rust/mrv2/out/`) and LaTeX auxiliary files |
-| `paper/` | `erdos634_primes_and_N200.tex` and `.pdf` (the paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
+| `docs/` | `TALK.md`, `FAQ.md` |
+| `paper/` | `erdos634_primes_and_N200.tex` and `.pdf` (the paper, version 2.0), `..._v1.tex` and `.pdf` (the first paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
 | `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4630 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
 | `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts), `r8/` (decoders and verifier driver of the R8 layouts) |
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values) |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier) |
+
+## Release v2.0: the self-contained readable paper; Theorem D' for every g >= 1 in the text
+
+**Version 2.0 replaces the paper** (`paper/erdos634_primes_and_N200.pdf`, 34 pages, self-contained: own preamble and bibliography, marks F / W / S on every statement). The first paper is kept as `paper/erdos634_primes_and_N200_v1.tex` and `.pdf` for reference. `docs/TALK.md` (a talk outline) and `docs/FAQ.md` (questions and answers on the paper) are new. The paper has a new Section "What is new in version 2.0" and an Appendix "Reading record" (ten reads by readers who took no part in the writing, five rounds, scored 3/5, no mathematical error found; the author's own read approved the release).
+
+Contributions, with dates (all internally audited only):
+
+* 2026-10-18 (v1.14): Theorem D' for every integer g >= 1 in Lean (`ThmD.thmD_all_g`, `ThmD.thmD_g1`); the case g = 1 reproduces Beeson (2012), Thm 11.7, and is credited to him. The method is that of Beeson and Rosu, adapted to gamma = 2 alpha; the lemma on runs from a base corner is ours.
+* 2026-10-18 (v1.14): all 199,140 non-squarefree exclusions N <= 10^6 from one Lean theorem, `NSQM.not_tile_of_conditionsNSQzETWDS`; the hypothesis is evaluated by a program for each N.
+* 2026-10-18 (v1.14): 204 and 228 are not tile counts (already by the chain; two search certificates as a second route, a reproduction).
+* 2026-10-18 (v1.14): 22 squarefree R8 values are tile counts by exact verification of D. Paliy's nested-corner layouts (credited); 345 and 506 in Lean.
+* Squarefree N <= 10^6 still open: 771 (exact) / 791 (Lean).
+* Axioms: `native_decide` occurs only in `NogoCount37` and `PropNorm`, which are outside the import closure of the headline theorems.
+* Earlier: the prime case and N <= 200 (Theorem 1.1, 1.3), the isosceles family T_M(e,f) (v1.0 to v1.11); Theorems C and D' (v1.12, v1.13). See `TIMELINE.md`.
+
+AI disclosure: an AI system (Claude, Anthropic) assisted; the prompts, questions and directions are by Vico Bonfioli, and the proofs are checked in Lean where marked F.
 
 ## Release v1.14: Theorem D' for every g >= 1; one theorem for all 199,140; 204 and 228 by certificates; 22 R8 tile counts
 
