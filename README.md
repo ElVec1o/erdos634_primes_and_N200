@@ -54,6 +54,18 @@ edges in one way only, a tile laid on such a segment forces the tile across it. 
 until a point is reached where no figure is possible. For the members (1,f), f ≥ 3, the walk runs along the base; for the
 others it starts at the apex (Section 4.3 of the paper).
 
+## Credits (what is taken or adapted from others)
+
+* **M. Beeson and G. Rosu**, *Tiling a triangle into a prime number of congruent triangles* (preprint, 16 October 2026): the rigidity window (their Lemma 30), the trapezoid lemma for a stopped run (Lemma 32, p. 26), "how not to start a run" (Lemma 33, p. 28), the pigeonhole on the angles gamma at the ends of a side (Lemma 34, p. 30), and the row induction with the final counting of their Theorem 37 (p. 32). Our Theorems C and D' and Lemmas 32', 33', 34' and K for the target T(g) are adaptations of this method to gamma = 2 alpha (hand proofs, not formalized). Ours: the fan lemma at straight points, the two windows u and v, Lemma K.
+* **M. Beeson**, other papers: arXiv:1206.1974 (Thm 11.7, the case g = 1; the 1125-tiling, Herdt's, as the instance of the Herdt family); Triangle tiling I and III (including Thm 11 for the tiling at M = f); *No triangle can be cut into seven congruent triangles* (classification of the tile types); *Tiling an equilateral triangle*; *No prime tiling of an isosceles triangle*; with Y. X. Zhang, *Rationality of certain triangle tilings* (Lemma 3.5, Thm 5.2); with M. Laczkovich and Y. X. Zhang, Erdos Problem 633.
+* **D. Paliy**: first public proof of the prime case (29 September 2026); the exclusions of 60, 105, 135, 154 (announced earlier; ours are independent Lean certificates); the tilings with 240, 312, 897, 990 and 4830 tiles; the five-piece layouts of the rows F3, F4 and S2; the collar, the trapezoid of six pieces and the seeds of the base-beta construction; the reduction notes (square-class obstructions, uniform sectors); the claim ledger.
+* **B. Herdt**: the 1125-tiling by (4,5,6) (published by Beeson); our macro-dissection family generalizes it.
+* **M. Laczkovich**: the classification of the pairs (triangle, tile), the conjugate-tilings method, and the macro-dissection of the 183-tiling that our branch gamma = 2 alpha construction reconstructs in general.
+* **Y. X. Zhang**: the 2 pi/3 families (arXiv:2512.22696); our uniform versions are in `Draft/Zhang*.lean`.
+* **S. L. Snover, C. Waiveris and J. K. Williams**: rep-tiling for triangles. **J. P. Harries**: tilings of (21,55,56) and related triangles, and the status list of unresolved values.
+
+The full references are in the bibliography of the paper.
+
 ## Priority
 
 A proof of Theorem 1.1 was first made public by D. Paliy on 29 September 2026 (GitHub `DenisUkranian/erdos-634-tilings`,
@@ -229,7 +241,7 @@ The v1.12 hand-level census of Theorems C and D' used an older label dump and un
 * Standing: **written proofs (mark W), adversarially audited twice inside the project, not formalized, no outside check.** The formal count of v1.11 (71,039 excluded / 102,471 known / 218,564 undecided) is unchanged. Lean drafts for the arithmetic layer exist in the working repository and are not compiled, so nothing is claimed of them.
 * Honest gaps: (G1) the unstopped half of Lemma K is neither used nor claimed; (G2) D' is for g >= 2; (G3) the scope is integer g (the parametrisation of the pairs of the leaf is elementary, a reduction for rational g is not given); (G4) a remark about exit-march data is off by one for (3,5) and is not used.
 * Hand-level census (separate from the formal count): of the 201,952 non-squarefree N <= 10^6 failing the branch gamma = 2 alpha, 167,727 have every pair covered by D' (150,381 by C alone). [Corrected in v1.12.1: the figures 39,213 / 34,372 originally given here were computed on an older label dump and undercounted; see the Correction note above.]
-* Method credit: the rigidity window and the row induction are from Beeson and Rosu's prime-tilings preprint (October 2026); the transfer to gamma = 2 alpha (fan lemma at straight points, the windows u and v, Lemma K) is ours.
+* Method credit: the rigidity window (Lemma 30), the trapezoid lemma (Lemma 32), Lemma 33, the pigeonhole of Lemma 34 and the row induction (Theorem 37) are from Beeson and Rosu's prime-tilings preprint (October 2026), and Lemmas 32', 33', 34' and K adapt them; the transfer to gamma = 2 alpha (fan lemma at straight points, the windows u and v, Lemma K) is ours.
 
 ## Release v1.11: non-squarefree census, formal count raised
 

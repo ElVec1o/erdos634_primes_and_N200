@@ -2,6 +2,7 @@ import Mathlib.Tactic
 import Erdos634.ZhangTargets
 
 /-!
+Credit: the constructions are those of Y. X. Zhang, 'Tiling triangles with 2 pi/3 angles' (arXiv:2512.22696); the versions uniform in the tile are ours.
 # rem:zhangsmall / rem:zhangsharp — Zhang target arithmetic: wrapper
    (PROVED, cited declarations VERIFIED)
 

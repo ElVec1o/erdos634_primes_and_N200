@@ -3,6 +3,15 @@
 This directory is the Lean 4 library `Erdos634` that accompanies the paper
 `paper/erdos634_primes_and_N200.pdf`. Every Lean declaration cited by the paper (Appendix A, Table 3) is in it.
 
+## Credits
+
+Several modules formalize or adapt the work of others; each such module names its source in its leading docstring. In
+particular: the `Draft/ThmC*` and `Draft/ThmD*` modules adapt the method of M. Beeson and G. Rosu (prime-tilings preprint,
+16 October 2026: Lemmas 30, 32, 33, 34 and Theorem 37); `Draft/Herdt*` generalizes B. Herdt's 1125-tiling (published by
+Beeson); `Draft/Lacz*` reconstructs M. Laczkovich's macro-dissection; `Draft/Zhang*` proves Y. X. Zhang's families for every
+tile; the certificates `R897Tiling`, `R990Tiling`, `R240Tiling` and the modules `F3All`, `F4All`, `S2All` formalize tilings
+and layouts of D. Paliy. See the paper's bibliography.
+
 ## Contents
 
 * `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`: Lean `v4.30.0`, Mathlib tag `v4.30.0`
