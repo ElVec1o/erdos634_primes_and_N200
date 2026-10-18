@@ -4,7 +4,7 @@ import Erdos634.Draft.ThmDRowFrontier
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha is ours.
 
-# Theorem D' (ThmDGeo, item (1)): the corner context from the normalised frame  
+# Theorem D' (ThmDGeo, item (1)): the corner context from the normalised frame
 
 In a `SetupT` frame (`Q = (0,0)`, `B = (L,0)`, apex `(ax, ay)`) whose corner at `Q` has `cos = v/(2u)` (`2u ax = v d2`, `ax² + ay² = d2²`,
 `d2 = |QA|`), the lattice points `P_w = lpT u v 1 0 0 w` (`ε = 1`, `x = 0`) lie on the ray `QA` at distance `w b` from `Q` (`b = v² - u²`).
@@ -47,7 +47,7 @@ theorem lp0w_ray {u v : ℝ} (hu : 0 < u) (hv0 : 0 < v) (hv : v < 2 * u) {ax ay 
     field_simp
 
 theorem lp0w_facts (S : SetupT D u v α β γ L ax ay) {d2 : ℝ} (hd2 : 0 < d2) (hax : 2 * (u : ℝ) * ax = (v : ℝ) * d2)
-    (hsq : ax ^ 2 + ay ^ 2 = d2 ^ 2) (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2)
+    (hsq : ax ^ 2 + ay ^ 2 = d2 ^ 2) (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2)
     {w : ℝ} (hw1 : 1 ≤ w) (hwv : w < v) :
     lpT (u : ℝ) (v : ℝ) 1 0 0 w ∈ D.target.carrier ∧ lpT (u : ℝ) (v : ℝ) 1 0 0 w ∈ frontier D.target.carrier ∧
       lpT (u : ℝ) (v : ℝ) 1 0 0 w ∉ Set.range D.target.pts ∧
@@ -61,7 +61,7 @@ theorem lp0w_facts (S : SetupT D u v α β γ L ax ay) {d2 : ℝ} (hd2 : 0 < d2)
   have ht0 : 0 < t := by positivity
   have ht1 : t < 1 := by
     rw [ht, div_lt_one hd2]
-    nlinarith [S.uv', mul_pos hb (sub_pos.2 hwv)]
+    nlinarith [S.uv', mul_pos hb (sub_pos.2 hwv), hbig]
   have hray := lp0w_ray hu S.v0 S.v2 hd2 hax hay hsq w
   rw [← ht] at hray
   have hmem : mkPt (t * ax) (t * ay) ∈ D.target.carrier := by

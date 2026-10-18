@@ -226,10 +226,19 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `LICENSE` | CC BY 4.0 for the text and data (`paper/`, `data/`), MIT for the code (`code/`, `lean/`, `rust/`) |
 | `.gitignore` | excludes build products (`lean/.lake/`, `rust/*/target/`, `rust/mrv2/out/`) and LaTeX auxiliary files |
 | `paper/` | `erdos634_primes_and_N200.tex` and `.pdf` (the paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
-| `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4518 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
-| `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts) |
-| `data/` | `certificates/MANIFEST.tsv`, the manifest of the seven large search certificates that are not stored |
-| `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules) |
+| `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4630 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
+| `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts), `r8/` (decoders and verifier driver of the R8 layouts) |
+| `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values) |
+| `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier) |
+
+## Release v1.14: Theorem D' for every g >= 1; one theorem for all 199,140; 204 and 228 by certificates; 22 R8 tile counts
+
+* **Theorem D' for every integer g >= 1** (`ThmD.thmD_all_g`, `ThmD.thmD_g1`; standard axioms, no `sorry`). The case g = 1 **reproduces Theorem 11.7 of M. Beeson (2012)**, "Tilings of an isosceles triangle", and is credited to him; it is the g = 1 instance of the run induction of Theorem D'. Changed modules: `Draft/ThmDGeo{Corner,Ctx,Leg1,LegCorner,Mirror,Unit}`, `ThmDFrame{Leg,Num}`, `ThmDStatementGeo` (a strict inequality relaxed to a non-strict one in the corner lemmas).
+* **All 199,140 non-squarefree exclusions N <= 10^6 follow from ONE Lean theorem**, `NSQM.not_tile_of_conditionsNSQzETWDS` (module `Draft/ThmDChainWS`; the S1 clause is `S1Chk N or S1tChk N`, the sharpened S1 leaf of `Draft/NSQS1T`, Corollary ebelow(b)). v1.13.1 split them 196,273 + 2,867, the second set needing a combination made by the computation. Witness: `NSQM.no_dissection_428`. Axioms: propext, Classical.choice, Quot.sound.
+* **204 and 228 are not tile counts, by a second route (a reproduction).** They are already excluded by the chain above (checked: `CN'zETWDS 204` and `CN'zETWDS 228` hold by `decide +kernel`). In addition the pairs (6, 34) and (6, 38) of the gamma = 2 alpha leaf are closed by search certificates, in the manner of N = 171: `Refl.MG204` (504,735 nodes; tile (49, 51, 70) on the triangle with legs 714, base 1020), `Refl.MG228` (752,117 nodes; tile (64, 57, 88) on legs 912, base 1254); theorems `NSQM.not_tile_204`, `NSQM.not_tile_228` in `Draft/N204N228.lean`, aggregate `Erdos634.AllCertW2` (standard axioms). The certificate modules (609 MB) are not stored; `code/regen_cert.sh G204` and `G228` regenerate them from the shipped search trees `data/certificates/trees/*.tree.gz` (rows in `data/certificates/MANIFEST.tsv`).
+* **22 open squarefree values of the R8 rows are tile counts** by exact verification of D. Paliy's nested-corner layouts (credit: Paliy; the exact instances and the checks are ours): 345, 506, 12922, 18602, 25179, 35763, 57479, 65626, 135746, 146982, 156647, 196251, 201122, 247494, 388847, 397371, 428978, 538346, 624338, 686945, 746327, 914529. Each was verified by the independent exact checker `rust/bonfioli_tiling_engine` (tiles congruent, inside the hull, pairwise interior-disjoint, area equal); witnesses in `data/witnesses/` (`r8_exact/*.gz`, log `r8_exact/verification_log_open_r8.txt`), decoders in `code/r8/`. **345 and 506 are kernel-checked** (`Draft/N345N506.lean`, `N345N506.tileCount_345`, `.tileCount_506`, tile (7, 8, 13); aggregate `Erdos634.AllR8`). The other 20 are exact-program verified only, with no Lean; the symbolic family theorems for the rows are not formalized.
+* **Squarefree N <= 10^6 still open: 771 at the exact level, 791 at the Lean level** (the recount of this release gave 793 before the 22 values; the figure 803 of an earlier release is not reconciled with it here).
+* Status: all of this is internally audited only; no outside check.
 
 ## Release v1.13: Theorem D' (and C, W_2, A' for d = 1) formalized; census with the final chain
 
@@ -300,10 +309,9 @@ Full instructions are in `lean/README.md`. Summary.
 
 ## Formalization status
 
-The Lean library `lean/Erdos634` has 4412 modules (3331 written, 1081 generated search certificates of moderate size in
+The Lean library `lean/Erdos634` has 4630 modules on disk (3549 written, including 43 hand-written files in `Refl/`; 1081 generated search certificates of moderate size in
 `Erdos634/Refl/M*.lean`; the seven largest certificates, 4462 generated modules and about 1.7 GB, are regenerated by
-`code/regen_cert.sh`). It contains no `sorry` and declares no axiom. Two modules not cited by the paper
-(`Draft/NogoCount37.lean`, `Draft/PropNorm.lean`) use `native_decide` for three counting statements. The modules are grouped
+`code/regen_cert.sh`). It contains no `sorry` and declares no axiom. Exactly two modules contain a `native_decide` call: `Draft/NogoCount37.lean` (`nogoCount37_eq_10560`, `nogoGammaJunctions_eq_7`) and `Draft/PropNorm.lean` (`count_144`); both are imported by `Erdos634.All`, so `lake build Erdos634.All` builds them with `Lean.ofReducible`/`Lean.reduceBool`. No declaration cited by the paper depends on them: `axioms/*.lean` list only the three standard axioms for every cited declaration, and `code/axiom_gate.py` (run by `code/reproduce.sh`) fails otherwise. In particular the closures of the headline theorems (primes, the counts up to 200, Theorem D') contain neither module. The modules are grouped
 in aggregates that do not import one another, because one `lean` process for their union would need too much memory:
 
 | aggregate | modules | contents |

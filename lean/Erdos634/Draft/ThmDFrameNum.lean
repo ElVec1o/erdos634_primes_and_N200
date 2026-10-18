@@ -4,7 +4,7 @@ import Erdos634.Draft.ThmDFrame
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha (fan lemma at straight points, windows u and v, Lemma K) is ours.
 
-# Theorem D' (ThmDGeo, item (5)): the numbers of the frame of `T(g)`  
+# Theorem D' (ThmDGeo, item (5)): the numbers of the frame of `T(g)`
 
 For the isosceles target `T(g)` (legs `G u b`, base `G v b`, `b = v² - u²`, `rt = √(4u² - v²)`) in the frame `Q = (0,0)`, `B = (L,0)`, `A = (ax, ay)`:
 * S1 (`Q` an `α`-corner, `B` the apex): `ax = G b v²/(2u)`;
@@ -82,14 +82,14 @@ variable (u v : ℕ) (G : ℝ)
 /-- the numbers of the frame, S1 -/
 noncomputable def bR : ℝ := (v : ℝ) ^ 2 - (u : ℝ) ^ 2
 
-theorem nums_S1 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 < G) :
+theorem nums_S1 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 ≤ G) :
     let b : ℝ := (v : ℝ) ^ 2 - (u : ℝ) ^ 2
     let L : ℝ := G * u * b
     let ax : ℝ := G * b * (v : ℝ) ^ 2 / (2 * u)
     let ay : ℝ := G * b * v * rtT (u : ℝ) (v : ℝ) / (2 * u)
     ∃ (hL : 0 < L) (hay : 0 < ay), dist (mkPt L 0) (mkPt ax ay) = G * u * b ∧
       dist (mkPt ax ay) (mkPt 0 0) = G * v * b ∧
-      2 * (u : ℝ) * ax = v * (G * v * b) ∧ ax ^ 2 + ay ^ 2 = (G * v * b) ^ 2 ∧ (v : ℝ) * b < G * v * b ∧
+      2 * (u : ℝ) * ax = v * (G * v * b) ∧ ax ^ 2 + ay ^ 2 = (G * v * b) ^ 2 ∧ (v : ℝ) * b ≤ G * v * b ∧
       0 < ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - (L - ax) * hhT (u : ℝ) (v : ℝ) ∧
       cornerAngle ((Tg L ax ay hL hay).pts 1) ((Tg L ax ay hL hay).pts 0) ((Tg L ax ay hL hay).pts 2) =
         alphaT (u : ℝ) (v : ℝ) ∧
@@ -128,7 +128,7 @@ theorem nums_S1 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 < G) :
     simp only [ax]; field_simp
   have hsq : ax ^ 2 + ay ^ 2 = (G * v * b) ^ 2 := by
     rw [hay2]; simp only [ax]; field_simp; ring
-  have hbig : (v : ℝ) * b < G * v * b := by nlinarith [mul_pos hv0 hb]
+  have hbig : (v : ℝ) * b ≤ G * v * b := by nlinarith [mul_pos hv0 hb]
   have hwedge : 0 < ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - (L - ax) * hhT (u : ℝ) (v : ℝ) := by
     have : ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - (L - ax) * hhT (u : ℝ) (v : ℝ) =
         G * b ^ 3 * rtT (u : ℝ) (v : ℝ) / (2 * (u : ℝ) ^ 2) := by
@@ -156,14 +156,14 @@ section S2
 
 variable (u v : ℕ) (G : ℝ)
 
-theorem nums_S2 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 < G) :
+theorem nums_S2 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 ≤ G) :
     let b : ℝ := (v : ℝ) ^ 2 - (u : ℝ) ^ 2
     let L : ℝ := G * u * b
     let ax : ℝ := G * b * (2 * (u : ℝ) ^ 2 - (v : ℝ) ^ 2) / (2 * u)
     let ay : ℝ := G * b * v * rtT (u : ℝ) (v : ℝ) / (2 * u)
     ∃ (hL : 0 < L) (hay : 0 < ay), dist (mkPt L 0) (mkPt ax ay) = G * v * b ∧
       dist (mkPt ax ay) (mkPt 0 0) = G * u * b ∧
-      2 * (u : ℝ) * (L - ax) = v * (G * v * b) ∧ (L - ax) ^ 2 + ay ^ 2 = (G * v * b) ^ 2 ∧ (v : ℝ) * b < G * v * b ∧
+      2 * (u : ℝ) * (L - ax) = v * (G * v * b) ∧ (L - ax) ^ 2 + ay ^ 2 = (G * v * b) ^ 2 ∧ (v : ℝ) * b ≤ G * v * b ∧
       0 < ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - ax * hhT (u : ℝ) (v : ℝ) ∧
       cornerAngle ((Tg L ax ay hL hay).pts 1) ((Tg L ax ay hL hay).pts 0) ((Tg L ax ay hL hay).pts 2) =
         Real.pi - 2 * alphaT (u : ℝ) (v : ℝ) ∧
@@ -202,7 +202,7 @@ theorem nums_S2 (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hG : 1 < G) :
     simp only [L, ax]; field_simp; ring
   have hsq : (L - ax) ^ 2 + ay ^ 2 = (G * v * b) ^ 2 := by
     rw [hay2]; simp only [L, ax]; field_simp; ring
-  have hbig : (v : ℝ) * b < G * v * b := by nlinarith [mul_pos hv0 hb]
+  have hbig : (v : ℝ) * b ≤ G * v * b := by nlinarith [mul_pos hv0 hb]
   have hwedge : 0 < ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - ax * hhT (u : ℝ) (v : ℝ) := by
     have : ay * ((u : ℝ) * v - uuT (u : ℝ) (v : ℝ)) - ax * hhT (u : ℝ) (v : ℝ) =
         G * b ^ 3 * rtT (u : ℝ) (v : ℝ) / (2 * (u : ℝ) ^ 2) := by

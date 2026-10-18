@@ -1,13 +1,18 @@
 /-
-AllThreshold.lean -- aggregate of the threshold program of the base-β row, separate from `Erdos634.All`.
+AllThreshold.lean -- aggregate of the THRESHOLD PROGRAM of the base-β row (2026-10-12), separate from `Erdos634.All`.
 
-Kept out of `Erdos634.All` for memory.  `All` does not import this file and this file does not import `All`.
+`Erdos634.All` peaked at 8.1 GB with these modules (the guideline is 9 GB for one `lean` process), so they were moved
+here.  `All` does NOT import this file and this file does not import `All`.
+**Before a commit that touches Lean build both**, one at a time: `code/_bq.sh Erdos634.All` and
+`code/_bq.sh Erdos634.AllThreshold` (and the `AllCert*` aggregates for files that use the large certificates).
 
 Contents: the seed at scale `f` (`WSeedG*`), the collars (`CollarE1*`, `CollarG*`), the residue seeds (`Residue*`):
 every member has a tiling at every scale `M ≥ f`; the threshold statement and its reductions (`UniformThreshold`,
 `ThresholdReduce`, `ThresholdBlind`); the kernel-checked tilings `R272`, `R425`, `R224`, `R320` with `W13`, `W23`,
 `S5N320`; the exclusions below the scale `f` for the members `(1, f)`: `W2E1*` (the triangle `W_2`), `SideRun*` (the
 side theorem, `W_M` for `M < f`, `T_M` for `2M < f`), `E1ScaleTwo`.
+
+Composite side; not prime-case work.
 -/
 import Erdos634.Draft.WSeedG
 import Erdos634.Draft.WSeedGAssemble
@@ -134,3 +139,5 @@ import Erdos634.Draft.ThmDChain
 import Erdos634.Draft.ThmDChainW
 import Erdos634.Draft.ThmDChainWitnessC
 import Erdos634.Draft.ThmDChainWitnessW
+import Erdos634.Draft.NSQS1T
+import Erdos634.Draft.ThmDChainWS

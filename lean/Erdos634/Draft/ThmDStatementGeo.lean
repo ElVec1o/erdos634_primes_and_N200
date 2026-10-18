@@ -7,7 +7,7 @@ import Erdos634.Draft.G3CAng
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha (fan lemma at straight points, windows u and v, Lemma K) is ours.
 
-# Theorem D' (ThmDGeo): `ThmDStatement'` UNCONDITIONALLY  
+# Theorem D' (ThmDGeo): `ThmDStatement'` UNCONDITIONALLY
 
 `thmDStatement_geo : ThmDStatement'` is `ThmDStmt2.thmDStatement_of_D1` with the hypothesis `D1Spec` replaced by its proof: the dissection is scaled by `1/s`
 to unit scale (`scaleDissection`) and `thmD_geo_unit` (D1 for the positioned α-apex leg + the word bound) gives `False`.  The reduction `GPair` data -> `(u,d,g,s)`
@@ -23,12 +23,12 @@ open Erdos634.Geometry Erdos634.TilePlacement Erdos634.Draft.ThmC Erdos634.SssCo
 
 /-- **Theorem D' without the irrationality hypothesis**: `IrrPi α` is derived (Niven, `G3CAng.irrPi_of_cos`) from
 `cos α = v/(2u)`, `u < v < 2u` (the model triangle has sides `u², v²−u², uv`). -/
-theorem thmD_standalone (N M M' : ℕ) (hM : 0 < M) (hMM' : M * M' = N) (hlt : 3 * M < M') (hpar : M % 2 = M' % 2)
-    (hchk : thmDChk M M') (D : CongruentDissection N) {α a b c : ℝ} (hdata : D.model.TwoAlphaData α a b c)
+theorem thmD_param (N g u d M M' : ℕ) (hg2 : 1 ≤ g) (hd : 0 < d) (hdu : d < u) (hcop : Nat.Coprime u (u + d))
+    (hMg : M = g * d) (hM'g : M' = g * (u + (u + d))) (hcond : (g - 1) * d < u)
+    (D : CongruentDissection N) {α a b c : ℝ} (hdata : D.model.TwoAlphaData α a b c)
     (hA : D.target.angleAt 0 = α) (hB : D.target.angleAt 1 = α)
     (hX1 : ((M : ℤ) : ℝ) * (a + c) = D.target.oppLen 0) (hX2 : ((M' : ℤ) : ℝ) * (c - a) = D.target.oppLen 0) :
     False := by
-  obtain ⟨g, u, d, hg2, hd, hdu, hcop, hMg, hM'g, hcond⟩ := thmDChk_param hM hlt hpar hchk
   obtain ⟨σ, h0, o0, h1, o1, h2, o2⟩ := hdata
   have hdata' : D.model.TwoAlphaData α a b c := ⟨σ, h0, o0, h1, o1, h2, o2⟩
   obtain ⟨κ, hκ1, hκ2, ha, hX, hc, hb, hY, hX1'⟩ := Row4.sides D hdata' hA hB
@@ -144,9 +144,7 @@ theorem thmD_standalone (N M M' : ℕ) (hM : 0 < M) (hMM' : M * M' = N) (hlt : 3
   have hM1 : sideOpp D1.model 1 = ((u + d : ℕ) : ℝ) ^ 2 - (u : ℝ) ^ 2 := by rw [hs1']; push_cast; ring
   have hM2 : sideOpp D1.model 2 = (u : ℝ) * ((u + d : ℕ) : ℝ) := by rw [hs2']; push_cast; ring
   have huv : u < u + d := by omega
-  have hv2 : u + d < 2 * u := by
-    have : d ≤ (g - 1) * d := Nat.le_mul_of_pos_left d (by omega)
-    omega
+  have hv2 : u + d < 2 * u := by omega
   have hmodang := Erdos634.Draft.ThmDRun.modelAngles_of_sidesT D1.model (by omega : 0 < u) huv hv2 hM0 hM1 hM2
   have hαeq : α = Erdos634.Draft.ThmDRun.alphaT (u : ℝ) ((u + d : ℕ) : ℝ) := by
     rw [← hmodang.1]
@@ -181,8 +179,40 @@ theorem thmD_standalone (N M M' : ℕ) (hM : 0 < M) (hMM' : M * M' = N) (hlt : 3
   have hcB' : cornerAngle (D1.target.pts (1 + 1 + 1 + 1)) (D1.target.pts (1 + 1 + 1)) (D1.target.pts (1 + 1 + 1 + 2)) =
       Erdos634.Draft.ThmDRun.alphaT (u : ℝ) ((u + d : ℕ) : ℝ) := by
     rw [hang, ← hαeq]; exact hA
-  exact Erdos634.Draft.ThmDRun.thmD_geo_unit D1 u d g 1 hd (by omega) hcop hg2 hcond hirr' hs0' hs1' hs2' hL1' hL2'
+  exact Erdos634.Draft.ThmDRun.thmD_geo_unit D1 u d g 1 hd (by omega) hcop (by omega) hdu hcond hirr' hs0' hs1' hs2' hL1' hL2'
     hbase' hcA' hcApex' hcB'
+
+theorem thmD_standalone (N M M' : ℕ) (hM : 0 < M) (hMM' : M * M' = N) (hlt : 3 * M < M') (hpar : M % 2 = M' % 2)
+    (hchk : thmDChk M M') (D : CongruentDissection N) {α a b c : ℝ} (hdata : D.model.TwoAlphaData α a b c)
+    (hA : D.target.angleAt 0 = α) (hB : D.target.angleAt 1 = α)
+    (hX1 : ((M : ℤ) : ℝ) * (a + c) = D.target.oppLen 0) (hX2 : ((M' : ℤ) : ℝ) * (c - a) = D.target.oppLen 0) :
+    False := by
+  obtain ⟨g, u, d, hg2, hd, hdu, hcop, hMg, hM'g, hcond⟩ := thmDChk_param hM hlt hpar hchk
+  exact thmD_param N g u d M M' (by omega) hd hdu hcop hMg hM'g hcond D hdata hA hB hX1 hX2
+
+/-- **Theorem D' for every integer `g ≥ 1`** with `(g-1)(v-u) < u` (`u<v<2u` coprime): the triangle `T(g)` with apex-leg `g u (v²-u²)`,
+base `g v (v²-u²)`, corner `α` (γ = 2α tile `(u², v²-u², uv)`) admits no congruent dissection. `M = g(v-u)`, `M' = g(u+v)`. -/
+theorem thmD_all_g (N g u v M M' : ℕ) (hg : 1 ≤ g) (huv : u < v) (hv2 : v < 2 * u) (hcop : Nat.Coprime u v)
+    (hMg : M = g * (v - u)) (hM'g : M' = g * (u + v)) (hcond : (g - 1) * (v - u) < u)
+    (D : CongruentDissection N) {α a b c : ℝ} (hdata : D.model.TwoAlphaData α a b c)
+    (hA : D.target.angleAt 0 = α) (hB : D.target.angleAt 1 = α)
+    (hX1 : ((M : ℤ) : ℝ) * (a + c) = D.target.oppLen 0) (hX2 : ((M' : ℤ) : ℝ) * (c - a) = D.target.oppLen 0) :
+    False := by
+  obtain ⟨d, rfl⟩ : ∃ d, v = u + d := ⟨v - u, by omega⟩
+  have hd : 0 < d := by omega
+  refine thmD_param N g u d M M' hg hd (by omega) hcop (by rw [hMg]; first | rfl | (congr 1; omega))
+    (by rw [hM'g]) (by simpa using hcond) D hdata hA hB hX1 hX2
+
+/-- **The case `g = 1`** (`T(1)`, the base `v(v²-u²)` = leg-to-leg `u(v²-u²)` triangle): no congruent dissection, for every coprime
+`u<v<2u`.  This is a reproduction of Beeson (2012), Theorem 11.7 (and of our `GPairArith.gPair_of_coprime`), here obtained as the
+`g = 1` instance of the Theorem D' run induction; credit: M. Beeson. -/
+theorem thmD_g1 (N u v M M' : ℕ) (huv : u < v) (hv2 : v < 2 * u) (hcop : Nat.Coprime u v)
+    (hMg : M = v - u) (hM'g : M' = u + v)
+    (D : CongruentDissection N) {α a b c : ℝ} (hdata : D.model.TwoAlphaData α a b c)
+    (hA : D.target.angleAt 0 = α) (hB : D.target.angleAt 1 = α)
+    (hX1 : ((M : ℤ) : ℝ) * (a + c) = D.target.oppLen 0) (hX2 : ((M' : ℤ) : ℝ) * (c - a) = D.target.oppLen 0) :
+    False :=
+  thmD_all_g N 1 u v M M' le_rfl huv hv2 hcop (by omega) (by omega) (by simp; omega) D hdata hA hB hX1 hX2
 
 end Erdos634.Draft.ThmD
 
@@ -193,4 +223,6 @@ theorem thmDStatement_geo : ThmDStatement' := by
 end Erdos634.Draft.ThmD
 
 #print axioms Erdos634.Draft.ThmD.thmD_standalone
+#print axioms Erdos634.Draft.ThmD.thmD_all_g
+#print axioms Erdos634.Draft.ThmD.thmD_g1
 #print axioms Erdos634.Draft.ThmD.thmDStatement_geo

@@ -16,7 +16,7 @@ and layouts of D. Paliy. See the paper's bibliography.
 
 * `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`: Lean `v4.30.0`, Mathlib tag `v4.30.0`
   (commit `c5ea00351c28e24afc9f0f84379aa41082b1188f`) and its dependencies, pinned.
-* `Erdos634/`: 4518 modules. 3437 are written modules; 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
+* `Erdos634/`: 4630 modules on disk. 3549 are written modules (including 43 hand-written files in `Refl/`); 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
   generated search certificates of moderate size. The seven largest certificates (4462 generated modules, about
   1.7 GB) are not stored; `code/regen_cert.sh` regenerates them (see below).
 * `Erdos634.lean`: the library root; it imports `Erdos634.All`.
@@ -36,6 +36,8 @@ union would need too much memory:
 | `Erdos634.AllCert3` | 1013 | 161; certificate S3N161 |
 | `Erdos634.AllCert4` | 1118 | 184; certificates S4N184, ISO184 |
 | `Erdos634.AllCert5` | 3938 | 135; certificate EQ135 (2791 modules) |
+| `Erdos634.AllCertW2` | 437 + 670 certificate modules, 5 others | 204 and 228 (second route); certificates G204 (437 modules) and G228 (670 modules), not stored: `code/regen_cert.sh G204`, `G228` |
+| `Erdos634.AllR8` | 69 | 345 and 506 (tilings, Paliy's layouts, kernel-checked) |
 
 (Module counts include the regenerated certificate modules for `AllCert1` to `AllCert5`.)
 
@@ -65,8 +67,7 @@ lake env lean axioms/AxiomsAllSpectrum.lean
 time and stops the build if the resident memory of `lean`/`lake` exceeds `LAKE_RSS_LIMIT_GB` (default 14).
 `lake build Erdos634.All` gives the same result on a machine with enough memory for the parallel build.
 Every `#print axioms` line should read `[propext, Classical.choice, Quot.sound]`. No shipped module contains
-`sorry` or declares an axiom; two modules not cited by the paper (`Draft/NogoCount37.lean`,
-`Draft/PropNorm.lean`) use `native_decide`.
+`sorry` or declares an axiom. Exactly two modules contain a `native_decide` call: `Draft/NogoCount37.lean` (`nogoCount37_eq_10560`, `nogoGammaJunctions_eq_7`) and `Draft/PropNorm.lean` (`count_144`); both are imported by `Erdos634.All`, so `lake build Erdos634.All` builds them with `Lean.ofReducible`/`Lean.reduceBool`. No declaration cited by the paper depends on them: `axioms/*.lean` list only the three standard axioms for every cited declaration, and `code/axiom_gate.py` (run by `code/reproduce.sh`) fails otherwise. In particular the closures of the headline theorems (primes, the counts up to 200, Theorem D') contain neither module.
 
 Measured on the author's machine (Apple silicon, 24 GB), serial build with Mathlib from the cache: the closure of
 Theorem 1.1 (`Draft/PrimeCharacterization.lean`, `Draft/TheoremP6.lean`, 399 modules) in about 50 minutes; modules

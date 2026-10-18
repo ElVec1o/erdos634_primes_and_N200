@@ -34,6 +34,8 @@ import Erdos634.Draft.ThmDChainW
 import Erdos634.Draft.ThmDChainWitnessC
 import Erdos634.Draft.ThmDChainWitnessW
 import Erdos634.Draft.SideRunGThetaMain
+import Erdos634.Draft.ThmDChainWS
+import Erdos634.Draft.ThmDStatementGeo
 
 #print axioms Erdos634.Draft.UniformThreshold.not_betaTilable_one
 #print axioms Erdos634.Draft.Residue.betaTilable_ge
@@ -84,3 +86,7 @@ import Erdos634.Draft.SideRunGThetaMain
 #print axioms Erdos634.Draft.NSQM.not_cnzETWD_72
 #print axioms Erdos634.Draft.NSQM.not_cnzETWD_143
 #print axioms Erdos634.Draft.NSQM.not_cnzETWD_320
+#print axioms Erdos634.Draft.ThmD.thmD_all_g
+#print axioms Erdos634.Draft.ThmD.thmD_g1
+#print axioms Erdos634.Draft.NSQM.not_tile_of_conditionsNSQzETWDS
+#print axioms Erdos634.Draft.NSQM.no_dissection_428

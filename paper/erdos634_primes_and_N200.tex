@@ -1878,8 +1878,8 @@ word of a leg and of the base has fewer than $u$ edges $c$. The two corner tiles
 so the leg carries a $c$-run of at least $u$ edges: impossible. Hence both have $c$ on the leg and $b$ on the base; then the hypothesis holds on the base at both ends, and the base carries a $c$-run of at least $u$ edges: impossible.
 \end{proof}
 
-\begin{theorem}[\sF; \lean{ThmD.thmD_standalone}, \lean{ThmD.thmDStatement_geo}]\label{thm:Dprime}
-Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge2$ an integer with $(g-1)(v-u)<u$. Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$.
+\begin{theorem}[\sF; \lean{ThmD.thmD_standalone}, \lean{ThmD.thmDStatement_geo}, \lean{ThmD.thmD_all_g}]\label{thm:Dprime}
+Let $u<v<2u$ be coprime, $d=v-u$, and $g\ge1$ an integer with $(g-1)(v-u)<u$. Then $T(g)$ has no tiling by the tile $(u^2,v^2-u^2,uv)$. For $g=1$ this is the theorem of Beeson \cite[Thm.~11.7]{BeesonIso}, reproduced here by the run induction below (\lean{ThmD.thmD_g1}); the range $g\ge1$ is \lean{ThmD.thmD_all_g}.
 \end{theorem}
 \begin{proof}
 \emph{Step 1.}\label{step:q1} Let $A$ be the leg whose end at the apex carries the angle $\alpha$ of a tile; by Lemma~\ref{lem:fan} exactly one leg does. The counting of the angles $\beta$ along a leg (\lean{APrimeLeg.RealLeg.counting_identity}, a Lean theorem about the chain of tiles along a leg, which we use in the form: the number $q$ of edges $b$ on $A$ is at least $1$)
@@ -1897,7 +1897,7 @@ Conjecture~\ref{conj:aprime} holds for $d=1$. \textup{(c)} Theorem~\ref{thm:C} i
 \end{proof}
 
 \paragraph{Scope.}
-(G1) The unstopped half of Lemma~\ref{lem:K} is not used and not claimed. (G2) Theorem~\ref{thm:Dprime} is for $g\ge2$; $g=1$ is the known case. (G3) The scope is integer $g$; for the pairs that occur in the leaf this is
+(G1) The unstopped half of Lemma~\ref{lem:K} is not used and not claimed. (G2) (closed in v1.14) Theorem~\ref{thm:Dprime} now includes $g=1$, which reproduces Beeson's theorem and is credited to him; the relaxation of the strict inequality in the intermediate lemmas of the corner and mirror-corner (\lean{ThmDGeoMirror}, \lean{ThmDGeoCorner}, \lean{ThmDGeoUnit}) is what the case $g=1$ needs. (G3) The scope is integer $g$; for the pairs that occur in the leaf this is
 the parametrisation above (\lean{ThmC.pair_param}, formal), but a reduction from a general non-squarefree $b$ with $g\in\Q$ is not given here. (G4) The explanation that this gives of the exit-march data of the working notes is off by one for $(u,v)=(3,5)$; it is a remark and is not used.
 Also, no tiling is refuted: the known tilings of the branch have $g=15,35,63,183$, all with $v\mid g$, and satisfy neither condition; the controls (the 22 registry rows of the branch with $(g-1)d<u$ are all
 no-tiling, mostly engine verdicts) cannot discriminate, and the real tilings $19\,600$ and $130\,977$ were checked to satisfy the fan lemma at every point of every side and to carry the stopped runs the lemmas predict (lengths $80$, $231$ on a leg,
@@ -1913,6 +1913,13 @@ excluded only by Theorem~\ref{thm:Dprime} and the word leaf together (\lean{NSQM
 condition fails at the tile counts $72$, $143$, $320$ (\lean{NSQM.not_cnzETWD_72}, \lean{NSQM.not_cnzETWD_143}, \lean{NSQM.not_cnzETWD_320}), as it must.
 The census of the $392\,074$ non-squarefree $N\le10^6$ with this chain is given in Section~\ref{sub:formalprime}.
 What remains open on the branch: $g\ge v$ (the divisibility $v\mid g$ of every known tiling is a conjecture) and, for $d\ge2$, $g\ge\lceil u/d\rceil+1$; the first instances are $(3,5)$ with $g=3$ ($N=144$, no tiling by the finite search below $200$), $(4,7)$ with $g=3$ ($N=297$), $(5,8)$ with $g=3$ ($N=351$), $(5,7)$ with $g=4$ ($N=384$).
+
+
+\paragraph{Release v1.14.}
+(1) \emph{Theorem~\ref{thm:Dprime} for every $g\ge1$} (\lean{ThmD.thmD_all_g}, \lean{ThmD.thmD_g1}); the case $g=1$ reproduces Theorem~11.7 of Beeson \cite{BeesonIso} and is credited to him.
+(2) \emph{The sharpened final chain.} The condition $\mathrm{CN'zETWDS}(N)$ replaces the clause $S_1$ of $\mathrm{CN'zETWD}$ by $S_1\vee S_1^{t}$, where $S_1^{t}$ is the sharpening of the base-$\beta$ branch by Corollary~\ref{cor:ebelow}(b) ($t\ge2$, $2tp<q$); the single Lean theorem \lean{NSQM.not_tile_of_conditionsNSQzETWDS} states that $\mathrm{CN'zETWDS}(N)$ implies that $N$ is not a tile count. All $199\,140$ non-squarefree exclusions $N\le10^6$ of the census above satisfy this one hypothesis (the earlier release split them $196\,273+2\,867$; the second set needed a combination made by the computation, and no longer does); the witness is \lean{NSQM.no_dissection_428}, which fails the plain $S_1$ clause. Standard axioms in all cases.
+(3) $204$ \emph{and} $228$ \emph{are not tile counts by a second route.} They are already excluded by $\mathrm{CN'zETWDS}$ (whose leaf $G$ is Theorem~\ref{thm:Dprime}; here $g=2$, $(u,v)=(7,10)$ and $(8,11)$); in addition the pairs $(M,M')=(6,34)$ and $(6,38)$ of the leaf $G$ are closed by search certificates (\lean{Refl.MG204}, $504\,735$ nodes; \lean{Refl.MG228}, $752\,117$ nodes; \lean{NSQM.not_tile_204}, \lean{NSQM.not_tile_228}) in the manner of $171$. This is a reproduction, not a new exclusion. The certificate modules ($609$\,MB) are not stored; \texttt{code/regen\_cert.sh G204} and \texttt{G228} regenerate them from the shipped search trees.
+(4) \emph{Twenty-two values of the squarefree $R_8$ rows are tile counts.} $345$, $506$, $12\,922$, $18\,602$, $25\,179$, $35\,763$, $57\,479$, $65\,626$, $135\,746$, $146\,982$, $156\,647$, $196\,251$, $201\,122$, $247\,494$, $388\,847$, $397\,371$, $428\,978$, $538\,346$, $624\,338$, $686\,945$, $746\,327$, $914\,529$. Each is a tiling of the nested-corner layout of D.~Paliy \cite{PaliyLedger} (rows F4 reversed, F2, F3; precondition $a>b$, $bc-a^2\in\langle a,b,c\rangle$), made exact in $\Q(\sqrt3)$ by a program of ours and verified by the independent exact checker \texttt{rust/bonfioli\_tiling\_engine} (all tiles congruent to the given tile, inside the hull, pairwise interior-disjoint, total area equal); the witnesses are in \texttt{data/witnesses}. The credit for the layout is Paliy's; the exact instances and the check are ours. Two of them are kernel-checked: $345$ and $506$ (\lean{N345N506.tileCount_345}, \lean{N345N506.tileCount_506}, tile $(7,8,13)$, scales $26$ and $338$), by \lean{R345TilingBridge} and \lean{R506TilingBridge}. The other twenty are verified by exact program only (no Lean). The symbolic family theorems for the rows are not formalized. With these, the squarefree $N\le10^6$ that are open number $771$ at the exact level and $791$ at the Lean level (the recount of this release gave $793$ before the $22$ values; the figure $803$ of an earlier release is not reconciled with it here).
 
 \subsection{Decidability}
 
@@ -1993,7 +2000,7 @@ are not stored in the repository; they are regenerated from a manifest that reco
 and a hash of each file. In the library, three counting statements that are not used in this paper are
 proved with \texttt{native\_decide}; every declaration cited here is recorded with the three standard
 axioms only. The axioms of a declaration are listed by \texttt{\#print axioms}; Appendix~\ref{sub:check}
-says how to rebuild the aggregates and check them.
+says how to rebuild the aggregates and check them. Two small aggregates were added in v1.14: \lean{AllCertW2} (the two certificates \lean{Refl.MG204} and \lean{Refl.MG228}, regenerated by \texttt{code/regen\_cert.sh G204}, \texttt{G228}) and \lean{AllR8} (the tilings of $345$ and $506$, no certificate).
 
 \subsection{The statements}
 Table~\ref{tab:map} gives, for each numbered statement, its status (\sF, \sW{} or \sS, as in
@@ -2070,6 +2077,9 @@ Prop.~\ref{prop:tilings} & \sF &
  \lean{R84TilingBridge.lean}, \lean{R88TilingBridge.lean}, \lean{R126TilingBridge.lean}, \lean{R189TilingBridge.lean};
  \lean{Draft/N143.lean}: \lean{dissection_143_unit} & A, Sp\\
 Prop.~\ref{prop:n135} & \sF & \lean{Draft/N135Red.lean}: \lean{N135.tileCount_135_iff} & Sp\\
+Thm.~\ref{thm:Dprime} ($g\ge1$) & \sF & \lean{Draft/ThmDStatementGeo.lean}: \lean{ThmD.thmD_all_g}, \lean{ThmD.thmD_g1}; \lean{Draft/ThmDChainWS.lean}: \lean{NSQM.not_tile_of_conditionsNSQzETWDS}, \lean{NSQM.no_dissection_428} & Th\\
+$204$, $228$ (v1.14) & \sF & \lean{Draft/N204N228.lean}: \lean{NSQM.not_tile_204}, \lean{NSQM.not_tile_228} & C (\lean{AllCertW2})\\
+$345$, $506$ (v1.14) & \sF & \lean{Draft/N345N506.lean}: \lean{N345N506.tileCount_345}, \lean{N345N506.tileCount_506} & \lean{AllR8}\\
 Thm.~\ref{thm:n135} & \sF & \lean{Draft/N135Final.lean}: \lean{N135F.not_tileCount_135} & C\\
 Prop.~\ref{prop:atoms} & \sF &
  \lean{Draft/S5Family.lean}: \lean{NSQM.s5_base_word2_hasSides}, \lean{NSQM.s5_family_2k_hasSides};

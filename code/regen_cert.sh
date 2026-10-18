@@ -33,6 +33,8 @@ one() {
   [ -x rust/mrv2/target/release/mrv2 ] || (cd rust/mrv2 && cargo build --release) || return 1
   [ -x rust/certgenm/target/release/certgenm ] || (cd rust/certgenm && cargo build --release) || return 1
   if [ $genx = 1 ]; then [ -x rust/certgenx/target/release/certgenx ] || (cd rust/certgenx && cargo build --release) || return 1; fi
+  # trees shipped gzipped (data/certificates/trees/<instance>.tree.gz): unpack instead of searching
+  if [ ! -f $tree ] && [ -f data/certificates/trees/$inst.tree.gz ]; then mkdir -p rust/mrv2/out; gunzip -c data/certificates/trees/$inst.tree.gz > $tree; fi
   if [ ! -f $tree ]; then
     echo "$(date +%H:%M:%S) $NAME: tree missing, running the search ($inst, tile $tile on $tgt, $mode, la=$la)"
     mkdir -p rust/mrv2/out
@@ -45,12 +47,13 @@ one() {
   echo "$(date +%H:%M:%S) $NAME: tree ok ($nodes nodes)"
   args=$(python3 rust/mrv2/tricert.py $tgt $tile) || { echo "$NAME: tricert failed"; return 1; }
   eval "set -- $args"; Dn=$1; TGT=$2; TILE=$3
+  P2=700; case $NAME in G204|G228) P2=1200;; esac   # piece size used for the W2 certificates
   mkdir -p "$OUT"
   rm -f "$OUT"/M${NAME}Inst.lean "$OUT"/M${NAME}Sound.lean "$OUT"/M${NAME}SoundP*.lean "$OUT"/M${NAME}Data*.lean
   if [ $genx = 1 ]; then
-    CERTGENX_MIRROR=$mir rust/certgenx/target/release/certgenx $NAME $Dn "$TGT" "$TILE" $tree "$OUT" 150 700 4000 > "$OUT"/.regen_$NAME.log 2>&1 || { echo "$NAME: certgenx failed (see $OUT/.regen_$NAME.log)"; return 1; }
+    CERTGENX_MIRROR=$mir rust/certgenx/target/release/certgenx $NAME $Dn "$TGT" "$TILE" $tree "$OUT" 150 $P2 4000 > "$OUT"/.regen_$NAME.log 2>&1 || { echo "$NAME: certgenx failed (see $OUT/.regen_$NAME.log)"; return 1; }
   else
-    rust/certgenm/target/release/certgenm $NAME $Dn "$TGT" "$TILE" $tree "$OUT" 150 700 > "$OUT"/.regen_$NAME.log 2>&1 || { echo "$NAME: certgenm failed (see $OUT/.regen_$NAME.log)"; return 1; }
+    rust/certgenm/target/release/certgenm $NAME $Dn "$TGT" "$TILE" $tree "$OUT" 150 $P2 > "$OUT"/.regen_$NAME.log 2>&1 || { echo "$NAME: certgenm failed (see $OUT/.regen_$NAME.log)"; return 1; }
     if [ "$split" != 0 ]; then python3 code/split_sound.py $NAME $split "$OUT" >> "$OUT"/.regen_$NAME.log 2>&1 || { echo "$NAME: split_sound failed (see $OUT/.regen_$NAME.log)"; return 1; }; fi
   fi
   n=$(ls "$OUT"/M${NAME}Data*.lean | wc -l | tr -d ' ')

@@ -4,7 +4,7 @@ import Erdos634.Draft.ThmDGeoStop
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha is ours.
 
-# Theorem D' (ThmDGeo, item (1')): Lemma K (K2) for the positioned base leg  
+# Theorem D' (ThmDGeo, item (1')): Lemma K (K2) for the positioned base leg
 
 `leg_K2_start` (corner `Q`, `ε = 1`, `x = 0`) and `leg_K2_end` (corner `B`, `ε = -1`, `x = L`): in a `SetupT` frame with the ray data of
 `ThmDGeoCtx`, the positioned leg `[Q, B]` of the base side cannot begin (end) with `n` edges `c>` (`c<`), `1 ≤ n < v`, followed by
@@ -22,7 +22,7 @@ variable {N : ℕ} {D : CongruentDissection N} {u v : ℕ} {α β γ L ax ay : �
 
 theorem leg_K2_start (C : CtxBaseT D u v α β γ L ax ay 1 0) {d2 : ℝ} (hd2 : 0 < d2)
     (hax : 2 * (u : ℝ) * ax = (v : ℝ) * d2) (hsq : ax ^ 2 + ay ^ 2 = d2 ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
     {r : List (LegStep N)} {t : Fin N} {e : OE}
     (hRL : RealLeg D.toDissection α t e r)
     (hLP : LegPos D.toDissection D.model (mkPt 0 0) (mkPt L 0) t e 0 r)
@@ -79,7 +79,7 @@ theorem leg_K2_start (C : CtxBaseT D u v α β γ L ax ay 1 0) {d2 : ℝ} (hd2 :
 
 theorem leg_K2_end (C : CtxBaseT D u v α β γ L ax ay (-1) L) {d2 : ℝ} (hd2 : 0 < d2)
     (hax : 2 * (u : ℝ) * (L - ax) = (v : ℝ) * d2) (hsq : (L - ax) ^ 2 + ay ^ 2 = d2 ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
     {r : List (LegStep N)} {t : Fin N} {e : OE}
     (hRL : RealLeg D.toDissection α t e r)
     (hLP : LegPos D.toDissection D.model (mkPt 0 0) (mkPt L 0) t e 0 r)

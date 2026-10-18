@@ -6,9 +6,12 @@
 set -e
 cd "$(dirname "$0")/.."
 ( cd lean && lake exe cache get )                                  # Mathlib build products
-for t in All AllThreshold AllSpectrum; do                          # aggregates without the large certificates
+for t in All AllThreshold AllSpectrum AllR8; do                          # aggregates without the large certificates
   python3 code/lakeserial.py lean build "Erdos634.$t"
 done
-bash code/regen_cert.sh all                                        # regenerate the 7 large certificates, check SHA-256
-for i in 1 2 3 4 5; do python3 code/lakeserial.py lean build "Erdos634.AllCert$i"; done
-for f in lean/axioms/*.lean; do ( cd lean && lake env lean "../$f" ); done   # print the axioms of every cited result
+bash code/regen_cert.sh all                                        # regenerate the large certificates (incl. G204, G228), check SHA-256
+for i in 1 2 3 4 5 W2; do python3 code/lakeserial.py lean build "Erdos634.AllCert$i"; done   # W2: 204, 228 (second route)
+# print the axioms of every cited result and FAIL on anything outside {propext, Classical.choice, Quot.sound} or on sorryAx
+for f in lean/axioms/*.lean; do
+  ( cd lean && lake env lean "../$f" 2>&1 ) | python3 code/axiom_gate.py || { echo "axiom gate FAILED for $f"; exit 1; }
+done

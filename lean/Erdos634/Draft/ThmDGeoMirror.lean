@@ -4,7 +4,7 @@ import Erdos634.Draft.ThmDGeoCorner
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha is ours.
 
-# Theorem D' (ThmDGeo, item (1')): the mirror corner  
+# Theorem D' (ThmDGeo, item (1')): the mirror corner
 
 The `ε = -1` corner sits at `B = (L, 0)` (`x = L`).  `lpT_mirror`: `lpT u v (-1) L 0 w` is the reflection `X ↦ L - X` of `lpT u v 1 0 0 w`.
 `lp0w_facts_m` (the mirror of `ThmDGeoCtx.lp0w_facts` with `d2 = |BA|`, `2u(L - ax) = v d2`), `lemmaK2_corner_m` (the mirror of
@@ -28,7 +28,7 @@ theorem lpT_w0_m (u v L w : ℝ) : lpT u v (-1) L w 0 = mkPt (L - w * (u * v)) 0
 
 theorem lp0w_facts_m (S : SetupT D u v α β γ L ax ay) {d2 : ℝ} (hd2 : 0 < d2)
     (hax : 2 * (u : ℝ) * (L - ax) = (v : ℝ) * d2)
-    (hsq : (L - ax) ^ 2 + ay ^ 2 = d2 ^ 2) (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2)
+    (hsq : (L - ax) ^ 2 + ay ^ 2 = d2 ^ 2) (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2)
     {w : ℝ} (hw1 : 1 ≤ w) (hwv : w < v) :
     lpT (u : ℝ) (v : ℝ) (-1) L 0 w ∈ D.target.carrier ∧ lpT (u : ℝ) (v : ℝ) (-1) L 0 w ∈ frontier D.target.carrier ∧
       lpT (u : ℝ) (v : ℝ) (-1) L 0 w ∉ Set.range D.target.pts ∧
@@ -42,7 +42,7 @@ theorem lp0w_facts_m (S : SetupT D u v α β γ L ax ay) {d2 : ℝ} (hd2 : 0 < d
   have ht0 : 0 < t := by positivity
   have ht1 : t < 1 := by
     rw [ht, div_lt_one hd2]
-    nlinarith [S.uv', mul_pos hb (sub_pos.2 hwv)]
+    nlinarith [S.uv', mul_pos hb (sub_pos.2 hwv), hbig]
   have hray := lp0w_ray hu S.v0 S.v2 hd2 hax hay (by linarith [hsq]) w
   rw [← ht] at hray
   rw [lpT_mirror, hray]
@@ -86,7 +86,7 @@ theorem lp0w_facts_m (S : SetupT D u v α β γ L ax ay) {d2 : ℝ} (hd2 : 0 < d
 
 theorem lemmaK2_corner_m (C : CtxBaseT D u v α β γ L ax ay (-1) L) {d2 : ℝ} (hd2 : 0 < d2)
     (hax : 2 * (u : ℝ) * (L - ax) = (v : ℝ) * d2) (hsq : (L - ax) ^ 2 + ay ^ 2 = d2 ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
     (hrun : ∀ i : ℕ, i < n → UTT D (u : ℝ) (v : ℝ) (-1) L (i : ℝ) 0)
     (hVnv : (∃ (t' : Fin N) (k m : Fin 3), k ≠ m ∧ (D.tile t').pts k = lpT (u : ℝ) (v : ℝ) (-1) L (n : ℝ) 0 ∧
         (D.tile t').pts m 1 = 0 ∧ (D.tile t').pts m ≠ lpT (u : ℝ) (v : ℝ) (-1) L (n : ℝ) 0 ∧

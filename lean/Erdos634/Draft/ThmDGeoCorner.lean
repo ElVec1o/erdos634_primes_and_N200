@@ -4,7 +4,7 @@ import Erdos634.Draft.ThmDK2Final
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha is ours.
 
-# Theorem D' (ThmDGeo, item (1)): Lemma K at a corner of a real frame  
+# Theorem D' (ThmDGeo, item (1)): Lemma K at a corner of a real frame
 
 `lemmaK2_corner`: in a `SetupT` frame with `ε = 1`, `x = 0` and the geometry of the side `QA` (`ThmDGeoCtx`), the hypotheses `hPf`, `hQf`,
 `hint` of `lemmaK2_final` are DERIVED (from `lp0w_facts`, `frontier_y0`, `interior_seg`); what remains of the context are the run
@@ -22,7 +22,7 @@ theorem lpT_w0 (u v : ℝ) (w : ℝ) : lpT u v 1 0 w 0 = mkPt (w * (u * v)) 0 :=
 
 theorem lemmaK2_corner (C : CtxBaseT D u v α β γ L ax ay 1 0) {d2 : ℝ} (hd2 : 0 < d2)
     (hax : 2 * (u : ℝ) * ax = (v : ℝ) * d2) (hsq : ax ^ 2 + ay ^ 2 = d2 ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d2) {n : ℕ} (hn1 : 1 ≤ n) (hnv : n < v)
     (hrun : ∀ i : ℕ, i < n → UTT D (u : ℝ) (v : ℝ) 1 0 (i : ℝ) 0)
     (hVnv : (∃ (t' : Fin N) (k m : Fin 3), k ≠ m ∧ (D.tile t').pts k = lpT (u : ℝ) (v : ℝ) 1 0 (n : ℝ) 0 ∧
         (D.tile t').pts m 1 = 0 ∧ (D.tile t').pts m ≠ lpT (u : ℝ) (v : ℝ) 1 0 (n : ℝ) 0 ∧

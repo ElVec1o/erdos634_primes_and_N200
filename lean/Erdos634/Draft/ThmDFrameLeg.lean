@@ -7,7 +7,7 @@ import Erdos634.Draft.ThmDGeoLegCorner
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha (fan lemma at straight points, windows u and v, Lemma K) is ours.
 
-# Theorem D' (ThmDGeo, item (5)): D1 for a positioned leg of `T(g)`  
+# Theorem D' (ThmDGeo, item (5)): D1 for a positioned leg of `T(g)`
 
 `leg_c_count_S1` : a positioned leg of a unit-scaled dissection of `T(g)` (`g ≥ 2`) from the `α`-corner `pts i` to the apex `pts (i+1)` has at least
 `u` edges `c`.  `leg_c_count_S2` : the leg from the apex `pts (i+1)` to the `α`-corner `pts (i+2)`.  The leg is transported to the normalised frame
@@ -29,7 +29,7 @@ theorem hasSides_of_model (M : Tri) (a b c : ℝ) (h0 : sideOpp M 0 = a) (h1 : s
   · exact h2
 
 theorem leg_c_count_S1 (u v : ℕ) (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hco : Nat.Coprime u v)
-    (hirr : Irrational (alphaT (u : ℝ) (v : ℝ) / Real.pi)) (G : ℝ) (hG : 1 < G)
+    (hirr : Irrational (alphaT (u : ℝ) (v : ℝ) / Real.pi)) (G : ℝ) (hG : 1 ≤ G)
     (D₀ : CongruentDissection N) (i : Fin 3)
     (hM0 : sideOpp D₀.model 0 = (u : ℝ) ^ 2) (hM1 : sideOpp D₀.model 1 = (v : ℝ) ^ 2 - (u : ℝ) ^ 2)
     (hM2 : sideOpp D₀.model 2 = (u : ℝ) * v)
@@ -118,7 +118,7 @@ theorem leg_c_count_S1 (u v : ℕ) (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (
 #print axioms leg_c_count_S1
 
 theorem leg_c_count_S2 (u v : ℕ) (hu : 0 < u) (huv : u < v) (hv : v < 2 * u) (hco : Nat.Coprime u v)
-    (hirr : Irrational (alphaT (u : ℝ) (v : ℝ) / Real.pi)) (G : ℝ) (hG : 1 < G)
+    (hirr : Irrational (alphaT (u : ℝ) (v : ℝ) / Real.pi)) (G : ℝ) (hG : 1 ≤ G)
     (D₀ : CongruentDissection N) (i : Fin 3)
     (hM0 : sideOpp D₀.model 0 = (u : ℝ) ^ 2) (hM1 : sideOpp D₀.model 1 = (v : ℝ) ^ 2 - (u : ℝ) ^ 2)
     (hM2 : sideOpp D₀.model 2 = (u : ℝ) * v)

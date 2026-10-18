@@ -5,7 +5,7 @@ import Erdos634.Draft.ThmDGeoLegs
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha (fan lemma at straight points, windows u and v, Lemma K) is ours.
 
-# Theorem D' (ThmDGeo): no dissection of `T(g)` by the `γ = 2α` tile when `(g-1) d < u`  (unit scale; )
+# Theorem D' (ThmDGeo): no dissection of `T(g)` by the `γ = 2α` tile when `(g-1) d < u`  (unit scale)
 
 `thmD_geo_unit` : a `CongruentDissection` whose model has the sides `u², d(2u+d), u(u+d)` and whose target has the legs `g u d(2u+d)` (two, meeting at the
 apex `i+1`) and the base `g (u+d) d(2u+d)`, with `gcd(u, u+d) = 1`, `2 ≤ g`, `(g-1) d < u`, does not exist.  This is Theorem D' with D1 PROVED
@@ -22,7 +22,7 @@ open Erdos634.Geometry Erdos634.TilePlacement Erdos634.Draft.APrimeSeat1 Erdos63
 theorem fin3_pp (i : Fin 3) : i + 1 + 1 = i + 2 := by fin_cases i <;> decide
 
 theorem thmD_geo_unit {N : ℕ} (D : CongruentDissection N) (u d g : ℕ) (i : Fin 3)
-    (hd : 0 < d) (hu : 0 < u) (hcop : Nat.Coprime u (u + d)) (hg2 : 2 ≤ g) (hcond : (g - 1) * d < u)
+    (hd : 0 < d) (hu : 0 < u) (hcop : Nat.Coprime u (u + d)) (hg2 : 1 ≤ g) (hdu : d < u) (hcond : (g - 1) * d < u)
     (hirr : Irrational (alphaT (u : ℝ) ((u + d : ℕ) : ℝ) / Real.pi))
     (hs0 : sideOpp D.model 0 = ((u * u : ℕ) : ℝ))
     (hs1 : sideOpp D.model 1 = ((d * (u + (u + d)) : ℕ) : ℝ))
@@ -39,7 +39,6 @@ theorem thmD_geo_unit {N : ℕ} (D : CongruentDissection N) (u d g : ℕ) (i : F
   set v : ℕ := u + d with hv
   have huv : u < v := by omega
   have hv2 : v < 2 * u := by
-    have : d ≤ (g - 1) * d := Nat.le_mul_of_pos_left d (by omega)
     omega
   have hco : Nat.Coprime u v := hcop
   have hu0 : (0 : ℝ) < u := by exact_mod_cast hu
@@ -65,7 +64,7 @@ theorem thmD_geo_unit {N : ℕ} (D : CongruentDissection N) (u d g : ℕ) (i : F
     (alphaT (u : ℝ) (v : ℝ)) hirr hA0 hA1 hA2 hα h3α i hcA hcApex hcB (u * u) (d * (u + (u + d))) (u * (u + d))
     (g * u * (d * (u + (u + d)))) hs0 hs1 hs2 hL1 hL2
   have hRbound := Erdos634.Draft.ThmD.alpha_leg_word_bound hd hu hcop hcond hq hword
-  have hG : (1 : ℝ) < (g : ℝ) := by exact_mod_cast (by omega : 1 < g)
+  have hG : (1 : ℝ) ≤ (g : ℝ) := by exact_mod_cast hg2
   have hLR : ((g * u * (d * (u + (u + d))) : ℕ) : ℝ) = (g : ℝ) * u * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) := by
     push_cast; rw [hv]; push_cast; ring
   have hBR : ((g * (u + d) * (d * (u + (u + d))) : ℕ) : ℝ) = (g : ℝ) * v * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) := by

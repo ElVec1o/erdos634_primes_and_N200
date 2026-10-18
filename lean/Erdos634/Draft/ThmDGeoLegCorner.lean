@@ -6,7 +6,7 @@ import Erdos634.Draft.ThmDRunSetup
 /-!
 Credit: the method (rigidity window, Lemmas 30-34, row induction, Theorem 37) is adapted from M. Beeson and G. Rosu, 'Tiling a triangle into a prime number of congruent triangles' (preprint, 16 Oct 2026); the transfer to the tile with gamma = 2 alpha is ours.
 
-# Theorem D' (ThmDGeo, item (1')): corner K2 for a leg of a dissection, in its own frame  
+# Theorem D' (ThmDGeo, item (1')): corner K2 for a leg of a dissection, in its own frame
 
 `leg_corner_start` / `leg_corner_end`: let `D₀` be a congruent dissection whose target has the sides `L = |τ0 τ1|`, `d₂ = |τ2 τ0|`, `d₁ = |τ1 τ2|`
 (`τ` any labelling) and the model has the sides `u², v² - u², uv`.  After the isometry of `setup_of_sidesT_pinned` the side `[τ0, τ1]`
@@ -98,7 +98,7 @@ theorem leg_corner_start {N : ℕ}
     (h3 : dist (D₀.target.pts (τ 0)) (D₀.target.pts (τ 1)) = L)
     (hMod : HasSidesT D₀.model ((u : ℝ) ^ 2) ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ((u : ℝ) * v))
     (hd2 : 0 < d₂) (hax : 2 * (u : ℝ) * ax = (v : ℝ) * d₂) (hsq : ax ^ 2 + ay ^ 2 = d₂ ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d₂) :
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d₂) :
     ∃ (D : CongruentDissection N) (S : SetupT D u v (alphaT (u : ℝ) (v : ℝ))
         (Real.pi - 3 * alphaT (u : ℝ) (v : ℝ)) (2 * alphaT (u : ℝ) (v : ℝ)) L ax ay)
       (r : List (LegStep N)) (t : Fin N) (e : OE),
@@ -133,7 +133,7 @@ theorem leg_corner_end {N : ℕ}
     (hMod : HasSidesT D₀.model ((u : ℝ) ^ 2) ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ((u : ℝ) * v))
     (hd2 : 0 < d₁) (hax : 2 * (u : ℝ) * (L - ax) = (v : ℝ) * d₁)
     (hsq : (L - ax) ^ 2 + ay ^ 2 = d₁ ^ 2)
-    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) < d₁) :
+    (hbig : (v : ℝ) * ((v : ℝ) ^ 2 - (u : ℝ) ^ 2) ≤ d₁) :
     ∃ (D : CongruentDissection N) (S : SetupT D u v (alphaT (u : ℝ) (v : ℝ))
         (Real.pi - 3 * alphaT (u : ℝ) (v : ℝ)) (2 * alphaT (u : ℝ) (v : ℝ)) L ax ay)
       (r : List (LegStep N)) (t : Fin N) (e : OE),

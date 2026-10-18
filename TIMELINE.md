@@ -52,6 +52,7 @@ at scale one, and was kept private until its publication here; the commits below
 | 2026-10-18 | release v1.12.2 (paper, README and docstrings only) | Attribution update: credits to Beeson-Rosu (Lemmas 30, 32, 33, 34, Theorem 37), Paliy (60, 312) and others made explicit. No mathematical change. |
 | 2026-10-18 | release v1.13 | Theorem D' (hence Theorem C, W_2, A' for d = 1) formalized in Lean (`ThmD.thmDStatement_geo`, about 105 modules); final chain `not_tile_of_conditionsNSQzETWD` with the word leaf; census of the non-squarefree N <= 10^6: 199,140 excluded / 102,471 known / 90,463 undecided. Method credited to Beeson-Rosu. |
 | 2026-10-18 | release v1.13.1 | Correction of the census wording: of the 199,140 excluded, 196,273 satisfy the hypothesis of the single Lean theorem `ThmDChainW.not_tile_of_conditionsNSQzETWD`, 2,867 need in addition the sharpening 2Me < f combined by the program (v1.13 had 62,150 / 136,990, the older chain CN'zET). |
+| 2026-10-18 | release v1.14 | Theorem D' for every g >= 1 (g = 1 reproduces Beeson 2012, Thm 11.7); all 199,140 non-squarefree exclusions from one Lean theorem (`not_tile_of_conditionsNSQzETWDS`); 204 and 228 excluded also by search certificates (reproduction); 22 R8 values are tile counts by exact verification of Paliy's layouts, 345 and 506 kernel-checked; squarefree open <= 10^6: 771 (exact) / 791 (Lean). |
 
 
 ## Authorship
