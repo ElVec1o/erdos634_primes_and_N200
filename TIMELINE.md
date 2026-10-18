@@ -51,6 +51,7 @@ at scale one, and was kept private until its publication here; the commits below
 | 2026-10-18 | release v1.12.1 (paper-only correction) | Correction: the v1.12 hand-level census of Theorems C and D' undercounted (older label dump). Correct: 74,158 of the 74,697 values failing only gamma = 2 alpha are D'-covered (C alone 64,961), 539 not; hand-level triple 145,197 / 102,471 / 144,406; formal triple unchanged. |
 | 2026-10-18 | release v1.12.2 (paper, README and docstrings only) | Attribution update: credits to Beeson-Rosu (Lemmas 30, 32, 33, 34, Theorem 37), Paliy (60, 312) and others made explicit. No mathematical change. |
 | 2026-10-18 | release v1.13 | Theorem D' (hence Theorem C, W_2, A' for d = 1) formalized in Lean (`ThmD.thmDStatement_geo`, about 105 modules); final chain `not_tile_of_conditionsNSQzETWD` with the word leaf; census of the non-squarefree N <= 10^6: 199,140 excluded / 102,471 known / 90,463 undecided. Method credited to Beeson-Rosu. |
+| 2026-10-18 | release v1.13.1 | Correction of the census wording: of the 199,140 excluded, 196,273 satisfy the hypothesis of the single Lean theorem `ThmDChainW.not_tile_of_conditionsNSQzETWD`, 2,867 need in addition the sharpening 2Me < f combined by the program (v1.13 had 62,150 / 136,990, the older chain CN'zET). |
 
 
 ## Authorship

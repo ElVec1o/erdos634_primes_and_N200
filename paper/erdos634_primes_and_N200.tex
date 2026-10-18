@@ -1690,11 +1690,12 @@ Of the $392\,074$ such $N$, $199\,140$ are excluded by the formal conditions, $1
 lists of values, and no tile count is excluded. This is the census of the final chain: the leaf $G$ is Theorem~\ref{thm:Dprime}
 (\lean{ThmD.thmDStatement_geo}) and the leaf $S_5$ is the word test (\lean{NSQM.not_tile_of_conditionsNSQzETWD}, Section~\ref{sub:aprimehand}). The previous release had
 $71\,039$ / $102\,471$ / $218\,564$ (without the leaf $G$ of Theorem~\ref{thm:Dprime} and without the word leaf; Theorem~\ref{thm:Dprime} had then a written proof, not formalized); the
-difference, $128\,101$ values, is the formal contribution of Theorem~\ref{thm:Dprime} and the word leaf, and the number of known values is unchanged. Of the $199\,140$ excluded values, $62\,150$ are excluded by the single Lean theorem
-\lean{NSQMMainZET.not_tile_of_conditionsNSQzET}; the other $136\,990$ are excluded by the conditions with the leaf $G$ of Theorem~\ref{thm:Dprime} and the word leaf, together with the
-sharpenings on the base-$\beta$ branch (Corollary~\ref{cor:ebelow}(b), $2Me<f$), each of
-which is a formal statement, but their combination with the other leaves is made by the computation and not by one Lean
-theorem. The computation (the Rust program \texttt{allncond2} with the options \texttt{--nsq-etw} and \texttt{NSQ\_GD=1}) agrees with a literal triple loop on all $N\le3000$ (self-test, $0$ mismatches), with the Lean witnesses above, and with Theorem~\ref{thm:200} on $N\le200$ ($0$ mismatches). Of the $90\,463$ undecided values, the branches that fail are, in order of the number of values for which they are the only obstruction, the
+difference, $128\,101$ values, is the formal contribution of Theorem~\ref{thm:Dprime} and the word leaf, and the number of known values is unchanged. Of the $199\,140$ excluded values, $196\,273$ satisfy the hypothesis $\mathrm{CN'zETWD}(N)$ of the single Lean theorem
+\lean{ThmDChainW.not_tile_of_conditionsNSQzETWD}; the other $2\,867$ satisfy it only after the sharpening of the base-$\beta$ branch by
+Corollary~\ref{cor:ebelow}(b), $2Me<f$, a formal statement whose combination with the other leaves is made by the computation and not by one Lean theorem.
+\emph{Correction (v1.13.1).} Release v1.13 stated $62\,150$ values by one theorem and $136\,990$ by the combination; $62\,150$ is the count for the older
+chain $\mathrm{CN'zET}$ (without Theorem~\ref{thm:Dprime} and the word leaf), to which Theorem~\ref{thm:Dprime} adds $134\,123$ values; the earlier release therefore understated the formal part.
+The computation (the Rust program \texttt{allncond2} with the options \texttt{--nsq-etw} and \texttt{NSQ\_GD=1}) agrees with a literal triple loop on all $N\le3000$ (self-test, $0$ mismatches), with the Lean witnesses above, and with Theorem~\ref{thm:200} on $N\le200$ ($0$ mismatches). Of the $90\,463$ undecided values, the branches that fail are, in order of the number of values for which they are the only obstruction, the
 base-$\beta$ branch with $t\ge2$ ($28\,615$ values for which it is the only obstruction), the cevian targets $W$ ($18\,619$), the branch $\gamma=2\alpha$ ($10\,964$), the atom branch $S_5$ ($2\,468$); these counts are for the tool's undecided set of $91\,750$, which still contains $1\,287$ values later found to be tile counts by the families above.
 For a value failing the branch $\gamma=2\alpha$, the tiles $(u^2,v^2-u^2,uv)$ give
 $N=g^2(v^2-u^2)$ with $g\ge2$, the case $g=1$ being excluded, and for $g\ge2$ the side words of the isosceles target with
