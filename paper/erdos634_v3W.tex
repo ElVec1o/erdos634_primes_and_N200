@@ -44,15 +44,7 @@
 
 %=====================================================================
 \begin{abstract}
-Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$.
-Two triangles $W_M$ and $T_M$, built from the tile and an integer scale $M$, can be cut into $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ copies of it when $M\ge f$ (Paliy).
-We prove that $M\ge f$ is not necessary: $W_M$ is tiled (and, using a gluing lemma of the earlier release, $T_M$ too) as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, which is the same as $(f-e)\lfloor eM/f\rfloor\ge e+1$.
-The proof is one layout of six pieces.
-In a skew frame with origin on the side $AB$ every vertex of the layout has integer coordinates, every cut is a line in one of five directions, and this particular layout exists exactly when four integer inequalities hold, which is the same as the condition above (a statement about the layout, not about all tilings).
-The $W$ half also has a Lean~4 proof by a different route (cross-product tables); the tiling of $T_M$ rests on the imported glue.
-For $e<f/2$ the condition $Me\ge f$ is also necessary (this ``only if'' half is imported from the earlier release), so, assuming that import, the threshold for $W_M$ is exact there; for $T_M$ it is not known.
-The paper says exactly which part is Lean, written by hand, computed or imported.
-It answers the open case $W_4(3,5)$ (656 tiles) of the earlier release and, by a program count (computed, not proved) that uses the census of the companion paper, shows that $26\,138$ non-squarefree integers $\le10^6$, neither known to be tile counts nor excluded, are tile counts.
+Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently $(f-e)\lfloor eM/f\rfloor\ge e+1$; for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ new tile counts. The paper says which part is Lean, hand, computed or imported.
 \end{abstract}
 \maketitle
 
@@ -74,7 +66,7 @@ Example: $(e,f)=(2,5)$, $M=3$ gives a tiling of a triangle with sides $315,276,3
 \emph{What this does not do.} It does not settle which $M$ fail when $e>f/2$ (Section~\ref{sec:open}), the members $e=1$ and $e=f-1$, or the prime case of Problem~634.
 
 \subsection{Reader's guide}
-\emph{The proof in nine lines} (Section~\ref{sec:proof}; every claim below is an equation or inequality a reader can check by hand).
+\emph{The proof in outline} (Section~\ref{sec:proof}; every claim below is an equation or inequality a reader can check by hand; ``scale $s$'' means a triangle with sides $sa,sb,sc$, and a ``tile-row'' is a strip one scale-one tile wide).
 (1) Put the origin at the point $P$ of the side $AB$ with $OP=OB$, and use as axes the lines $PO$ and $PB$ (Section~\ref{sub:frame}); in this skew frame the three vertices of $W_M$ and all other points below have \emph{integer} coordinates, and a vector $(\xi,y)$ has squared length $\xi^2+y^2+\tfrac ef\xi y$.
 (2) Five directions occur; for each, one integer vector and its length are listed (Table~\ref{tab:dirs}), so every side length is read off as ``integer $\times$ length of a direction vector''.
 (3) The line $OP$ cuts $W_M$ into the triangle $OAP$, which is a tile of the integer scale $fM$, and a triangle $OPB$.
@@ -110,6 +102,13 @@ Credits are in Section~\ref{sec:credit}; the work was done with an AI system (di
 
 %=====================================================================
 \section{The frame and the notation}\label{sec:frame}
+
+\subsection{Symbols (reference table)}
+Table~\ref{tab:notation} lists every symbol of this paper; each is also defined where it first appears.
+\begin{table}[ht]
+\caption{Symbols. This table is shared word for word with the companion paper \cite{Companion}.}\label{tab:notation}
+\input{notation_table.tex}
+\end{table}
 
 \subsection{The tile and the ladder}\label{sub:tile}
 Throughout, $e<f$ are coprime positive integers and
@@ -198,21 +197,14 @@ point & $(\xi,y)$ & $(u,w)$ & point & $(\xi,y)$ & $(u,w)$\\
 $P$ & $(0,0)$ & $(0,0)$ & $V_2$ & $\bigl(ef^2(r-t),\ f(f^2t-e^2r)\bigr)$ & $(r,\ ft/e)$\\
 $O$ & $(fbM,0)$ & $(fM/e,\ M)$ & $X_4$ & $(fbq,0)$ & $(fq/e,\ q)$\\
 $B$ & $(0,ebM)$ & $(eM/f,\ M)$ & $U_1$ & $\bigl(ef(ft-eq),\ ef(fq-et)\bigr)$ & $(t,\ q)$\\
-$A$ & $(0,-ef^2M)$ & & $U_2$ & $\bigl(ef(fr-eq),\ ef(fq-er)\bigr)$ & $(r,\ q)$\\
+$A$ & $(0,-ef^2M)$ & $(-\tfrac{efM}{b},-\tfrac{f^2M}{b})$ & $U_2$ & $\bigl(ef(fr-eq),\ ef(fq-er)\bigr)$ & $(r,\ q)$\\
 $P_2$ & $(bet,0)$ & $(t,\ et/f)$ & $C'$ & $(ber,0)$ & $(r,\ er/f)$\\
-$P_3$ & $(0,-e^2ft)$ & & $B'$ & $\bigl(ef(fr-eM),\ ef(fM-er)\bigr)$ & $(r,\ M)$\\
+$P_3$ & $(0,-e^2ft)$ & $(-\tfrac{e^2t}{b},-\tfrac{eft}{b})$ & $B'$ & $\bigl(ef(fr-eM),\ ef(fM-er)\bigr)$ & $(r,\ M)$\\
 $Q$ & $(0,fbt)$ & $(t,\ ft/e)$ & $R$ & $(0,fbr)$ & $(r,\ fr/e)$\\
 \bottomrule
 \end{tabular}
 \end{table}
 (Every entry of the $(u,w)$ columns follows from $u=\varphi/efb$, $w=\psi/efb$; for instance $u(U_1)=\bigl(f\cdot ef(ft-eq)+e\cdot ef(fq-et)\bigr)/efb=\bigl(ef\cdot b\,t\bigr)/efb=t$.) The earlier version of this paper described the same points by fourteen complex numbers; the dictionary is in Appendix~\ref{app:complex}.
-
-\subsection{Symbols}
-Table~\ref{tab:notation} lists the symbols of this paper (shared with the companion). Section~\ref{sec:thmW} adds $n=\lfloor eM/f\rfloor$, $\rho$, $\delta$, and the canonical $t,r,q$.
-\begin{table}[ht]
-\caption{Symbols. This table is shared word for word with the companion paper \cite{Companion}.}\label{tab:notation}
-\input{notation_table.tex}
-\end{table}
 
 %=====================================================================
 \section{Theorem W and its consequences}\label{sec:thmW}
@@ -250,7 +242,7 @@ $(9,11)$ & $7$ & $W_7(9,11)$ & $7889$ & $11$\\
 Thirteen targets with $M<f$ were found by a bounded computer search before the proof was known (Appendix~\ref{app:data}); they are only the output of that one search. The theorem has many more instances with $M<f$, for example $(e,f,M)=(4,9,3)$ and $(3,8,3)$.
 
 \subsection{Consequences}
-\begin{corollary}[Sharpness for $e<f/2$; ``if'': Theorem~\ref{thm:W} \PL{} plus the arithmetic below; ``only if'': the imported (I1)]\label{cor:sharp}
+\begin{corollary}[Sharpness for $e<f/2$, assuming the import (I1); ``if'': Theorem~\ref{thm:W} \PL{} plus the arithmetic below; ``only if'': imported (I1)]\label{cor:sharp}
 Let $\gcd(e,f)=1$ and $2\le e<f/2$. Then $W_M(e,f)$ is tiled if and only if $Me\ge f$.
 \end{corollary}
 \begin{proof}
@@ -262,10 +254,9 @@ $W_4(3,5)$, a triangle with sides $320,\,492,\,500$, is tiled by $656$ copies of
 \end{corollary}
 \noindent This is Theorem~\ref{thm:W} for $(e,f,M)=(3,5,4)$ ($M^*(3,5)=\max(2,4)=4$). A list of the $656$ tiles in exact coordinates is shipped (Appendix~\ref{app:data}) and verified by an exact checker.
 
-\begin{remark}[Two earlier expectations that are false]\label{rem:refute}
+\begin{remark}[An earlier expectation that is false]\label{rem:refute}
 (a) \emph{The threshold conjecture ``B1''.} Our earlier notes expected that, for $e\ge2$, neither $W_M$ nor $T_M$ is tiled for $M<f$; the earlier paper \cite{ReleasePaper} recorded as an observation that every case decided so far has threshold $f$, and listed $W_4(3,5)$ among the open cases. Corollary~\ref{cor:W435} is a counterexample ($4<5$), and Theorem~\ref{thm:W} gives infinitely many.
-(b) \emph{The size conjecture.} The notes also stated that a target not similar to the tile has longest side at least $c^2=f^4$. For $W_4(3,5)$ the longest side is $500<625=c^2$.
-Neither statement was published as a theorem or is part of any Lean statement; they were expectations of our working notes, and no earlier theorem is affected.
+The first statement was an expectation of our working notes and an observation in the earlier paper, not a theorem; no earlier theorem is affected.
 \end{remark}
 
 \subsection{The $T$ half}\label{sub:T}
@@ -336,7 +327,7 @@ If they hold, the triple $t=n-\delta$, $r=n+1$, $q=n$ satisfies (K). Every tripl
 (ii)$\Leftrightarrow$(iii) is Lemma~\ref{lem:equiv}. (ii)$\Rightarrow$(i) for the stated triple: $n\ge1$ by (ii). \emph{$ft<eM$:} if $\delta=0$ then $\rho>0$ and $fn<fn+\rho=eM$; if $\delta=1$ then $f(n-1)<fn=eM$. \emph{$eM<fr$:} $eM=fn+\rho<fn+f$. \emph{$er<fq$:} $e(n+1)<fn\Leftrightarrow dn>e$, which is (ii). \emph{$eq<ft$:} if $\delta=0$, $en<fn$; if $\delta=1$ then $f\mid eM$, so $f\mid M$ (coprimality), $M=fm'$, $n=em'$ and $dn\ge de\ge f+1$ by $(\ast)$, which is $en<f(n-1)$.
 (i)$\Rightarrow$(ii) and the last sentence: from $ft<eM$ we get $t<eM/f<n+1$, so $t\le n$, and $t\le n-1$ if $\rho=0$; from $eM<fr$ we get $r>n$, so $r\ge n+1$. Suppose $dn\le e$, that is $fn\le e(n+1)$. Then $fq>er\ge e(n+1)\ge fn$, so $q\ge n+1$, and $eq\ge e(n+1)\ge fn\ge ft>eq$, a contradiction.
 \end{proof}
-\noindent So the layout below exists for \emph{no} integers $t,r,q$ when $dn\le e$; this is a statement about this layout, not about tilings (Section~\ref{sec:open}). \CE{}: for $f\le12$ and all $M<3f$, all integer triples with $0\le t<r\le fM/e+2$, $0\le q\le M+2$ were enumerated; (K) (and the sixteen sign conditions of the earlier version, Appendix~\ref{app:complex}) hold for the same triples; no discrepancy. (There can be several admissible triples; for $(e,f,M)=(2,5,3)$ the triples $(1,2,1),(1,2,2),(1,3,2),(1,4,2)$ all satisfy (K). The canonical triple is the extreme one.)
+\noindent So the layout below exists for \emph{no} integers $t,r,q$ when $dn\le e$; this is a statement about this layout, not about tilings (Section~\ref{sec:open}). \CE{}: for $f\le12$ and all $M<3f$, all integer triples with $0\le t<r\le fM/e+2$, $0\le q\le M+2$ were enumerated; (K) (and the sixteen named factors of the older proof, Appendix~\ref{app:complex}) hold for the same triples; no discrepancy. (There can be several admissible triples; for $(e,f,M)=(2,5,3)$ the triples $(1,2,1),(1,2,2),(1,3,2),(1,4,2)$ all satisfy (K). The canonical triple is the extreme one.)
 
 \subsection{The six pieces}\label{sub:pieces}
 Fix $(t,r,q)$ with (K). The six pieces are the following regions, written with the lattice coordinates $(u,w)$ and $(\xi,y)$ of Section~\ref{sub:frame}; $O,A,B,\dots$ are the points of Table~\ref{tab:pts}.
@@ -431,7 +422,7 @@ Let $T$ and $\Pi_1,\dots,\Pi_k$ be polygons with counter-clockwise vertex lists,
 (Caution: ``each piece inside $T$ and the areas add up'' does \emph{not} imply disjointness; and the vanishing of a sum of edge \emph{vectors} is not chain equality.)
 \emph{The chain identity} holds for all integers $e,f,M,t,r,q$, because the points of Table~\ref{tab:pts} lie on five lines: $AB$ ($\xi=0$: $A,P_3,Q,B$), $OP$ ($y=0$: $O,P_2,C'$), $OB$ ($e\xi+fy=efbM$: $O,B,B'$), $\ell_t$ ($\varphi=efbt$: $P_2,Q,U_1$), $\ell_r$ ($\varphi=efbr$: $C',B',U_2,V_2$); in each the parameters cancel (for $U_1$: $f\cdot ef(ft-eq)+e\cdot ef(fq-et)=efb\,t$). Then on each line the oriented edges cancel: $C'\to O+O\to P_2+P_2\to C'=0$; $B\to Q+Q\to P_3+P_3\to A=B\to A$; $O\to B'+B'\to B=O\to B$; $P_2\to Q+Q\to U_1+U_1\to P_2=0$; $V_2\to B'+B'\to C'+C'\to U_2+U_2\to V_2=0$; and $P_2P_3$, $QV_2$, $U_1U_2$ are shared by two pieces with opposite orientation.
 \emph{What remains} is strict positivity of every turn: each is a positive monomial times a product of the factors $t$, $r-t$, $eM-ft$, $fr-eM$, $fM-er$, $ft-eq$, $fq-er$, $fM-et$, $fq-et$. Five are independent: $t$, $C_3=eM-ft$, $C_4=fr-eM$, $C_6=fq-er$, $C_7=ft-eq$; the others follow from $f(r-t)=C_3+C_4$, $fq-et=C_6+e(r-t)$, $fM-et>0$ (as $et<eM<fM$) and the identity $e\,C_5=f\,C_3+f\,C_7+e\,C_6$ for $C_5=fM-er$ (and $C_5=u+1+fs$ below, positive anyway).
-\emph{Certificates.} Put $u:=dn-e-1$ ($\ge0$ by Lemma~\ref{lem:equiv}), $\rho'=f-1-\rho\ge0$, $M=n+s$, so $\rho=es-dn$. For the canonical triple: $C_3=\rho+f\delta$, $C_4=\rho'+1$, $C_5=u+1+fs$, $C_6=u+1$, and $C_7=u+1+e$ if $\delta=0$; if $\delta=1$ ($M=fm'$, $n=em'$, $e-1=1+x$, $d-1=1+y$, $x,y\ge0$, $x+y\ge1$) then $C_7=(m'-1)ed+x+y+xy\ge1$. Each is a sum of non-negative terms with a positive constant. Checked exactly for all $982\,658$ admissible triples ($f\le120$, $M\le3f$); the $27\,322$ non-admissible triples in that range each violate a turn, so the template is sharp in (H1), (H2). The Lean proof of this paper does not use the chain lemma: it proves the placement conditions the older way ($11$ sign conditions, $143$ generated lemmas, kernel-checked). A Lean version of the chain lemma is planned, not done. Still needed for Step 2, unchanged: that each piece is a union of tiles (the edge-length identities of Table~\ref{tab:sides} and Proposition~\ref{prop:ladder}).
+\emph{Certificates.} Put $u:=dn-e-1$ ($\ge0$ by Lemma~\ref{lem:equiv}), $\rho'=f-1-\rho\ge0$, $M=n+s$, so $\rho=es-dn$. For the canonical triple: $C_3=\rho+f\delta$, $C_4=\rho'+1$, $C_5=u+1+fs$, $C_6=u+1$, and $C_7=u+1+e$ if $\delta=0$; if $\delta=1$ ($M=fm'$, $n=em'$, $e-1=1+x$, $d-1=1+y$, $x,y\ge0$, $x+y\ge1$) then $C_7=(m'-1)ed+x+y+xy\ge1$. Each is a sum of non-negative terms with a positive constant. Checked exactly for all $982\,658$ admissible triples ($f\le120$, $M\le3f$); the $27\,322$ non-admissible triples in that range each violate a turn, so the template is sharp in (H1), (H2). The Lean proof of this paper does not use the chain lemma: it proves the placement conditions the older way (the sixteen named factors of Appendix~\ref{app:complex}, $143$ generated sign lemmas, kernel-checked). A Lean version of the chain lemma is planned, not done. Still needed for Step 2, unchanged: that each piece is a union of tiles (the edge-length identities of Table~\ref{tab:sides} and Proposition~\ref{prop:ladder}).
 
 %=====================================================================
 \section{Worked rows for $W_3(2,5)$}\label{sec:worked}
@@ -453,7 +444,7 @@ Total $221+121+25+9+30+8=414=9\cdot46=M^2(2f^2-e^2)$. The tiling is drawn in Fig
 \end{example}
 Three rows of the proof, by hand, for this example.
 \emph{Separation} ($\pi_4|\pi_5$ by the line $w=q$). $w=\psi/(efb)=(2\xi+5y)/210$. On $\pi_4$: $w(Q)=525/210=2.5$, $w(U_1)=(60+150)/210=1$, $w(U_2)=(160+50)/210=1$, $w(V_2)=(100+425)/210=2.5$: all $\ge1=q$. On $\pi_5$: $w(U_1)=1$, $w(P_2)=84/210=0.4$, $w(C')=168/210=0.8$, $w(U_2)=1$: all $\le1$. So the line $w=1$ separates the two (the pieces meet along $U_1U_2$).
-\emph{Containment} ($\pi_5$, vertex $U_2$, in $\Omega=OAB$). The three sides: $\xi\ge0$: $80\ge0$; $w\le M$: $w(U_2)=1\le3$; $ef\xi-by\le ef^2bM$: $10\cdot80-21\cdot10=590\le10\cdot25\cdot21\cdot3/ \ldots$ more simply $ef^2bM=10\cdot5\cdot21\cdot3=3150$, and $590\le3150$. Equivalently, as in Step 1: $U_2\in[C',B']$, since on $u=2$ its level $w=1$ lies in $[0.8,3]$.
+\emph{Containment} ($\pi_5$, vertex $U_2$, in $\Omega=OAB$). The three sides: $\xi\ge0$: $80\ge0$; $w\le M$: $w(U_2)=1\le3$; $ef\xi-by\le ef^2bM$: $10\cdot80-21\cdot10=590\le ef^2bM=10\cdot5\cdot21\cdot3=3150$. Equivalently, as in Step 1: $U_2\in[C',B']$, since on $u=2$ its level $w=1$ lies in $[0.8,3]$.
 \emph{Convexity and orientation} ($\pi_5=U_1P_2C'U_2$). The edge vectors in $(\xi,y)$ are $U_1\!\to\!P_2=(12,-30)$, $P_2\!\to\!C'=(42,0)$, $C'\!\to\!U_2=(-4,10)$, $U_2\!\to\!U_1=(-50,20)$, and the consecutive cross products $\xi y'-y\xi'$ are $12\cdot0-(-30)\cdot42=1260$, $42\cdot10-0=420$, $(-4)(20)-10(-50)=420$, $(-50)(-30)-20\cdot12=1260$: all positive. (In the proof convexity is automatic, since each piece is an intersection of half-planes.) \emph{A shape row:} $P_2-U_1=(12,-30)=eu_1(e,-f)=6\,(2,-5)$, of length $6f=30=a\,u_1$ since $a u_1=10\cdot3$.
 The first four columns of the earlier version's tables (Appendix~\ref{app:complex}) contain the same facts in the form used by the Lean proof.
 \begin{figure}[ht]
@@ -482,14 +473,14 @@ $d=2$, $n=\lfloor9/5\rfloor=1$, $dn=2\le3=e$, so by Proposition~\ref{prop:exact}
 %=====================================================================
 \section{Consequences, and what stays open}\label{sec:open}
 \subsection{Effect on the census of tile counts}
-Let $F$ be the set of those numbers $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$, for the triples $(e,f,M)$ of Theorem~\ref{thm:W}, that are non-squarefree and $\le10^6$. By the theorem all of them are tile counts. The census of the companion covers the non-squarefree integers $N$ with $2\le N\le10^6$ (the squarefree ones are treated separately there and are not part of this count). Among them the set $F$ has $44\,495$ elements ($28\,946$ of the form $W$, $18\,431$ of the form $T$, with $2\,882$ values of both forms; largest $f$ is $251$), none of them is excluded by the exclusion theorem of the earlier release, $18\,357$ were known tile counts by other constructions, and \textbf{$26\,138$ moved from ``undecided'' (neither known to be a tile count nor excluded by the exclusion theorem of the earlier release) to ``tile count''} (each such value is a tile count by a Lean theorem about it; the count $26\,138$ itself comes from a program, \CE{}). The census itself, the other constructions and the conjecture that organises them are in the companion paper \cite{Companion}.
+Let $F$ be the set of those numbers $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$, for the triples $(e,f,M)$ of Theorem~\ref{thm:W}, that are non-squarefree and $\le10^6$. By the theorem all of them are tile counts. The census of the companion covers the non-squarefree integers $N$ with $2\le N\le10^6$ (the squarefree ones are treated separately there and are not part of this count). Among them the set $F$ has $44\,495$ elements ($28\,946$ of the form $W$, $18\,431$ of the form $T$, with $2\,882$ values of both forms; largest $f$ is $251$), none of them is excluded by the exclusion theorem of the earlier release, $18\,357$ were known tile counts by other constructions, and \textbf{$26\,138$ moved from ``undecided'' (neither known to be a tile count nor excluded by the exclusion theorem of the earlier release) to ``tile count''} (each such value is an instance of the Lean theorem \lean{thmW}, which is universal in $(e,f,M)$; the count $26\,138$ itself comes from a program, \CE{}, and the ``undecided'' status comes from the companion census). The census itself, the other constructions and the conjecture that organises them are in the companion paper \cite{Companion}.
 Two examples: $414=2\cdot 3^2\cdot 23$ and $639=3^2\cdot71$ were undecided before ($414=W_3(2,5)$, $639=T_3(2,5)$).
 
 \subsection{What stays open}
 \begin{itemize}
 \item \textbf{$e<f/2$: nothing} (Corollary~\ref{cor:sharp}) for $W_M$; for $T_M$ the scales with $2Me\ge f$ and $M<M^*(e,f)$ are neither proved tiled nor excluded (for example $T_3(2,11)$).
-\item \textbf{$e>f/2$, the ``no'' side.} The exclusion imported here is only (I2), $M(f-e)\le e$. So for each row $(e,f)$ with $e>f/2$ the scales $M$ neither covered by Theorem~\ref{thm:W} nor excluded by (I2) are exactly those with $e/d<M<f/d+1$, $d=f-e$ (for $e>f/2$ the condition $Me\ge f$ holds for all $M\ge2$); the interval has length exactly $2$, so it contains at most two integers: at most two undecided scales per row. \CJ{}\ \emph{Conjecture $W^*$:} for coprime $e,f$ with $2\le e\le f-2$, $W_M(e,f)$ is tiled iff $M\ge M^*(e,f)$ (for $e>f/2$: iff $(M-1)(f-e)\ge f$).
-Examples, relative to the imports (I1)--(I3) only (see also the next item): $W_2(3,5)$, $W_3(3,5)$, $W_2(5,8)$. For $W_2(5,8)$ (scale $M=2$, $412=4\cdot103$ tiles) an exact computer search over the $32$ boundary words imposed by the search with the parameter $r=6$ found no tiling (the last word was refuted after $31.8$ million nodes). \CE{}\ This is evidence only: the restriction to these words is an assumption of the search, not a derived necessary condition, and the search is not formal.
+\item \textbf{$e>f/2$, the ``no'' side.} The exclusion imported here is only (I2), $M(f-e)\le e$. So for each row $(e,f)$ with $e>f/2$ the scales $M$ neither covered by Theorem~\ref{thm:W} nor excluded by (I2) are exactly those with $e/d<M<f/d+1$, $d=f-e$ (for $e>f/2$ the condition $Me\ge f$ holds for all $M\ge2$); the interval has length exactly $2$, so it contains at most two integers: at most two undecided scales per row. (That the interval holds at most two integers is proved: it is an open interval of length $2$.) \CJ{}\ \emph{Conjecture $W^*$:} for coprime $e,f$ with $2\le e\le f-2$, $W_M(e,f)$ is tiled iff $M\ge M^*(e,f)$ (for $e>f/2$: iff $(M-1)(f-e)\ge f$).
+Examples, relative to the imports (I1)--(I3) only (see also the next item): $W_2(3,5)$, $W_3(3,5)$, $W_2(5,8)$. For $W_2(5,8)$ ($412=4\cdot103$ tiles) a restricted exact computer search found no tiling (evidence only, not formal, \CE{}); the next item says it is decided by a newer theorem.
 \item \textbf{A newer exclusion, not used in this paper.} In the project repository (not in the release that accompanies this paper) there is a Lean theorem, \lean{Draft.SplusThick.wTilable_not_of_small_M}, stating that $W_M(e,f)$ is not tiled when $\gcd(e,f)=1$, $2\le e<f$, $M<f$, $f\le Me$ and $M(f-e)\le e+1$; it extends (I2) by one and decides $W_2(3,5)$ and $W_2(5,8)$ (no tiling) and leaves $W_3(3,5)$ open. Its hand proof has been audited inside the project (verdict: sound, with one repair), the Lean file is marked unaudited in its header, and it has not been checked by anyone outside the project. It does not interact with Theorem~\ref{thm:W}: for $e>f/2$ Theorem~\ref{thm:W} needs $(M-1)(f-e)\ge f$, the exclusion needs $M(f-e)\le e+1<f$.
 \item \textbf{$e=1$ and $e=f-1$} lie outside Theorem~\ref{thm:W}; for $W_M$ the threshold is $M=f$ by (I3); for $T_M(1,f)$ the exclusion $2M\le f$ of (I1) leaves, for example, $T_3(1,4)$ open.
 \item \textbf{The $T$ half in general:} only the tile count and the glue; the converse of the glue is unknown.
@@ -554,7 +545,7 @@ and that these are positive for the canonical triple. Under (K) they all follow 
 \begin{table}[ht]\centering\caption{Convexity: the consecutive cross products (``turns'') of each piece, with the vertex $X_j$ at which each starts; all are positive. The doubled signed area of piece $\pi_i$ equals $\tfrac{eb}2$ times its number of tiles.}\label{tab:conv}
 \small\input{app_W_sep_conv.tex}\addtocounter{table}{-1}
 \end{table}
-The values of the sixteen factors for the three examples (all positive):
+The values of the sixteen factors of the older proof for the three examples (all positive):
 \begin{center}\small
 \begin{tabular}{@{}lcccccccccccccc@{}}
 \toprule
