@@ -1,0 +1,423 @@
+% erdos634_v3W2.tex -- Paper W, version 3.1 (2026-10-19): second layout of Paper W.  The fallback is erdos634_v3W.tex (commit d6b1275), untouched.
+% One canonical proof: integer skew frame + chain lemma + nine factors of 22 cross products.  Verification record: erdos634_v3W_verification.tex.
+% Labels: \PL proved in Lean (kernel-checked); \PH proved by hand; \CE computed exactly (not Lean); \CJ conjecture.
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{erdosfig}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newcommand{\lab}[1]{\textup{[\textsc{#1}]}}
+\newcommand{\PL}{\lab{proved in Lean}}
+\newcommand{\PH}{\lab{proved by hand}}
+\newcommand{\CE}{\lab{computed, exact}}
+\newcommand{\CJ}{\lab{conjecture}}
+\newcommand{\tile}{\mathsf{tile}}
+\emergencystretch=2em
+\title[Tilings of $W_M$ and $T_M$ below the threshold]{Tilings of $W_M$ and $T_M$ below the threshold scale: \\ a six-piece layout}
+\author{Vico Bonfioli}
+\date{Paper~W, version 3.1, 19 October 2026}
+\begin{document}
+
+\begin{abstract}
+Let $e<f$ be coprime integers. The triangle with sides $ef,\ f^2-e^2,\ f^2$ (the \emph{tile}) has a family of larger triangles $W_M$, $M=1,2,\dots$, whose area is $M^2(2f^2-e^2)$ tile areas. Paliy showed that $W_M$ is tiled by copies of the tile when $M\ge f$. We show that $W_M$ is already tiled when $Me\ge f$ and $(M-1)(f-e)\ge f$ (for $2\le e\le f-2$). The tiling is one explicit layout of six convex pieces; to prove that the pieces fill $W_M$ without overlap it suffices to check that $22$ explicit cross products, which factor into nine simple expressions, are positive. The smallest example is a triangle with sides $315,276,375$ tiled by $414$ copies of the triangle $(10,21,25)$. The statement is a theorem of a Lean~4 library, checked by the Lean kernel inside this project (no outside check); the hand proof here is a second, unformalised proof of the same layout. That no smaller scale works is proved only for $Me<f$, and only by importing a theorem of an earlier release. The paper says, for each statement, whether it is Lean, hand, computed or imported.
+\end{abstract}
+\maketitle
+
+%=====================================================================
+\section{The result at a glance}\label{sec:one}
+\emph{Tilings.} A triangle is \emph{tiled by $N$ copies of a tile} if it is the union of $N$ triangles with pairwise disjoint interiors, each congruent to the tile (mirror images allowed, no condition that edges match). Erd\H{o}s asked which integers $N$ occur (Problem~634 of \texttt{erdosproblems.com}); this paper only adds tilings, it says nothing about primes.
+
+\emph{An example.} Take the tile with sides $10,\,21,\,25$. A \emph{scale} is a whole number $s$; a triangle with sides $10s,21s,25s$ is a tile enlarged $s$ times and is tiled by $s^2$ tiles. The target of scale $3$ is a different triangle, with sides $315,\ 276,\ 375$. Its area is $414$ tiles, and we show that it \emph{is} tiled by $414$ copies of the tile. The earlier theorems of Paliy start at scale~$5$ for this tile.
+
+\emph{How it is cut} (Figure~\ref{fig:one}). Call $A$ the corner where the sides $276$ and $375$ meet and $O$ the corner where $375$ and $315$ meet. Mark the point on the side $276$ that is $150$ from $A$; it is $315$ from $O$, as far from $O$ as the side $315$ is long. Joining it to $O$ cuts the target in two. The part next to the side $375$ is one big triangle of scale $15$ minus a small corner: piece~$0$ ($221$ tiles). The other part is a thin triangle; its right part is piece~$1$, a triangle of scale $11$ ($121$ tiles), and a strip along the left side, one tile-row wide, is filled by four small pieces $2,3,4,5$ ($25+9+30+8$ tiles). Each piece is a triangle, a triangle with a corner cut off, or a parallelogram, and is cut into tiles by lines parallel to its sides. So $221+121+25+9+30+8=414$.
+
+\begin{figure}[ht]
+\centering
+\input{figures/fig_w2_num.tex}
+\caption{The six pieces of the target with sides $315,276,375$ (tile $(10,21,25)$, $414$ tiles). Large panel: the part near the left side, true shape, every edge length written as a number; an arrow with a number means the edge leaves the panel and has that length. Small inset: the whole target; the red box is the large panel. Pieces are numbered $0$--$5$ (number and tile count inside); each piece is cut into tiles by lines parallel to its sides. The four small pieces form a strip; on the right side the numbers $25+75+10=110$ add up to the side of piece~$1$.}\label{fig:one}
+\end{figure}
+
+\emph{The general statement} (Theorem~\ref{thm:W}, Section~\ref{sec:stmt}). The tile $(10,21,25)$ is $(ef,f^2-e^2,f^2)$ for $(e,f)=(2,5)$, and the scale is $M=3$. For any coprime $2\le e\le f-2$ the same six pieces tile the corresponding target as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$; for $e<f/2$ the first inequality alone suffices. Further instances ($M$ is the smallest scale covered; the last column is Paliy's smallest scale $f$):
+\begin{center}\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+tile $(e,f)$ & sides of the tile & scale $M$ & tiles & scale before\\
+\midrule
+$(2,5)$ & $10,21,25$ & $3$ & $414$ & $5$\\
+$(3,5)$ & $15,16,25$ & $4$ & $656$ & $5$\\
+$(3,7)$ & $21,40,49$ & $3$ & $801$ & $7$\\
+$(2,11)$ & $22,117,121$ & $6$ & $8568$ & $11$\\
+$(9,11)$ & $99,40,121$ & $7$ & $7889$ & $11$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{table}[ht]
+\centering\small
+\caption{What is proved, and how.}
+\begin{tabular}{@{}p{7.2cm}p{5.3cm}@{}}
+\toprule
+statement & status\\
+\midrule
+the target is tiled for the scales above & Lean (kernel-checked, inside this project) and hand proof in Section~\ref{sec:proof}\\
+a neighbouring isosceles target is tiled & hand proof of a few lines (Section~\ref{sub:T}), which also uses the ladder subdivision (Lean, earlier release); the gluing is Lean in an earlier release\\
+no smaller scale works, for $e<f/2$ & only the case $Me<f$, from an earlier release (imported, Lean there)\\
+explicit tilings, e.g.\ the $414$ tiles & exact computer check, not Lean\\
+$26\,138$ integers become tile counts & computer count, relative to this project's census\\
+\bottomrule
+\end{tabular}
+\end{table}
+\emph{What this does not do.} It does not decide which scales fail when $e>f/2$, it does not treat $e=1$ and $e=f-1$, and it says nothing about primes. No reader outside this project has checked any of it. Section~\ref{sec:stmt} states exactly what is Lean and what is imported; Section~\ref{sec:frame} (one page) fixes notation; Section~\ref{sec:proof} is the proof; Section~\ref{sec:worked} works the example by hand.
+
+%=====================================================================
+\section{Statement, and what is proved where}\label{sec:stmt}
+Throughout, $e<f$ are coprime positive integers, $\lfloor x\rfloor$ and $\lceil x\rceil$ are the floor and the ceiling of $x$, and
+\[
+a=ef,\quad b=f^2-e^2,\quad c=f^2,\quad \kappa=b+c=2f^2-e^2,\quad d=f-e.
+\]
+The \emph{tile} $\tile(e,f)$ has sides $a,b,c$; its angles $\alpha,\beta,\gamma$ are opposite $a,b,c$, and $3\alpha+2\beta=\pi$, $\gamma=2\alpha+\beta$. For a whole number $M\ge1$ the two targets are
+\begin{itemize}\itemsep0pt
+\item $W_M(e,f)$: the triangle with sides $Mfb,\ Me\kappa,\ Mf^3$ (angles $\beta$, $2\alpha$, $\alpha{+}\beta$ opposite them); its area is $M^2(2f^2-e^2)$ tile areas;
+\item $T_M(e,f)$: the isosceles triangle with legs $Mf^3$ and base $Me(3f^2-e^2)$ (apex $3\alpha$, base angles $\beta$); area $M^2(3f^2-e^2)$ tile areas.
+\end{itemize}
+Both were introduced by Beeson--Ro\c{s}u and Paliy (Section~\ref{sec:credit}). For $(e,f,M)=(2,5,3)$: $W_3$ has sides $315,276,375$, as in Section~\ref{sec:one}.
+
+\begin{theorem}[Theorem W]\label{thm:W}
+Let $\gcd(e,f)=1$, $2\le e\le f-2$, and let $M\ge1$ satisfy
+\[
+\text{(H1)}\quad Me\ge f,\qquad\qquad \text{(H2)}\quad (M-1)(f-e)\ge f .
+\]
+Then $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ copies of $\tile(e,f)$, and $T_M(e,f)$ is tiled by $M^2(3f^2-e^2)$ copies.
+\end{theorem}
+\begin{remark}[an equivalent form]\label{rem:equiv}
+(H1) and (H2) hold together if and only if $(f-e)\lfloor eM/f\rfloor\ge e+1$ (Lemma~\ref{lem:H}); equivalently $M\ge M^*:=\max(\lceil f/e\rceil,\lceil f/(f-e)\rceil+1)$.
+\end{remark}
+
+\subsection{Where each part is proved}
+\begin{enumerate}\itemsep2pt
+\item \textbf{The $W$ half: Lean} \PL. Module \texttt{Draft/ThmW.lean} of the project's Lean~4 library (19 helper modules, aggregate \texttt{Erdos634.AllThmW}), theorem \texttt{Draft.ThmW.thmW}. For natural numbers $e,f,M$ with \texttt{Nat.Coprime e f}, $2\le e$, $e+2\le f$, $f\le Me$, $f\le(M-1)(f-e)$ it concludes
+\begin{gather*}\texttt{WTilable e f M}\ \wedge\ \texttt{TileCount}\bigl((2f^2-e^2)M^2\bigr)\\ \wedge\ \texttt{TileCount}\bigl(M^2(3f^2-e^2)\bigr).\end{gather*}
+\texttt{WTilable} says: a triangle with sides $Mf(f^2-e^2),\ Me(2f^2-e^2),\ Mf^3$ is dissected into triangles each congruent to the triangle with sides $ef,\ f^2-e^2,\ f^2$. Axioms: \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}; no \texttt{sorry}. The hypotheses are witnessed by instances $(2,5,3)$, $(3,5,4)$, $(3,7,3)$, so the theorem is not vacuous. The Lean statement was compared with the one above inside this project (verdict: match). That Lean proof verifies the same layout by a different route (a table of about $100$ cross products in complex coordinates, produced by a program, not meant for reading; it is described in the verification record \cite{Verif}); it does not follow Section~\ref{sec:proof}. We give the hand proof so that a person can check the layout.
+\item \textbf{The $W$ half: by hand} \PH. Section~\ref{sec:proof}. This is a second proof of the same layout, written for a reader, with the placement obtained from a chain lemma. It is not formalised: the Lean modules \texttt{Draft/ChainKap}, \texttt{ChainTri}, \texttt{ChainCover}, \texttt{ChainW}, \texttt{ChainParams} (project repository, no \texttt{sorry}, \emph{unaudited}) prove the chain lemma for triangles, the placement of the six pieces split into ten triangles, and Lemma~\ref{lem:H}; they are \emph{not} yet linked to the packing statement, so no Lean theorem \texttt{WTilable} is derived from them. The tiling of each piece by tiles (Section~\ref{sub:tiles}) is not in those modules.
+\item \textbf{The $T$ half:} the \emph{count} $M^2(3f^2-e^2)$ is in the Lean theorem above; the \emph{tiling} of $T_M$ is the gluing of Section~\ref{sub:T}, proved there by hand (Lean version in an earlier release, \texttt{CollarG.betaTilable\_of\_wTilable}).
+\item \textbf{Imported} (Section~\ref{sub:import}): only for the sharpness corollary and the open part; the proofs of the Theorem use none of them.
+\end{enumerate}
+
+\subsection{The $T$ half}\label{sub:T}
+\begin{proposition}[gluing; \PH{}, Lean in an earlier release]\label{prop:glue}
+If $W_M(e,f)$ is tiled by copies of $\tile(e,f)$, so is $T_M(e,f)$, with $M^2(2f^2-e^2)+(Mf)^2=M^2(3f^2-e^2)$ tiles.
+\end{proposition}
+\begin{proof}
+Name the vertices of $W_M$ so that $OB=Mfb$, $OA=Mf^3$, $AB=Me\kappa$; the angles are $\beta$ at $A$, $2\alpha$ at $O$, $\alpha{+}\beta$ at $B$. Attach a tile of scale $Mf$ (sides $Mf\cdot a,\,Mf\cdot b,\,Mf\cdot c$) on the side $OB$ outside $W_M$, its side $Mfb=OB$ on $OB$, with its angle $\gamma$ at $B$ and its angle $\alpha$ at $O$. At $B$ the angles add to $(\alpha+\beta)+\gamma=\pi$, so the third vertex $Z$ lies on the line $AB$ beyond $B$; at $O$ the angles add to $2\alpha+\alpha=3\alpha$. The tile has $BZ=Mf\cdot a=Mef^2$ (opposite $\alpha$) and $OZ=Mf\cdot c=Mf^3=OA$ (opposite $\gamma$ and adjacent to $\alpha$ at $O$). So the union is the triangle $OAZ$ with $OA=OZ=Mf^3$, $AZ=Me\kappa+Mef^2=Me(3f^2-e^2)$: this is $T_M$. The extra tile of scale $Mf$ is tiled by $(Mf)^2$ tiles (ladder, Proposition~\ref{prop:ladder}).
+\end{proof}
+The converse is not known. The Lean theorem also contains the count for $T_M$ by a statement of the earlier release (\texttt{DebtB.counts\_of\_wTilable}), which needs besides the tiling only $M(f-e)\ge f$; (H2) implies it.
+
+\subsection{Imported facts (earlier release)}\label{sub:import}
+These are Lean theorems of the earlier releases \cite{ReleasePaper,Release22}, used as stated, not reproved; \emph{tiled} means by copies of $\tile(e,f)$ with the same $(e,f)$.
+\begin{itemize}\itemsep1pt
+\item[(I1)] (\texttt{cor:ebelow}) For coprime $1\le e<f$: if $Me<f$ then $W_M(e,f)$ is not tiled; if $2Me<f$ then $T_M(e,f)$ is not tiled.
+\item[(I2)] (\texttt{cor:thickw}(a)) If $M(f-e)\le e$ then $W_M(e,f)$ is not tiled.
+\item[(I3)] (\texttt{cor:below}, \texttt{cor:thickw}(b)) For $e=1$ and for $e=f-1$: $W_M$ is tiled if and only if $M\ge f$.
+\end{itemize}
+Context, not used: Paliy proved that $W_M$ and $T_M$ are tiled for every $M\ge f$ \cite{PaliyRepo}.
+\begin{corollary}[sharpness for $e<f/2$; ``if'' from Theorem~\ref{thm:W}, ``only if'' imported (I1)]\label{cor:sharp}
+Let $\gcd(e,f)=1$, $2\le e<f/2$. Then $W_M(e,f)$ is tiled if and only if $Me\ge f$.
+\end{corollary}
+\begin{proof}
+``Only if'' is (I1). ``If'': $e<f/2$ gives $f/(f-e)<2$, hence $\lceil f/(f-e)\rceil=2$ (as $f/(f-e)>1$) and $\lceil f/(f-e)\rceil+1=3$, while $f/e>2$ gives $\lceil f/e\rceil\ge3$; so $M^*=\lceil f/e\rceil$. Also (H1) implies $M\ge3$ and then $(M-1)(f-e)\ge2(f-e)>f$, i.e.\ (H2). Apply Theorem~\ref{thm:W}.
+\end{proof}
+So for $e<f/2$ the threshold is exactly $\lceil f/e\rceil$, below $f$ as soon as $e\ge2$; the ``only if'' half is only as strong as (I1).
+
+%=====================================================================
+\section{The frame and the notation}\label{sec:frame}
+\begin{table}[ht]
+\centering\small
+\caption{Notation, in order of appearance in Sections~\ref{sec:stmt}--\ref{sec:proof}.}\label{tab:notation}
+\begin{tabular}{@{}p{3.0cm}p{9.5cm}@{}}
+\toprule
+$e<f$, $d=f-e$ & coprime integers defining the tile; $2\le e\le f-2$ in Theorem~\ref{thm:W}, so $d\ge2$\\
+$a,b,c,\kappa$ & $ef,\ f^2-e^2,\ f^2,\ 2f^2-e^2$: tile sides and $b+c$\\
+scale $s$ & a triangle with sides $sa,sb,sc$ (an enlarged tile); tiled by $s^2$ tiles\\
+$W_M$, $T_M$, $M$ & the targets of Section~\ref{sec:stmt}; $M$ is the target's scale\\
+$n,\rho,\delta$ & $n=\lfloor eM/f\rfloor$, $\rho=eM-fn$, $\delta=1$ if $\rho=0$ and $\delta=0$ otherwise\\
+$t,r,q$ & integers of the layout, $(t,r,q)=(n-\delta,\,n+1,\,n)$ (\emph{canonical}); (K) of Section~\ref{sub:K}\\
+$P,O,B,A$ & $W_M=OAB$, $OB=Mfb$, $OA=Mf^3$, $AB=Me\kappa$; $P\in AB$ with $OP=OB$\\
+$(\xi,y)$ & coordinates in the frame with origin $P$ and axes along $PO$, $PB$\\
+$v,s_1,s_2,x,u_1,u_2$ & scales of the pieces, \eqref{eq:scales}\\
+$\Pi_0,\dots,\Pi_5$ & the six pieces (Table~\ref{tab:pieces})\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The frame}\label{sub:frame}
+Let $P$ be the point of $AB$ with $OP=OB$. Then $PA=Mef^2$ and $PB=AB-PA=Meb$. In the isosceles triangle $OPB$ the angle at $P$ equals the angle at $B$, with cosine $\frac{PB/2}{OB}=\frac{e}{2f}$. Use $P$ as origin, unit vectors along $PO$ and $PB$ as axes. A point is $(\xi,y)$, and by the law of cosines a vector $(\xi,y)$ has
+\begin{equation}\label{eq:metric}
+\text{length}^2=\xi^2+y^2+\tfrac ef\,\xi y,\qquad \text{inner product }\langle(\xi,y),(\xi',y')\rangle=\xi\xi'+yy'+\tfrac{e}{2f}(\xi y'+y\xi').
+\end{equation}
+Then $O=(fbM,0)$, $B=(0,ebM)$, $A=(0,-ef^2M)$ and \eqref{eq:metric} gives $|OB|=fbM$, $|OA|^2=M^2f^2(b^2+e^2f^2+e^2b)=(Mf^3)^2$ (as $b^2+e^2b+e^2f^2=f^4$), $|AB|=Me\kappa$: this is $W_M$. Five directions occur; their primitive integer vectors and lengths, by \eqref{eq:metric}, are:
+\begin{center}\small
+\begin{tabular}{@{}llcl@{}}
+\toprule
+direction & vector & length & used by\\
+\midrule
+$PO$ & $(1,0)$ & $1$ & $OP$, $PP_2$, $P_2C'$, $C'X_4$\\
+$PB$ & $(0,1)$ & $1$ & the side $AB$\\
+$(f,-e)$ & $(f,-e)$ & $f$ & $OB$, $QV_2$, $U_1U_2$\\
+$(e,-f)$ & $(e,-f)$ & $f$ & the lines $\ell_k$ below, $QU_1$, $V_2U_2$, $P_2U_1$\\
+$(b,ef)$ & $(b,ef)$ & $f^2$ & $OA$, $P_2P_3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+(Checks: $f^2+e^2-e^2=f^2$ for the third, $e^2+f^2-e^2=f^2$ for the fourth, $b^2+e^2f^2+e^2b=f^4$ for the fifth.) A segment in one of these directions with integer coordinates has length (its integer multiple) $\times$ (the length in the table). \emph{Lattice lines:} with $\varphi=f\xi+ey$, the line $\ell_k=\{\varphi=efb\,k\}$ has direction $(e,-f)$, meets $PO$ at $\xi=ebk$ and $AB$ at $y=fbk$.
+
+\subsection{The points of the layout}
+The layout has three integers $t,r,q$ (Section~\ref{sub:K}; for $W_3(2,5)$ they are $1,2,1$) and six integer scales, which are the sizes of the triangles used to build the pieces ($v$: piece~1; $s_1,s_2$: the big triangle and the removed corner of piece~3; $x$: the second side of the parallelogram, piece~4; $u_1,u_2$: the big triangle and the removed corner of piece~5; Table~\ref{tab:pieces}):
+\begin{equation}\label{eq:scales}
+v=fM-er,\quad s_1=f(r-t),\quad s_2=fr-eM,\quad x=ft-eq,\quad u_1=fq-et,\quad u_2=fq-er.
+\end{equation}
+\begin{table}[ht]
+\centering\small
+\caption{The points, in the frame $(\xi,y)$; all coordinates are integers. $R$ and $X_4$ are not vertices of any piece: they are the apexes of the two triangles from which a corner is cut to make $\Pi_3$ and $\Pi_5$.}\label{tab:pts}
+\begin{tabular}{@{}llll@{}}
+\toprule
+$P=(0,0)$ & $O=(fbM,\,0)$ & $B=(0,\,ebM)$ & $A=(0,\,-ef^2M)$\\
+$P_2=(bet,\,0)$ & $P_3=(0,\,-e^2ft)$ & $Q=(0,\,fbt)$ & $R=(0,\,fbr)$\\
+$C'=(ber,\,0)$ & $X_4=(fbq,\,0)$ & \multicolumn{2}{l}{$B'=\bigl(ef(fr{-}eM),\,ef(fM{-}er)\bigr)$}\\
+\multicolumn{2}{@{}l}{$V_2=\bigl(ef^2(r{-}t),\,f(f^2t{-}e^2r)\bigr)$} & \multicolumn{2}{l}{$U_1=\bigl(ef(ft{-}eq),\,ef(fq{-}et)\bigr)$}\\
+\multicolumn{4}{@{}l}{$U_2=\bigl(ef(fr{-}eq),\,ef(fq{-}er)\bigr)$}\\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[ht]
+\centering\small
+\caption{The six pieces: counter-clockwise vertex lists, shape, and tile count (Section~\ref{sub:tiles}).}\label{tab:pieces}
+\begin{tabular}{@{}clll@{}}
+\toprule
+ & vertices & shape & tiles\\
+\midrule
+$\Pi_0$ & $A,O,P_2,P_3$ & triangle $OAP$ of scale $fM$ minus corner $PP_2P_3$ of scale $et$ & $f^2M^2-e^2t^2$\\
+$\Pi_1$ & $O,B',C'$ & triangle of scale $v$ & $v^2$\\
+$\Pi_2$ & $P_3,P_2,Q$ & triangle of scale $ft$ & $f^2t^2$\\
+$\Pi_3$ & $B,Q,V_2,B'$ & triangle $RQV_2$ of scale $s_1$ minus corner $RBB'$ of scale $s_2$ & $s_1^2-s_2^2$\\
+$\Pi_4$ & $Q,U_1,U_2,V_2$ & parallelogram, sides $a s_1$ and $c x$, angle $\beta$ & $2s_1x$\\
+$\Pi_5$ & $U_1,P_2,C',U_2$ & triangle $X_4U_1P_2$ of scale $u_1$ minus corner $X_4C'U_2$ of scale $u_2$ & $u_1^2-u_2^2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}[ht]
+\centering
+\input{figures/fig_w2_sym.tex}
+\caption{The same six pieces as in Figure~\ref{fig:one} with the names of Tables~\ref{tab:pts} and~\ref{tab:pieces} (true shape of the frame; $O$, $A$ and $R$ lie outside the window; $P$ is the origin). Dashed: the lattice lines $\ell_t$ (through $P_2,Q,U_1$) and $\ell_r$ (through $C',B',U_2,V_2$), and the line through $U_2,X_4$. The point $B$ lies between $\ell_t$ and $\ell_r$ on the side $AB$.}\label{fig:sym}
+\end{figure}
+
+%=====================================================================
+\section{Proof of the $W$ half of Theorem~\ref{thm:W}}\label{sec:proof}
+Standing assumptions: $\gcd(e,f)=1$, $2\le e\le f-2$, $M\ge1$; $t,r,q$ integers. The proof has three steps: the six pieces fill $W_M$ without overlap (Step 1: chain lemma and nine factors); each piece is a union of tiles (Step 2: 24 edge-length identities); the nine factors are positive for the canonical $(t,r,q)$ (Step 3: Lemma~\ref{lem:H} and non-negative certificates).
+
+\subsection{The inequalities (K)}\label{sub:K}
+\begin{equation}\label{eq:K}
+\text{(K)}\qquad ft<eM,\qquad eM<fr,\qquad er<fq,\qquad eq<ft .
+\end{equation}
+Write $C_3=eM-ft$, $C_4=fr-eM$, $C_6=fq-er$, $C_7=ft-eq$, $C_5=fM-er$ (so (K) says $C_3,C_4,C_6,C_7>0$). Under (K) the following are positive (nine numbers, each from (K) in one line):
+\begin{gather*}
+r>\tfrac{eM}f>0,\ q>\tfrac{er}f>0,\ t>\tfrac{eq}f>0;\qquad f(r-t)=C_3+C_4>0;\\
+eC_5=fC_3+fC_7+eC_6>0;\\ fq-et=C_6+e(r-t)>0;\qquad fM-et>0\ \ (et<\tfrac{e^2M}{f}<fM).
+\end{gather*}
+(The identity $eC_5=\dots$ is checked by expanding.) Hence the six scales \eqref{eq:scales} are positive: $v=C_5$, $s_1=f(r-t)$, $s_2=C_4$, $x=C_7$, $u_1=fq-et$, $u_2=C_6$; moreover $s_1-s_2=C_3>0$ and $u_1-u_2=e(r-t)>0$.
+
+\subsection{Step 1: a chain lemma, and the pieces fill the target}\label{sub:cover}
+For points $p,p',p''$ in the plane the \emph{turn} at $p'$ is $\tau=(p'-p)\times(p''-p')$, where $(\xi,y)\times(\xi',y')=\xi y'-y\xi'$. The map from the frame to the true plane is linear with positive determinant, so the sign of every turn, orientation, convexity and winding numbers are the same in the frame and in the plane; below ``counter-clockwise'' refers to the frame. For a polygon with vertex list $p_1,\dots,p_m$, put $\partial\Pi=[p_1,p_2]+\dots+[p_m,p_1]$, a formal sum of oriented segments $[p,q]$ (from $p$ to $q$), which we compute with two rules: (i) $[p,q]+[q,p]=0$; (ii) $[p,q]+[q,r]=[p,r]$ for collinear $p,q,r$ in any order. Two such sums are equal if they agree after applying these rules on each line.
+\begin{lemma}[chain lemma; \PH{}]\label{lem:chain}
+Let $T$ and $\Pi_1,\dots,\Pi_k$ be triangles or quadrilaterals with counter-clockwise vertex lists all of whose turns are strictly positive. Each $\Pi_i$ is then convex. If $\sum_i\partial\Pi_i=\partial T$ in the sense above, then the $\Pi_i$ lie in $T$, have pairwise disjoint interiors, and cover $T$.
+\end{lemma}
+\begin{proof}
+A polygon with $m\le4$ vertices and all turns positive has exterior angles in $(0,\pi)$ summing to a multiple of $2\pi$ that is less than $m\pi\le4\pi$, hence to $2\pi$; so its boundary is a simple closed convex curve. (For five or more vertices positive turns do not imply convexity; this is why only $m\le4$ occurs.) The winding number of $\partial\Pi$ about a point $z$ off the boundary is $1$ if $z$ is inside the convex counter-clockwise polygon and $0$ outside. Winding numbers add over formal sums, so $\sum_i\mathbf 1_{\Pi_i}(z)=\mathbf 1_T(z)$ for all $z$ off finitely many lines. If two interiors met, the left side would be $\ge2$ on an open set; if some $\Pi_i$ left $T$ it would be $\ge1$ outside $T$; and if some point of $T$ were uncovered the right side would exceed the left. Interior and closure statements follow from convexity. $\square$
+\end{proof}
+(Caution: ``every piece lies in $T$ and the areas add up'' does \emph{not} imply disjointness; and $\sum\partial\Pi_i$ is a sum of segments, not of vectors.)
+
+\emph{The turns.} Take $T=OBA$ and the six pieces of Table~\ref{tab:pieces}. With $b=f^2-e^2$ the cross products are the following (each is a polynomial in $e,f,M,t,r,q$, factored; this is a finite expansion that the reader can repeat from Table~\ref{tab:pts}, for instance $\Pi_5$ at $P_2$ is worked in Section~\ref{sec:worked}):
+\begin{center}\small
+\begin{tabular}{@{}llp{6.3cm}@{}}
+\toprule
+polygon & turns at the vertices (in order) & value\\
+\midrule
+$T=O,B,A$ & all three & $M^2\,efb\,\kappa$\\
+$\Pi_0=A,O,P_2,P_3$ & $A,O$; $P_2,P_3$ & $Mef^2b\,(fM-et)$; $e^2f\,b\,t\,(fM-et)$\\
+$\Pi_1=O,B',C'$ & all three & $efb\,(fM-er)^2$\\
+$\Pi_2=P_3,P_2,Q$ & all three & $ef^3b\,t^2$\\
+$\Pi_3=B,Q,V_2,B'$ & $Q,V_2$; $B',B$ & $ef^2b\,(r-t)(eM-ft)$; $efb\,(fr-eM)(eM-ft)$\\
+$\Pi_4=Q,U_1,U_2,V_2$ & all four & $ef^2b\,(r-t)(ft-eq)$\\
+$\Pi_5=U_1,P_2,C',U_2$ & $P_2,U_1$; $C',U_2$ & $e^2f\,b\,(r-t)(fq-et)$; $e^2f\,b\,(r-t)(fq-er)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+All of these are positive monomials times products of the nine numbers of Section~\ref{sub:K}, hence strictly positive under (K): the nine numbers are $t$, $r-t$, $eM-ft$, $fr-eM$, $fM-er$, $fM-et$, $ft-eq$, $fq-et$, $fq-er$. In particular $T$ and the six pieces satisfy the hypothesis on turns.
+
+\emph{The chain identity.} Five lines carry all edges. With $\varphi=f\xi+ey$ and $\psi=e\xi+fy$: $AB=\{\xi=0\}$ contains $A,P_3,Q,B,R$; $OP=\{y=0\}$ contains $O,P_2,C',X_4$; $OB=\{\psi=efbM\}$ contains $O,B,B'$; $\ell_t=\{\varphi=efbt\}$ contains $P_2,Q,U_1$; $\ell_r=\{\varphi=efbr\}$ contains $C',B',U_2,V_2$. (For instance $\varphi(U_1)=f\cdot ef(ft-eq)+e\cdot ef(fq-et)=ef(f^2-e^2)t$, and $\psi(B')=e\cdot ef(fr-eM)+f\cdot ef(fM-er)=efbM$; these hold identically in $e,f,M,t,r,q$.) The edges of the pieces, line by line, are:
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}
+\toprule
+line & oriented edges of the pieces on it (sum)\\
+\midrule
+$AB$ & $[B,Q]_{\Pi_3}+[Q,P_3]_{\Pi_2}+[P_3,A]_{\Pi_0}=[B,A]$ \quad ($=$ the edge $BA$ of $T$)\\
+$OB$ & $[O,B']_{\Pi_1}+[B',B]_{\Pi_3}=[O,B]$ \quad ($=$ the edge $OB$ of $T$)\\
+$OA$ & $[A,O]_{\Pi_0}$ \quad ($=$ the edge $AO$ of $T$)\\
+$OP$ & $[O,P_2]_{\Pi_0}+[P_2,C']_{\Pi_5}+[C',O]_{\Pi_1}=0$\\
+$\ell_t$ & $[P_2,Q]_{\Pi_2}+[Q,U_1]_{\Pi_4}+[U_1,P_2]_{\Pi_5}=0$\\
+$\ell_r$ & $[B',C']_{\Pi_1}+[C',U_2]_{\Pi_5}+[U_2,V_2]_{\Pi_4}+[V_2,B']_{\Pi_3}=0$\\
+cuts & $[P_2,P_3]_{\Pi_0}+[P_3,P_2]_{\Pi_2}=0$, $[Q,V_2]_{\Pi_3}+[V_2,Q]_{\Pi_4}=0$, $[U_1,U_2]_{\Pi_4}+[U_2,U_1]_{\Pi_5}=0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+These are all $22$ edges of the six pieces. On each line the sum is computed by rule (ii) (for example on $AB$: $[B,Q]+[Q,P_3]=[B,P_3]$ and $[B,P_3]+[P_3,A]=[B,A]$), and the three cut lines cancel by rule (i). So $\sum_i\partial\Pi_i=\partial T$.
+\begin{proposition}[Step 1; \PH{}]\label{prop:step1}
+If (K) holds, the six pieces $\Pi_0,\dots,\Pi_5$ lie in $W_M=OAB$, have disjoint interiors and cover it.
+\end{proposition}
+\begin{proof}
+Lemma~\ref{lem:chain} with the two displays above.
+\end{proof}
+
+\subsection{Step 2: each piece is a union of tiles}\label{sub:tiles}
+By \eqref{eq:metric} the length of an integer multiple $k$ of a primitive vector is $k$ times the length in the table of Section~\ref{sub:frame}. Table~\ref{tab:sides} lists the three sides of each of eight triangles as $k\cdot$(primitive vector) (each line is a subtraction of two points of Table~\ref{tab:pts}); by SSS the triangle has the stated scale.
+\begin{table}[ht]
+\centering\small
+\caption{The $24$ edge identities: side vectors, and lengths in the form (scale)$\times$($a$, $b$ or $c$).}\label{tab:sides}
+\begin{tabular}{@{}p{2.5cm}p{7.2cm}p{2.9cm}@{}}
+\toprule
+triangle (scale) & side vectors & lengths\\
+\midrule
+$OAP$ ($fM$) & $O-P=fbM(1,0)$; $P-A=ef^2M(0,1)$; $A-O=-fM(b,ef)$ & $b\cdot fM$; $a\cdot fM$; $c\cdot fM$\\
+$PP_2P_3$ ($et$) & $P_2-P=bet(1,0)$; $P-P_3=e^2ft(0,1)$; $P_3-P_2=-et(b,ef)$ & $b\cdot et$; $a\cdot et$; $c\cdot et$\\
+$P_3P_2Q$ ($ft$) & $Q-P_3=f^3t(0,1)$; $Q-P_2=-bt(e,-f)$; $P_2-P_3=et(b,ef)$ & $c\cdot ft$; $b\cdot ft$; $a\cdot ft$\\
+$OB'C'$ ($v$) & $C'-O=-bv(1,0)$; $B'-O=-fv(f,-e)$; $B'-C'=-ev(e,-f)$ & $b\cdot v$; $c\cdot v$; $a\cdot v$\\
+$RQV_2$ ($s_1$) & $R-Q=fb(r-t)(0,1)$; $V_2-Q=es_1(f,-e)$; $V_2-R=fs_1(e,-f)$ & $b\cdot s_1$; $a\cdot s_1$; $c\cdot s_1$\\
+$RBB'$ ($s_2$) & $R-B=bs_2(0,1)$; $B'-R=fs_2(e,-f)$; $B'-B=es_2(f,-e)$ & $b\cdot s_2$; $c\cdot s_2$; $a\cdot s_2$\\
+$X_4U_1P_2$ ($u_1$) & $P_2-X_4=-bu_1(1,0)$; $U_1-X_4=-fu_1(f,-e)$; $P_2-U_1=eu_1(e,-f)$ & $b\cdot u_1$; $c\cdot u_1$; $a\cdot u_1$\\
+$X_4C'U_2$ ($u_2$) & $C'-X_4=-bu_2(1,0)$; $U_2-X_4=-fu_2(f,-e)$; $U_2-C'=-eu_2(e,-f)$ & $b\cdot u_2$; $c\cdot u_2$; $a\cdot u_2$\\
+\bottomrule
+\end{tabular}
+\end{table}
+For $\Pi_4$ two further identities: $U_1-Q=fx\,(e,-f)=U_2-V_2$ and $V_2-Q=es_1(f,-e)=U_2-U_1$ ($x=ft-eq$), so $\Pi_4$ is a parallelogram with sides of lengths $c\,x$ and $a\,s_1$.
+
+We use the ladder subdivision of the earlier release (Lean there, \texttt{Subdivision.ladderDissection}, \texttt{Ladder.ladder}).
+\begin{proposition}[ladder; \PL{}]\label{prop:ladder}
+A triangle of scale $s$ is tiled by $s^2$ tiles. If a line parallel to a side cuts off from a triangle of scale $s_1$ the corner at the opposite vertex, which has scale $s_2<s_1$, the remaining trapezoid is tiled by $s_1^2-s_2^2$ tiles. A parallelogram with sides $sa$ and $uc$ enclosing the angle $\beta$ is tiled by $2su$ tiles.
+\end{proposition}
+\noindent\emph{Why.} The lines parallel to the sides at integer steps cut a triangle of scale $s$ into $s^2$ scale-one triangles, each congruent to the tile; a corner of scale $s_2$ at a vertex is $s_2^2$ of these cells. A parallelogram with sides $a,c$ and angle $\beta$ is cut by its short diagonal, of length $b$ since $\cos\beta=\frac{a^2+c^2-b^2}{2ac}$, into two tiles; one with sides $sa,uc$ is $su$ of those.
+
+\emph{Consequences} (Table~\ref{tab:pieces}). (a) $\Pi_0$: $OAP$ has scale $fM$; $P_2\in PO$, $P_3\in PA$ (as $et\le fM$), and $P_2P_3\parallel OA$ (direction $(b,ef)$), so $PP_2P_3$ is its corner at $P$, of scale $et$: $f^2M^2-e^2t^2$ tiles. (b) $\Pi_1,\Pi_2$ are triangles of scales $v$ and $ft$. (c) $\Pi_3$: $R$ lies on $AB$ beyond $B$ ($ft<eM<fr$), $B\in RQ$, $B'\in RV_2$, $BB'\parallel QV_2$ (both direction $(f,-e)$), so $\Pi_3=RQV_2\setminus RBB'$: $s_1^2-s_2^2$ tiles. (d) $\Pi_5$: $X_4U_1P_2$ has scale $u_1$ and $C'U_2\parallel P_2U_1$ cuts off the corner $X_4C'U_2$ of scale $u_2$: $u_1^2-u_2^2$ tiles. (e) $\Pi_4$: the angle at $Q$ between $(f,-e)$ and $(e,-f)$ has cosine, by \eqref{eq:metric},
+\[
+\frac{\langle(f,-e),(e,-f)\rangle}{f\cdot f}=\frac{2ef-\frac{e}{2f}(f^2+e^2)}{f^2}=\frac{e(3f^2-e^2)}{2f^3}=\cos\beta,
+\]
+so $\Pi_4$ is a parallelogram with sides $a s_1$, $c\,x$ and angle $\beta$: $2s_1x$ tiles.
+
+\subsection{The number of tiles}
+By Proposition~\ref{prop:step1} and the consequences above, $W_M$ is tiled; it remains to see that the number of tiles is $M^2\kappa$. The turn of a triangle of scale $s$ is $s^2\cdot efb$ (compare the table of turns: $\Pi_1$, $\Pi_2$ give $efb\,v^2$, $efb(ft)^2$, and the triangle $O,P,A$ of scale $fM$ has turn $(P-O)\times(A-P)=efb(fM)^2$), because the area is $s^2$ times the tile's, and the turn of a triangle (any vertex) equals $2\cdot\mathrm{area}/\sin\theta_P$ where $\theta_P=\arccos\frac e{2f}$ is the angle of the frame, the same constant for every triangle. The turn of $T$ is $M^2efb\,\kappa$, hence $T$ has area $M^2\kappa$ tiles. Since all tiles have the same area, the number of tiles is $M^2\kappa=M^2(2f^2-e^2)$. (Consistency: the six counts of Table~\ref{tab:pieces} add up to $M^2\kappa$, an identity in $e,f,M,t,r,q$; for $W_3(2,5)$: $221+121+25+9+30+8=414$.)
+
+\subsection{Step 3: the canonical parameters}\label{sub:lemmaH}
+Put $n=\lfloor eM/f\rfloor$, $\rho=eM-fn\in\{0,\dots,f-1\}$, $\delta=1$ if $\rho=0$ and $\delta=0$ otherwise.
+\begin{lemma}[Lemma H; \PH{}]\label{lem:H}
+Let $\gcd(e,f)=1$, $2\le e\le f-2$, $d=f-e$, $M\ge1$. Then (H1) and (H2) hold if and only if $dn\ge e+1$.
+\end{lemma}
+\begin{proof}
+First, $ed\ge f+1$: with $f=e+d$, $ed-f=(e-1)(d-1)-1$, and $(e-1)(d-1)\ge2$ because $e,d\ge2$ and $e=d=2$ would make $f=4$ not coprime to $e$. $(\ast)$
+
+($\Leftarrow$) Let $dn\ge e+1$. Then $n\ge1$, i.e.\ (H1). If (H2) failed, $(M-1)d\le f-1$, so $dM\le f+d-1<2f$ and $s:=\lceil dM/f\rceil\in\{1,2\}$; $n=\lfloor M-dM/f\rfloor=M-s$. If $s=1$: $dM\le f$, so $dn=d(M-1)\le f-d=e$. If $s=2$: $dn=d(M-2)\le f+d-1-2d=e-1$. Either way $dn\le e$, a contradiction.
+
+($\Rightarrow$) Let (H1), (H2). If $d\ge e+1$: $n\ge1$ by (H1), so $dn\ge d\ge e+1$. If $d\le e$: $d\nmid f$ (else $d\mid e$, so $d=1$, excluded), so $f=dh+j$ with $0<j<d$, and $h\ge2$ as $f=e+d\ge2d$; $e=d(h-1)+j$. (H2) gives $M-1\ge\lceil f/d\rceil=h+1$, so $M\ge h+2$ and $e(h+2)-hf=2e-hd=d(h-2)+2j>0$. So $eM\ge e(h+2)>hf$, $n\ge h$, and $dn\ge dh=f-j\ge f-d+1=e+1$.
+\end{proof}
+\begin{proposition}[the five strict inequalities, with certificates; \PH{}]\label{prop:cert}
+Assume (H1), (H2) and put $t=n-\delta$, $r=n+1$, $q=n$, $s=M-n\ (\ge1)$, $\mu=dn-e-1$, $\rho'=f-1-\rho$. Then $\mu\ge0$, $\rho'\ge0$ and
+\begin{gather*}
+C_3=\rho+f\delta,\qquad C_4=\rho'+1,\qquad C_5=\mu+1+fs,\qquad C_6=\mu+1,\\
+C_7=\begin{cases}\mu+1+e&\delta=0,\\ (m'-1)ed+\bigl((e-1)(d-1)-1\bigr)&\delta=1,\end{cases}
+\end{gather*}
+where for $\delta=1$ we write $M=fm'$, $n=em'$. Each is positive, so (K) holds.
+\end{proposition}
+\begin{proof}
+$\mu\ge0$ is Lemma~\ref{lem:H}. $C_3=eM-f(n-\delta)=\rho+f\delta$, positive since $\rho\ge1$ if $\delta=0$; $C_4=f(n+1)-eM=f-\rho=\rho'+1$; $C_6=fn-e(n+1)=dn-e=\mu+1$; $C_5=f(n+s)-e(n+1)=dn-e+fs=\mu+1+fs$. $C_7=f(n-\delta)-en=dn-f\delta$: if $\delta=0$ it is $\mu+1+e$; if $\delta=1$ then $f\mid eM$ gives $f\mid M$ (coprimality), $M=fm'$, $n=em'$, and $dn-f=(m'-1)ed+(ed-f)$ with $ed-f=(e-1)(d-1)-1\ge1$ by $(\ast)$. Every term is non-negative and each total contains a positive constant.
+\end{proof}
+\noindent\emph{End of the proof of the $W$ half.} For the canonical $(t,r,q)$ condition (K) holds (Proposition~\ref{prop:cert}); Proposition~\ref{prop:step1} places the six pieces; Section~\ref{sub:tiles} tiles them; the count is $M^2(2f^2-e^2)$. The $T$ half is Proposition~\ref{prop:glue}. $\hfill\square$
+
+\begin{remark}[where the hypotheses enter; the parameters]\label{rem:params}
+(H1) gives $n\ge1$; (H2) enters only through $dn\ge e+1$, which is $C_6>0$ for $q=n$, $r=n+1$: it says that the apex $X_4$ of the triangle from which the corner of $\Pi_5$ is cut lies on $PO$ strictly beyond $C'$ (indeed $PX_4-PC'=fbq-ber=b\,C_6$).
+
+The triple $(t,r,q)$ is not unique: for $W_3(2,5)$ the triples $(1,2,1),(1,2,2),(1,3,2),(1,4,2)$ all satisfy (K). What $ft<eM<fr$ forces is $t\le n-\delta$ and $r\ge n+1$. Moreover, if (K) has any solution then $dn\ge e+1$. Indeed, suppose $dn\le e$, i.e.\ $fn\le e(n+1)$. Then $fq>er\ge e(n+1)\ge fn$, so $q\ge n+1$, and then $eq\ge e(n+1)\ge fn\ge ft>eq$, a contradiction. Hence the layout exists for some integers $t,r,q$ exactly when $dn\ge e+1$ (Lemma~\ref{lem:H} and Proposition~\ref{prop:cert}). This is a statement about this layout, not about tilings.
+\end{remark}
+
+%=====================================================================
+\section{Worked rows for $W_3(2,5)$}\label{sec:worked}
+\begin{example}[$(e,f,M)=(2,5,3)$, $414$ tiles]\label{ex:414}
+$a=10$, $b=21$, $c=25$, $\kappa=46$, $d=3$. $W_3$ has sides $Mfb=315$, $Me\kappa=276$, $Mf^3=375$. $n=\lfloor6/5\rfloor=1$, $\rho=1$, $\delta=0$, $(t,r,q)=(1,2,1)$. The five numbers: $C_3=eM-ft=1$, $C_4=4$, $C_5=11$, $C_6=1$, $C_7=3$ (certificates: $\mu=dn-e-1=0$, $\rho'=3$, $s=2$: $C_3=\rho=1$, $C_4=\rho'+1=4$, $C_5=\mu+1+fs=11$, $C_6=1$, $C_7=\mu+1+e=3$). Scales: $v=11$, $s_1=5$, $s_2=4$, $x=3$, $u_1=3$, $u_2=1$.
+Points $(\xi,y)$: $P=(0,0)$, $O=(315,0)$, $B=(0,126)$, $A=(0,-150)$, $P_2=(42,0)$, $P_3=(0,-20)$, $Q=(0,105)$, $R=(0,210)$, $C'=(84,0)$, $B'=(40,110)$, $V_2=(50,85)$, $X_4=(105,0)$, $U_1=(30,30)$, $U_2=(80,10)$.
+\emph{Line equations} (Step 1): $\varphi=5\xi+2y$: $P_2$: $210$, $Q$: $210$, $U_1$: $210$ ($=efb\,t$); $C'$: $420$, $B'$: $420$, $U_2$: $420$, $V_2$: $420$ ($=efb\,r$). $\psi=2\xi+5y$: $O$: $630$, $B$: $630$, $B'$: $630$ ($=efbM$).
+\emph{Turns} (Step 1), $\Pi_5=U_1,P_2,C',U_2$: edge vectors $U_1\to P_2=(12,-30)$, $P_2\to C'=(42,0)$, $C'\to U_2=(-4,10)$, $U_2\to U_1=(-50,20)$; turns $12\cdot0-(-30)\cdot42=1260$, $42\cdot10-0=420$, $(-4)\cdot20-10\cdot(-50)=420$, $(-50)(-30)-20\cdot12=1260$. The table gives $e^2fb(r-t)(fq-et)=4\cdot5\cdot21\cdot1\cdot3=1260$ at $P_2,U_1$ and $e^2fb(r-t)(fq-er)=4\cdot5\cdot21\cdot1\cdot1=420$ at $C',U_2$. Another row: $\Pi_4$ at $Q$: $efb\,f(r-t)(ft-eq)=10\cdot21\cdot5\cdot1\cdot3=3150$, and directly $(U_1-Q)\times(U_2-U_1)=(30,-75)\times(50,-20)=30(-20)-(-75)(50)=3150$.
+\emph{An edge identity} (Step 2): $P_2-U_1=(12,-30)=e u_1(e,-f)=6\,(2,-5)$, of length $6f=30=a\,u_1$.
+\emph{Counts:}
+\begin{center}\small
+\begin{tabular}{@{}lccc@{\qquad}lccc@{}}
+\toprule
+ & scales & formula & tiles & & scales & formula & tiles\\
+\midrule
+$\Pi_0$ & $15$ minus $2$ & $225-4$ & $221$ & $\Pi_3$ & $5$ minus $4$ & $25-16$ & $9$\\
+$\Pi_1$ & $11$ & $11^2$ & $121$ & $\Pi_4$ & $as_1\times cx$ & $2\cdot5\cdot3$ & $30$\\
+$\Pi_2$ & $5$ & $5^2$ & $25$ & $\Pi_5$ & $3$ minus $1$ & $9-1$ & $8$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Total $414=9\cdot46$. These numbers are the edge labels and counts of Figure~\ref{fig:one}.
+\end{example}
+\begin{example}[$W_4(3,5)$, $656$ tiles: scale $4<5$]\label{ex:656}
+$(e,f,M)=(3,5,4)$, $a=15$, $b=16$, $c=25$, $\kappa=41$, $n=2$, $\rho=2$, $\delta=0$, $(t,r,q)=(2,3,2)$; scales $v=11$, $s_1=5$, $s_2=3$, $x=4$, $u_1=4$, $u_2=1$; counts $364+121+100+16+40+15=656=16\cdot41$.
+\end{example}
+\begin{example}[the case $\delta=1$: $(2,5,5)$, $M=f$]\label{ex:delta}
+$n=2$, $\rho=0$, $(t,r,q)=(1,3,2)$, $C_3=5$, $C_4=5$, $C_6=4$, $C_7=1$; scales $v=19$, $s_1=10$, $s_2=5$, $x=1$, $u_1=8$, $u_2=4$; counts $621+361+25+75+20+48=1150=25\cdot46$.
+\end{example}
+\begin{example}[no layout: $(3,5,3)$]\label{ex:fail}
+$d=2$, $n=1$, $dn=2\le3=e$, so (K) has no solution (Remark~\ref{rem:params}): the canonical triple $(1,2,1)$ has $C_6=fq-er=5-6=-1<0$. This does not show that $W_3(3,5)$ is untiled.
+\end{example}
+
+%=====================================================================
+\section{What is known and what is open}\label{sec:open}
+\emph{Known.} $W_M$ is tiled if $M\ge M^*$ (Theorem~\ref{thm:W}) and not tiled if $Me<f$ (I1) or $M(f-e)\le e$ (I2), both imported; for $e<f/2$ this is a sharp threshold (Corollary~\ref{cor:sharp}); for $e=1$ and $e=f-1$ the threshold is $f$ (I3). For $e>f/2$ the scales neither covered by Theorem~\ref{thm:W} nor excluded by (I2) are those with $e/d<M<f/d+1$ ($d=f-e$), an open interval of length $2$, so at most two per row. For $T_M$ the scales with $2Me\ge f$ and $M<M^*$ are neither proved tiled nor excluded (for example $T_3(2,11)$).
+
+\emph{Computed, not proved.} $W_2(5,8)$ ($412$ tiles) is the smallest such open case with $e>f/2$ we examined: an exact search which imposes one of $32$ base-edge words and assumes a search parameter ($r=6$) found no tiling for any of the $32$ words. This is evidence only: it is not a proof (the assumption and the restriction to those words are not justified), and it is not formalised.
+
+\begin{conjecture}[$W^*$; \CJ{}]\label{conj:W}
+For coprime $2\le e\le f-2$, $W_M(e,f)$ is tiled if and only if $M\ge M^*(e,f)$.
+\end{conjecture}
+Corollary~\ref{cor:sharp} gives it for $e<f/2$ (with (I1)). Nothing here concerns the prime case or any integer other than those of Section~\ref{sec:census}.
+
+\section{Effect on the census, credits, disclosure}\label{sec:credit}
+\subsection{The census}\label{sec:census}
+Let $F$ be the set of the numbers $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$, over the triples $(e,f,M)$ of Theorem~\ref{thm:W}, that are non-squarefree and at most $10^6$. By the theorem they are all tile counts. The census of the companion paper \cite{Companion} lists, for the non-squarefree integers $2\le N\le10^6$, which are known tile counts, which are excluded and which are undecided. Relative to that census $F$ has $44\,495$ elements ($28\,946$ of the form $W$, $18\,431$ of the form $T$, $2\,882$ of both; largest $f$ is $251$); none is excluded by the exclusion theorem of the earlier release; $18\,357$ were known tile counts by other constructions. So \textbf{$26\,138$ integers become tile counts of the form $M^2(2f^2-e^2)$ or $M^2(3f^2-e^2)$ relative to that census}: they moved from ``undecided'' to ``tile count''. The count $26\,138$ comes from a program (computed, exact), and ``undecided'' is the status in the companion's census, not a statement about the literature. We found no statement of these values by Paliy or Beeson--Ro\c{s}u (a lookup in Paliy's repository at commit \texttt{0f7935b} only and in the cited Beeson texts; not a proof that none exists). Examples: $414=W_3(2,5)$ and $639=T_3(2,5)$ were undecided before.
+
+\subsection{Credit}
+The targets $W_M,T_M$, the $W/\beta$ framework and the tilings for $M\ge f$ are due to D.~Paliy and to M.~Beeson and G.~Ro\c{s}u \cite{BeesonRosu} (the tile with $3\alpha+2\beta=\pi$ is Beeson's case~III \cite{BeesonIII}); Paliy's up-set in the scale was published on 29 September 2026; the isosceles-apex frame at the point $P$ with $OP=OB$ is that of Beeson--Ro\c{s}u. The six-piece layout was found by our own computer search; the integer coordinates, the chain (winding-number) lemma and Lemma~H come from sessions inside this project. The companion paper \cite{Companion} credits B.~Herdt, Y.~X.~Zhang, M.~Laczkovich, J.~P.~Harries and Snover--Waiveris--Williams, whose work enters there. Statements about Paliy's work refer to his public repository \cite{PaliyRepo}; nothing here claims priority over him for what is listed as his.
+\subsection{Disclosure}
+The work was done with the help of an AI system (Claude, Anthropic); the questions and directions were the author's; each statement carries a label saying how it was checked.
+
+%=====================================================================
+\begin{thebibliography}{99}
+\bibitem{BeesonIII} M.~Beeson, \emph{Triangle tiling III: the case $3\alpha+2\beta=\pi$}, arXiv:1206.2229.
+\bibitem{BeesonRosu} M.~Beeson and G.~Ro\c{s}u, \emph{Tiling a triangle into a prime number of congruent triangles}, preprint, version of 16 October 2026.
+\bibitem{PaliyRepo} D.~Paliy, repository \texttt{github.com/DenisUkranian/erdos-634-tilings}: the $W/\beta$ framework, caps and collars, tilings for $M\ge f$ (September--October 2026); unrefereed.
+\bibitem{ReleasePaper} V.~Bonfioli, \emph{Congruent dissections of a triangle: prime counts, the counts up to $200$, and a family of isosceles targets}, release v1.13.1, Zenodo, October 2026 (concept DOI doi:10.5281/zenodo.23400433).
+\bibitem{Release22} V.~Bonfioli, \emph{Congruent dissections of a triangle: runs, windows and the corner}, version 2.2, release v1.16, Zenodo (same concept DOI).
+\bibitem{Companion} V.~Bonfioli, \emph{Conjecture C, the collar family and the census of tile counts, with computer evidence} (companion to Paper~W), version 3.0, release v3.0.
+\bibitem{Verif} V.~Bonfioli, \emph{Paper~W: verification record} (a separate short document in the same release): what was computed how, the older complex-coordinate proof, data and Lean index.
+\end{thebibliography}
+\end{document}

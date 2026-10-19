@@ -1,0 +1,92 @@
+% erdos634_v3W_verification.tex -- Paper W: verification record (companion document to erdos634_v3W2.tex), 2026-10-19.
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{booktabs,array}
+\usepackage{hyperref}
+\newcommand{\lean}[1]{\texttt{\detokenize{#1}}}
+\title{Paper W: verification record}
+\author{Vico Bonfioli}
+\date{19 October 2026}
+\begin{document}
+\maketitle
+This document supports Paper~W (\texttt{erdos634\_v3W2.tex}); the proof there does not need it. It records how each statement was checked, the older complex-coordinate proof, and where data and Lean files are. No reader outside this project has checked any of it.
+
+\section{What is checked how}
+\begin{center}\small
+\begin{tabular}{@{}p{5.6cm}p{7.0cm}@{}}
+\toprule
+statement & checked by\\
+\midrule
+Theorem~W, $W$ half & Lean (\lean{Draft.ThmW.thmW}, 19 helper modules, aggregate \lean{Erdos634.AllThmW}); and the hand proof of the paper (not Lean)\\
+Frame (coordinates of the points, metric, five directions) & hand; exact arithmetic against the older complex description, all coprime $e,f$ with $f\le24$, $M<3f$ (sampled $M$ for $f\le40$), $40\,624$ cases $(e,f,M,t,r,q)$: no mismatch (\texttt{code/check\_thmW\_frame.py}, block A)\\
+The $24$ edge identities, parallelism, cut lines & hand; exact: $18\,276$ cases (block B); and $3000$ random integer parameter sets (also outside (K)) re-checked 2026-10-19 for the rewrite: all $24$ identities and the two parallelogram identities hold identically\\
+The $22$ turns and their factorisation into the nine factors & computer algebra (sympy), 2026-10-19, scratch script in the working directory (\texttt{private/ROOM/READ\_W3/scratch\_turns.py}); not a saved tool; a Rust check (\texttt{anvil check/chain}) is planned\\
+Chain identity (five line equations) & hand; collinearity of the points on the five lines identically in $e,f,M,t,r,q$ (block A, exact)\\
+Layout: containment, separation, convexity, orientation, areas & hand; exact on $201\,886$ triples $(e,f,M)$, $f\le60$, $M<5f$: no failure under (H1), (H2), none passes outside (block D)\\
+(K) $\Leftrightarrow$ the sixteen sign conditions of the older proof; layout exists iff $dn\ge e+1$; canonical triple works whenever any works & hand; exact enumeration of all $(t,r,q)$ for $f\le12$, $M<3f$, $17.9$ million triples (block E)\\
+Lemma~H (both directions) & hand; exact: coprime $2\le e\le f-2$, $f\le300$, $M\le3f$, $16.2$ million triples (block G); Lean version \lean{Chain.W.lemmaH} (unaudited, no \texttt{sorry})\\
+Certificates of Proposition~4.5 of the paper & hand; exact on all $982\,658$ admissible $(e,f,M)$ with $f\le120$, $M\le3f$; the $27\,322$ non-admissible ones each violate one of (K)\\
+Count identity (six counts add to $M^2\kappa$) & computer algebra (block H, sympy)\\
+Chain lemma (Lean) & \lean{Draft/ChainKap}, \lean{ChainTri}, \lean{ChainCover}: triangles; \lean{ChainW}: the six pieces split into ten triangles; \lean{ChainParams}: Lemma H and canonical parameters. Unaudited, no \texttt{sorry}; not linked to the packing statement (stage 3 open), so no \lean{WTilable} derived from them\\
+Packing: convex pieces, each tiled, disjoint interiors, area sum $=$ area of target $\Rightarrow$ tiling & Lean (general theorem in the library)\\
+Explicit tilings ($414$, $656$, $639$, $801$, $3950$, $13\,888$, $57\,232$ tiles) & exact checker on exact coordinates: congruence, disjointness, area, hull a triangle (not Lean)\\
+$26\,138$ new tile counts & program count against the census of the companion (not Lean); each value is an instance of Theorem~W\\
+\bottomrule
+\end{tabular}
+\end{center}
+(For the canonical triple, $C_3=\rho+f\delta$, $C_4=f-\rho$, $C_6=dn-e$, $C_5=dn-e+f(M-n)$, $C_7=dn-f\delta$.)
+Consistency with the exclusions: (H1), (H2) imply $M(f-e)>e$, $Me\ge f$ and $2Me\ge f$, so no instance of the theorem contradicts (I1) or (I2).
+
+\section{The older proof: complex coordinates and cross-product tables}
+The first version of Paper~W and the Lean proof use complex numbers with $O=0$ and $OB$ the positive real axis. With $D=4f^2-e^2$ write $\xi+i\sqrt D\,\zeta$ as $[\xi,\zeta]$ and put
+\[
+\varepsilon=e^{i\alpha}=\Bigl[\tfrac{\kappa}{2f^2},\tfrac{e}{2f^2}\Bigr],\quad
+\eta=e^{i\beta}=\Bigl[\tfrac{e(3f^2-e^2)}{2f^3},\tfrac{b}{2f^3}\Bigr],\quad \omega=\overline{\varepsilon\eta}=e^{-i(\alpha+\beta)},
+\]
+with $b=f^2-e^2$, $\varepsilon^3\eta^2=-1$, $a+b\omega=c\bar\eta$, $f\omega+e\varepsilon=f\bar\eta$. Then $P=fbM\varepsilon$, and the frame of the paper is $z=P-\xi\,\varepsilon+y\,\omega$. The points are $B=fbM$, $A=f^3M\varepsilon^2$, $P_2=b(fM-et)\varepsilon$, $P_3=P-eat\,\omega$, $Q=P+fbt\,\omega$, $R=P+fbr\,\omega$, $C'=bv\,\varepsilon$, $B'=cv$, $V_2=P+f^3t\,\bar\eta-ef^2r$, $X_4=P-fbq\,\varepsilon$, $U_1=P-ef^2t+ef^2q\,\bar\eta$, $U_2=P-ef^2r+ef^2q\,\bar\eta$ (exact check against the frame: block A). The Lean proof shows that each cross product needed for containment, separation and convexity (about $100$) is a positive constant times a product of sixteen named factors
+\begin{gather*}
+C_2=r-t,\ C_3=eM-ft,\ C_3'=fM-et,\ C_4=fr-eM,\ C_5=fM-er,\ C_6=fq-er,\ C_6'=fq-et,\\
+C_7=ft-eq,\ C_8=f^2t-e^2r,\ C_9=fr-eq,\ C_{10}=M-q,\ E_1=bM+eft,\ E_2=eMf+bt,\ E_3=br+e^2t,\\
+L_A=bfM-e\kappa t+f^3q,\ L_B=bfM-e\kappa r+f^3q,\ L_C=efbM-e^2\kappa r+f^4t,
+\end{gather*}
+all positive for the canonical triple; the tables are generated by \texttt{python3 code/check\_thmW\_algebra.py 60 --tex tables.tex}. Values for three examples (all positive):
+\begin{center}\small
+\begin{tabular}{@{}lcccccccccccccc@{}}
+\toprule
+$(e,f,M)$ & $C_2$ & $C_3$ & $C_3'$ & $C_4$ & $C_5$ & $C_6$ & $C_6'$ & $C_7$ & $C_8$ & $C_9$ & $C_{10}$ & $L_A$ & $L_B$ & $L_C$\\
+\midrule
+$(2,5,3)$ & 1 & 1 & 13 & 4 & 11 & 1 & 3 & 3 & 17 & 8 & 2 & 348 & 256 & 887\\
+$(3,5,4)$ & 1 & 2 & 14 & 3 & 11 & 1 & 4 & 4 & 23 & 9 & 2 & 324 & 201 & 1103\\
+$(2,5,5)$ & 2 & 5 & 23 & 5 & 19 & 4 & 8 & 1 & 13 & 11 & 3 & 683 & 499 & 1123\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Data, Lean index, reproduction}
+\emph{Thirteen witnesses with $M<f$ found by the first computer search} (now instances of Theorem~W; each a Lean theorem in \lean{Draft/DebtBWTilable}); tiles of $W_M$ and $T_M$:
+\begin{center}\small
+\begin{tabular}{@{}lrr@{\qquad}lrr@{}}
+\toprule
+$(e,f,M)$ & $W_M$ & $T_M$ & $(e,f,M)$ & $W_M$ & $T_M$\\
+\midrule
+$(3,5,4)$ & $656$ & $1056$ & $(7,12,4)$ & $3824$ & $6128$\\
+$(4,7,4)$ & $1312$ & $2096$ & $(7,10,5)$ & $3775$ & $6275$\\
+$(5,8,4)$ & $1648$ & $2672$ & $(7,9,6)$ & $4068$ & $6984$\\
+$(5,7,5)$ & $1825$ & $3050$ & $(8,11,5)$ & $4450$ & $7475$\\
+$(5,11,3)$ & $1953$ & $3042$ & $(9,11,7)$ & $7889$ & $13\,818$\\
+$(5,9,4)$ & $2192$ & $3488$ & $(6,11,4)$ & $3296$ & $5232$\\
+$(7,11,4)$ & $3088$ & $5024$ & & &\\
+\bottomrule
+\end{tabular}
+\end{center}
+This search was bounded by its own parameter range (it did not reach $W_3(2,5)$). \emph{Shipped tilings:} directory \texttt{data/witnesses/v3\_exact/}, files \texttt{tiling\_<count>\_<kind>\_<e>\_<f>\_M<M>.exact.txt.gz}, kinds \texttt{W} ($37$ files) and \texttt{T} ($15$); each starts with a comment line, then one tile per line in exact coordinates $(X,Y\sqrt D)$. \emph{Lean index} (namespace \lean{Erdos634.}, aggregate \lean{AllThmW}): \lean{Draft.ThmW.thmW}; modules \lean{ThmWLib}, \lean{Lib2}, \lean{Hyp}, \lean{Sc}, \lean{Pts}, \lean{Ineq0}--\lean{4}, \lean{Geo0}--\lean{3}, \lean{Core}, \lean{Nat}, \lean{Params}, \lean{Final}; instances \lean{inst_414}, \lean{inst_656}, \lean{inst_639}, \lean{inst_801}; counts \lean{Draft.DebtB.counts_of_wTilable}; glue \lean{CollarG.betaTilable_of_wTilable}; ladder \lean{Subdivision.ladderDissection}.
+\begin{verbatim}
+python3 code/check_thmW_frame.py ALL 60                 # frame, layout, equivalences
+python3 code/check_thmW_algebra.py 60 --tex tables.tex  # older algebra + tables
+python3 code/lakeserial.py lean build Erdos634.AllThmW  # one module at a time
+BTE=rust/bonfioli_tiling_engine/target/release/bte
+$BTE verify data/witnesses/v3_exact/tiling_414_W_2_5_M3.exact.txt.gz
+\end{verbatim}
+\end{document}
