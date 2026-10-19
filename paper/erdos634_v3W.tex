@@ -44,7 +44,7 @@
 
 %=====================================================================
 \begin{abstract}
-Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently, by an explicit integer inequality (Lemma~\ref{lem:equiv}); for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ tile counts that were undecided in this project's census (not checked against Paliy's ledger). The paper says which part is Lean, hand, computed or imported.
+For coprime integers $2\le e\le f-2$ let the \emph{tile} be the triangle with sides $ef,\ f^2-e^2,\ f^2$, and let $W_M$ be a certain triangle of integer scale $M$ built from it. Paliy showed that $W_M$ is tiled by copies of the tile when $M\ge f$. We prove that $W_M$ is tiled already when $Me\ge f$ and $(M-1)(f-e)\ge f$. The proof is one layout of six pieces in a skew frame with integer coordinates, with a written proof of about four pages; a Lean~4 proof of the same statement (verifying the same layout by cross-product tables) also exists. Example: $W_4(3,5)$ is tiled by $656$ tiles. For $e<f/2$ the condition is also necessary \emph{if one assumes an exclusion theorem imported from the earlier release}. A neighbouring triangle $T_M$ is tiled by a gluing lemma of that release. A program count (computed, not proved) gives $26\,138$ integers, undecided in this project's census, that are tile counts. The paper states which parts are Lean, written by hand, computed or imported.
 \end{abstract}
 \maketitle
 
@@ -68,7 +68,7 @@ Before this paper both were known to be tiled for every $M\ge f$ (Paliy), and fo
 \textbf{Theorem~W} (Theorem~\ref{thm:W}). If $2\le e\le f-2$, $\gcd(e,f)=1$, $Me\ge f$ and $(M-1)(f-e)\ge f$, then $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ copies of $\tile(e,f)$ and $T_M(e,f)$ by $M^2(3f^2-e^2)$.
 \end{quote}
 Example: $(e,f)=(2,5)$, $M=3$ gives a tiling of a triangle with sides $315,276,375$ by $414$ copies of $(10,21,25)$; before, the smallest scale known was $M=f=5$.
-\emph{Why it matters.} The scales $M<f$ are exactly the targets for which smaller tile counts $M^2(2f^2-e^2)$ become available; each tiling adds new integers to the set of tile counts that Erd\H{o}s's question asks about, and the earlier release listed $W_4(3,5)$ as an open case.\par\emph{What this does not do.} It does not settle which $M$ fail when $e>f/2$ (Section~\ref{sec:open}), the members $e=1$ and $e=f-1$, or the prime case of Problem~634.
+\emph{Why it matters.} The scales $M<f$ are the ones not covered by Paliy's theorem, and the earlier release listed $W_4(3,5)$ as an open case; each tiling shows that its tile count is an integer of the kind Erd\H{o}s's question asks about.\par\emph{What this does not do.} It does not settle which $M$ fail when $e>f/2$ (Section~\ref{sec:open}), the members $e=1$ and $e=f-1$, or the prime case of Problem~634.
 
 \subsection{Reader's guide}
 \emph{The proof in outline} (Section~\ref{sec:proof}; every claim below is an equation or inequality a reader can check by hand; ``scale $s$'' means a triangle with sides $sa,sb,sc$, and a ``tile-row'' is a strip one scale-one tile wide).
@@ -346,7 +346,7 @@ Fix $(t,r,q)$ with (K). The six pieces are the following regions, written with t
 piece & region & vertices & shape and tile count\\
 \midrule
 $\pi_0$ & $y\le0$, $\xi\ge0$, $e^2fbt\le ef\xi-by\le ef^2bM$ & $A,O,P_2,P_3$ & trapezoid: $OAP$ (scale $fM$) minus corner $PP_2P_3$ (scale $et$); $f^2M^2-e^2t^2$\\
-$\pi_1$ & $y\ge0$, $u\ge r$, $w\le M$ & $O,B',C'$ & triangle, scale $v$; $v^2$\\
+$\pi_1$ & $y\ge0$, $\xi\ge0$, $u\ge r$, $w\le M$ & $O,B',C'$ & triangle, scale $v$; $v^2$\\
 $\pi_2$ & $\xi\ge0$, $u\le t$, $ef\xi-by\le e^2fbt$ & $P_3,P_2,Q$ & triangle, scale $ft$; $f^2t^2$\\
 $\pi_3$ & $\xi\ge0$, $t\le u\le r$, $ft/e\le w\le M$ & $B,Q,V_2,B'$ & trapezoid: $RQV_2$ (scale $s_1$) minus corner $RBB'$ (scale $s_2$); $s_1^2-s_2^2$\\
 $\pi_4$ & $t\le u\le r$, $q\le w\le ft/e$ & $Q,U_1,U_2,V_2$ & parallelogram $as_1\times cx$, angle $\beta$; $2s_1x$\\
