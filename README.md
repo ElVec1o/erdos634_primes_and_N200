@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
 
+This version (v3.0): doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
+
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
 
