@@ -44,12 +44,12 @@
 
 %=====================================================================
 \begin{abstract}
-Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently $(f-e)\lfloor eM/f\rfloor\ge e+1$; for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ new tile counts. The paper says which part is Lean, hand, computed or imported.
+Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently $(f-e)\lfloor eM/f\rfloor\ge e+1$; for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ tile counts that were undecided in this project's census (not checked against Paliy's ledger). The paper says which part is Lean, hand, computed or imported.
 \end{abstract}
 \maketitle
 
 \begin{center}\fbox{\begin{minipage}{0.94\linewidth}\small
-\textbf{Key (everything needed to read \S1.2).} Coprime integers $2\le e\le f-2$; $d=f-e$; tile sides $a=ef$, $b=f^2-e^2$, $c=f^2$; $\kappa=2f^2-e^2$. A triangle of \emph{scale} $s$ has sides $sa,sb,sc$ (tiled by $s^2$ tiles). $W_M$ is the triangle $OAB$ with $|OB|=Mfb$, $|OA|=Mf^3$, $|AB|=Me\kappa$; $P$ is the point of $AB$ with $OP=OB$.
+\textbf{Key (everything needed to read \S1.2; every symbol is defined again in \S2).} Coprime integers $2\le e\le f-2$; $d=f-e$; tile sides $a=ef$, $b=f^2-e^2$, $c=f^2$; $\kappa=2f^2-e^2$. A triangle of \emph{scale} $s$ has sides $sa,sb,sc$ (tiled by $s^2$ tiles). $W_M$ is the triangle $OAB$ with $|OB|=Mfb$, $|OA|=Mf^3$, $|AB|=Me\kappa$; $P$ is the point of $AB$ with $OP=OB$.
 \emph{Frame:} origin $P$, axes along $PO$ and $PB$; a point is $(\xi,y)$, a vector has squared length $\xi^2+y^2+\frac ef\xi y$; $O=(fbM,0)$, $B=(0,ebM)$, $A=(0,-ef^2M)$ (all points of the layout have integer coordinates, Table~\ref{tab:pts}). \emph{Lattice lines:} with $\varphi=f\xi+ey$, the line $\ell_k$ is $\varphi=efb\,k$ ($k\in\mathbb Z$); it has direction $(e,-f)$ and meets $PO$ at $\xi=ebk$ and $AB$ at $y=fbk$. $\ell_t$ and $\ell_r$ are the two lattice lines on either side of $B$ ($ft<eM<fr$), and the \emph{strip} $S$ is the part of $OPB$ between them; its width is one tile-row ($=af$ along $OB$) when $f\nmid eM$. Lattice coordinates $u=\varphi/efb$, $w=(e\xi+fy)/efb$ tell on which side of a line a point is. $n=\lfloor eM/f\rfloor$; canonical $t=n-\delta$, $r=n+1$, $q=n$ ($\delta=1$ iff $f\mid eM$). (H1) $Me\ge f$, (H2) $(M-1)d\ge f$.
 \end{minipage}}\end{center}
 
@@ -228,7 +228,7 @@ Put $M^*(e,f)=\max\bigl(\lceil f/e\rceil,\ \lceil f/(f-e)\rceil+1\bigr)$; then (
 \emph{Exactly what is Lean.} Lean module \texttt{Draft/ThmW.lean} (with 19 helper modules, aggregate \lean{Erdos634.AllThmW}), theorem \lean{Draft.ThmW.thmW}: for natural numbers $e,f,M$ with \texttt{Nat.Coprime e f}, $2\le e$, $e+2\le f$, $f\le M\cdot e$ and $f\le (M-1)\cdot(f-e)$, the conclusion is
 \[\texttt{WTilable e f M} \ \wedge\ \texttt{TileCount ((2*f\^{}2-e\^{}2)*M\^{}2)}\ \wedge\ \texttt{TileCount (M\^{}2*(3*f\^{}2-e\^{}2))}.\]
 \texttt{WTilable e f M} says: there is a dissection into congruent triangles, each congruent to the triangle with sides $ef,\ f^2-e^2,\ f^2$, of a triangle with sides $Mf(f^2-e^2)$, $Me(2f^2-e^2)$, $Mf^3$. So Lean states the \emph{tiling} for $W_M$; for $T_M$ it states only that the number is a tile count, and the tiling of $T_M$ itself is the glue (I5), a Lean theorem of the earlier release (Section~\ref{sub:T}). Axioms: \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. The Lean statement was compared with the one above inside the project (verdict: match). Hypotheses are witnessed by instances \lean{inst_414}, \lean{inst_656}, \lean{inst_801} (and others), so the Lean theorem is not vacuous.
-\emph{The Lean proof does not follow Section~\ref{sec:proof}}: it verifies, for the layout in complex coordinates, a table of about $100$ cross products factored into positive factors, with $143$ generated sign lemmas (Appendix~\ref{app:complex}). Section~\ref{sec:proof} is a second, independent proof of the $W$ half, written for a reader; it is not formalised.
+\emph{The Lean proof does not follow Section~\ref{sec:proof}}: it verifies, for the layout in complex coordinates, a table of about $100$ cross products factored into positive factors, with $143$ generated sign lemmas (Appendix~\ref{app:complex}). Section~\ref{sec:proof} is a second proof of the $W$ half (the same layout, a different verification of it), written for a reader; it is not formalised.
 
 First instances (the last column is the smallest scale known before, namely $f$):
 \begin{center}\small
@@ -244,7 +244,7 @@ $(9,11)$ & $7$ & $W_7(9,11)$ & $7889$ & $11$\\
 \bottomrule
 \end{tabular}
 \end{center}
-Thirteen targets with $M<f$ were found by a bounded computer search before the proof was known (Appendix~\ref{app:data}); they are only the output of that one search. The theorem has many more instances with $M<f$, for example $(e,f,M)=(4,9,3)$ and $(3,8,3)$.
+Thirteen targets with $M<f$ were found by a bounded computer search before the proof was known (Appendix~\ref{app:data}); they are only the output of that one search (bounded by the search's own parameter range, which did not reach, for example, $W_3(2,5)$). The theorem has many more instances with $M<f$, for example $(e,f,M)=(4,9,3)$ and $(3,8,3)$.
 
 \subsection{Consequences}
 \begin{corollary}[Sharpness for $e<f/2$, assuming the import (I1); ``if'': Theorem~\ref{thm:W} \PL{} plus the arithmetic below; ``only if'': imported (I1)]\label{cor:sharp}
@@ -260,7 +260,7 @@ $W_4(3,5)$, a triangle with sides $320,\,492,\,500$, is tiled by $656$ copies of
 \noindent This is Theorem~\ref{thm:W} for $(e,f,M)=(3,5,4)$ ($M^*(3,5)=\max(2,4)=4$). A list of the $656$ tiles in exact coordinates is shipped (Appendix~\ref{app:data}) and verified by an exact checker.
 
 \begin{remark}[An earlier expectation that is false]\label{rem:refute}
-(a) \emph{The threshold conjecture ``B1''.} Our earlier notes expected that, for $e\ge2$, neither $W_M$ nor $T_M$ is tiled for $M<f$; the earlier paper \cite{ReleasePaper} recorded as an observation that every case decided so far has threshold $f$, and listed $W_4(3,5)$ among the open cases. Corollary~\ref{cor:W435} is a counterexample ($4<5$), and Theorem~\ref{thm:W} gives infinitely many.
+(a) \emph{The threshold conjecture ``B1''.} Our earlier notes expected that, for $e\ge2$, neither $W_M$ nor $T_M$ is tiled for $M<f$; the earlier paper \cite{ReleasePaper} recorded as an observation that every case decided so far has threshold $f$, and listed $W_4(3,5)$ among the open cases. Corollary~\ref{cor:W435} is a counterexample ($4<5$), and Theorem~\ref{thm:W} gives infinitely many (for each $e\ge2$ and $f$ large, $M=\lceil f/e\rceil<f$ works when $e<f/2$, by Corollary~\ref{cor:sharp}).
 The first statement was an expectation of our working notes and an observation in the earlier paper, not a theorem; no earlier theorem is affected.
 \end{remark}
 
@@ -290,7 +290,7 @@ First, $ed\ge f+1$: with $f=e+d$ we have $ed-f=(e-1)(d-1)-1$, and $(e-1)(d-1)\ge
 
 ($\Leftarrow$) Suppose $dn\ge e+1$. Then $n\ge1$, i.e.\ $eM\ge f$: (H1). Suppose (H2) failed: $(M-1)d\le f-1$. Then $dM\le f+d-1<2f$, so $s:=\lceil dM/f\rceil\in\{1,2\}$, and $n=\lfloor M-dM/f\rfloor=M-s$. If $s=1$ then $dM\le f$ and $dn=d(M-1)\le f-d=e$; if $s=2$ then $dn=d(M-2)\le f+d-1-2d=e-1$. Either way $dn\le e$, a contradiction.
 
-($\Rightarrow$) Suppose (H1), (H2). If $d\ge e+1$: $n\ge1$ by (H1), so $dn\ge d\ge e+1$. If $d\le e$: $d\nmid f$ (else $d\mid e$, so $d=1$), so $f=dh+j$ with $0<j<d$, and $h\ge2$ because $f=e+d\ge2d$; then $e=f-d=d(h-1)+j$. (H2) gives $M-1\ge\lceil f/d\rceil=h+1$, so $M\ge h+2$, and
+($\Rightarrow$) Suppose (H1), (H2). If $d\ge e+1$: $n\ge1$ by (H1), so $dn\ge d\ge e+1$. If $d\le e$: $d\nmid f$ (else $d\mid e$, so $d=1$, i.e.\ $e=f-1$, excluded), so $f=dh+j$ with $0<j<d$, and $h\ge2$ because $f=e+d\ge2d$; then $e=f-d=d(h-1)+j$. (H2) gives $M-1\ge\lceil f/d\rceil=h+1$, so $M\ge h+2$, and
 \[
 e(h+2)-hf=e(h+2)-h(e+d)=2e-hd=d(h-2)+2j>0,
 \]
@@ -348,7 +348,7 @@ piece & region & vertices & shape and tile count\\
 $\pi_0$ & $y\le0$, $\xi\ge0$, $e^2fbt\le ef\xi-by\le ef^2bM$ & $A,O,P_2,P_3$ & trapezoid: $OAP$ (scale $fM$) minus corner $PP_2P_3$ (scale $et$); $f^2M^2-e^2t^2$\\
 $\pi_1$ & $y\ge0$, $u\ge r$, $w\le M$ & $O,B',C'$ & triangle, scale $v$; $v^2$\\
 $\pi_2$ & $\xi\ge0$, $u\le t$, $ef\xi-by\le e^2fbt$ & $P_3,P_2,Q$ & triangle, scale $ft$; $f^2t^2$\\
-$\pi_3$ & $\xi\ge0$, $u\le r$, $ft/e\le w\le M$ & $B,Q,V_2,B'$ & trapezoid: $RQV_2$ (scale $s_1$) minus corner $RBB'$ (scale $s_2$); $s_1^2-s_2^2$\\
+$\pi_3$ & $\xi\ge0$, $t\le u\le r$, $ft/e\le w\le M$ & $B,Q,V_2,B'$ & trapezoid: $RQV_2$ (scale $s_1$) minus corner $RBB'$ (scale $s_2$); $s_1^2-s_2^2$\\
 $\pi_4$ & $t\le u\le r$, $q\le w\le ft/e$ & $Q,U_1,U_2,V_2$ & parallelogram $as_1\times cx$, angle $\beta$; $2s_1x$\\
 $\pi_5$ & $y\ge0$, $t\le u\le r$, $w\le q$ & $U_1,P_2,C',U_2$ & trapezoid: $X_4U_1P_2$ (scale $u_1$) minus corner $X_4C'U_2$ (scale $u_2$); $u_1^2-u_2^2$\\
 \bottomrule
@@ -432,7 +432,7 @@ By Steps 1 and 2, $W_M$ is the union of six pieces with disjoint interiors, each
 is a polynomial identity in $e,f,M,t,r,q$ (expand with (\ref{eq:scales}); checked by computer algebra, Appendix~\ref{app:checks}). It is also forced by area: the tiles are disjoint, cover $W_M$, and all have the area of the tile. For $\delta=0$ and the canonical triple it reads, with $eM=fn+\rho$, $f^2M^2-e^2n^2+(fM-en-e)^2+f^2n^2+\rho(2f-\rho)+2f\,dn+e(2dn-e)=M^2\kappa$.
 The canonical triple of Proposition~\ref{prop:exact} satisfies (K) under (H1), (H2). This proves the $W$ half of Theorem~\ref{thm:W}. The $T$ half is Section~\ref{sub:T}. \hfill$\square$
 
-\smallskip\noindent\emph{Remark} (where the hypotheses enter). (H1) gives $n\ge1$; (H2) enters only through $dn\ge e+1$, that is the single inequality $er<fq$ with $q=n$, $r=n+1$: the apex $X_4$ of the corner removed from $\pi_5$ lies on $PO$ at or beyond $C'$. Everything else in (K) holds for all $M\ge1$ with $dn\ge1$.
+\smallskip\noindent\emph{Remark} (where the hypotheses enter). (H1) gives $n\ge1$; (H2) enters only through $dn\ge e+1$, that is the single inequality $er<fq$ with $q=n$, $r=n+1$: the apex $X_4$ of the corner removed from $\pi_5$ lies on $PO$ at or beyond $C'$. Everything else in (K) holds for all $M\ge1$ with $dn\ge1$ (for $\delta=1$ the inequality $eq<ft$ needs $dn>f$, which follows from $de\ge f+1$ since $n=em'$).
 
 \emph{Remark.} A shorter alternative to Step 1 (a winding-number chain lemma, audited inside the project, not in Lean) is given in Appendix~\ref{sub:chain}; it is not needed here.
 
@@ -458,7 +458,7 @@ Three rows of the proof, by hand, for this example.
 \emph{Separation} ($\pi_4|\pi_5$ by the line $w=q$). $w=\psi/(efb)=(2\xi+5y)/210$. On $\pi_4$: $w(Q)=525/210=2.5$, $w(U_1)=(60+150)/210=1$, $w(U_2)=(160+50)/210=1$, $w(V_2)=(100+425)/210=2.5$: all $\ge1=q$. On $\pi_5$: $w(U_1)=1$, $w(P_2)=84/210=0.4$, $w(C')=168/210=0.8$, $w(U_2)=1$: all $\le1$. So the line $w=1$ separates the two (the pieces meet along $U_1U_2$).
 \emph{Containment} ($\pi_5$, vertex $U_2$, in $\Omega=OAB$). The three sides: $\xi\ge0$: $80\ge0$; $w\le M$: $w(U_2)=1\le3$; $ef\xi-by\le ef^2bM$: $10\cdot80-21\cdot10=590\le ef^2bM=10\cdot5\cdot21\cdot3=3150$. Equivalently, as in Step 1: $U_2\in[C',B']$, since on $u=2$ its level $w=1$ lies in $[0.8,3]$.
 \emph{Convexity and orientation} ($\pi_5=U_1P_2C'U_2$). The edge vectors in $(\xi,y)$ are $U_1\!\to\!P_2=(12,-30)$, $P_2\!\to\!C'=(42,0)$, $C'\!\to\!U_2=(-4,10)$, $U_2\!\to\!U_1=(-50,20)$, and the consecutive cross products $\xi y'-y\xi'$ are $12\cdot0-(-30)\cdot42=1260$, $42\cdot10-0=420$, $(-4)(20)-10(-50)=420$, $(-50)(-30)-20\cdot12=1260$: all positive. (In the proof convexity is automatic, since each piece is an intersection of half-planes.) \emph{A shape row:} $P_2-U_1=(12,-30)=eu_1(e,-f)=6\,(2,-5)$, of length $6f=30=a\,u_1$ since $a u_1=10\cdot3$.
-The first four columns of the earlier version's tables (Appendix~\ref{app:complex}) contain the same facts in the form used by the Lean proof.
+
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}[x=1bp,y=1bp]
@@ -493,7 +493,7 @@ Two examples: $414=2\cdot 3^2\cdot 23$ and $639=3^2\cdot71$ were undecided befor
 \item \textbf{$e<f/2$: nothing} (Corollary~\ref{cor:sharp}) for $W_M$; for $T_M$ the scales with $2Me\ge f$ and $M<M^*(e,f)$ are neither proved tiled nor excluded (for example $T_3(2,11)$).
 \item \textbf{$e>f/2$, the ``no'' side.} The exclusion imported here is only (I2), $M(f-e)\le e$. So for each row $(e,f)$ with $e>f/2$ the scales $M$ neither covered by Theorem~\ref{thm:W} nor excluded by (I2) are exactly those with $e/d<M<f/d+1$, $d=f-e$ (for $e>f/2$ the condition $Me\ge f$ holds for all $M\ge2$); the interval has length exactly $2$, so it contains at most two integers: at most two undecided scales per row. (That the interval holds at most two integers is proved: it is an open interval of length $2$.) \CJ{}\ \emph{Conjecture $W^*$:} for coprime $e,f$ with $2\le e\le f-2$, $W_M(e,f)$ is tiled iff $M\ge M^*(e,f)$ (for $e>f/2$: iff $(M-1)(f-e)\ge f$).
 Examples, relative to the imports (I1)--(I3) only (see also the next item): $W_2(3,5)$, $W_3(3,5)$, $W_2(5,8)$. For $W_2(5,8)$ ($412=4\cdot103$ tiles) a restricted exact computer search found no tiling (evidence only, not formal, \CE{}); the next item says it is decided by a newer theorem.
-\item \textbf{A newer exclusion, not used in this paper.} In the project repository (not in the release that accompanies this paper) there is a Lean theorem, \lean{Draft.SplusThick.wTilable_not_of_small_M}, stating that $W_M(e,f)$ is not tiled when $\gcd(e,f)=1$, $2\le e<f$, $M<f$, $f\le Me$ and $M(f-e)\le e+1$; it extends (I2) by one and decides $W_2(3,5)$ and $W_2(5,8)$ (no tiling) and leaves $W_3(3,5)$ open. Its hand proof has been audited inside the project (verdict: sound, with one repair), the Lean file is marked unaudited in its header, and it has not been checked by anyone outside the project. It does not interact with Theorem~\ref{thm:W}: for $e>f/2$ Theorem~\ref{thm:W} needs $(M-1)(f-e)\ge f$, the exclusion needs $M(f-e)\le e+1<f$.
+\item \textbf{A newer exclusion, not part of this release's claims.} In the project repository (not in the release that accompanies this paper; so here $W_2(3,5)$ and $W_2(5,8)$ are open) there is a Lean theorem, \lean{Draft.SplusThick.wTilable_not_of_small_M}, stating that $W_M(e,f)$ is not tiled when $\gcd(e,f)=1$, $2\le e<f$, $M<f$, $f\le Me$ and $M(f-e)\le e+1$; it extends (I2) by one and decides $W_2(3,5)$ and $W_2(5,8)$ (no tiling) and leaves $W_3(3,5)$ open. Its hand proof has been audited inside the project (verdict: sound, with one repair), the Lean file is marked unaudited in its header, and it has not been checked by anyone outside the project. It does not interact with Theorem~\ref{thm:W}: for $e>f/2$ Theorem~\ref{thm:W} needs $(M-1)(f-e)\ge f$, the exclusion needs $M(f-e)\le e+1<f$.
 \item \textbf{$e=1$ and $e=f-1$} lie outside Theorem~\ref{thm:W}; for $W_M$ the threshold is $M=f$ by (I3); for $T_M(1,f)$ the exclusion $2M\le f$ of (I1) leaves, for example, $T_3(1,4)$ open.
 \item \textbf{The $T$ half in general:} only the tile count and the glue; the converse of the glue is unknown.
 \item \textbf{Nothing is claimed about the prime case or any integer outside $F$.}
@@ -536,7 +536,7 @@ Reproduction: \texttt{python3 code/check\_thmW\_frame.py ALL 60} (about one minu
 \subsection{Alternative to Step 1: the chain lemma, and certificates for (K)}\label{sub:chain}
 \emph{Hand-proved, audited inside the project (verdict: sound, with four repairs, all applied here); not in Lean.} Step 1 above is a direct case analysis. A shorter argument replaces containment, separation and the area identity by one lemma (winding-number additivity; the integer frame is due to a study inside this project).
 \begin{lemma}[chain lemma]\label{lem:chain}
-Let $T$ and $\Pi_1,\dots,\Pi_k$ be polygons with counter-clockwise vertex lists, all with \emph{strictly} positive turns (cross products of consecutive edge vectors). Then each $\Pi_i$ is a convex polygon: for a $3$- or $4$-gon whose exterior angles all lie in $(0,\pi)$ and sum to $2\pi$, the boundary is a simple closed convex curve. If, as formal sums of oriented segments, $\sum_i\partial\Pi_i=\partial T$, where the equality means equal oriented multiplicity on every line (collinear segments add: $[p,q]+[q,r]=[p,r]$ in any order of the points, and $[p,q]+[q,p]=0$), then the $\Pi_i$ have pairwise disjoint interiors, lie in $T$, and cover $T$.
+Let $T$ and $\Pi_1,\dots,\Pi_k$ be triangles or quadrilaterals with counter-clockwise vertex lists, all with \emph{strictly} positive turns (cross products of consecutive edge vectors). (For polygons with five or more vertices positive turns do not imply convexity.) Then each $\Pi_i$ is a convex polygon: for a $3$- or $4$-gon whose exterior angles all lie in $(0,\pi)$ and sum to $2\pi$, the boundary is a simple closed convex curve. If, as formal sums of oriented segments, $\sum_i\partial\Pi_i=\partial T$, where the equality means equal oriented multiplicity on every line (collinear segments add: $[p,q]+[q,r]=[p,r]$ in any order of the points, and $[p,q]+[q,p]=0$), then the $\Pi_i$ have pairwise disjoint interiors, lie in $T$, and cover $T$.
 \end{lemma}
 \noindent\emph{Proof.} Winding numbers are additive in the boundary chain; a convex counter-clockwise polygon has winding number $1$ inside and $0$ outside, so $\sum_i\mathbf 1_{\Pi_i}=\mathbf 1_T$ off finitely many lines. If two interiors met, the sum would be $\ge2$ on an open set; if some $\Pi_i$ left $T$, it would be $\ge1$ off $T$. $\square$
 (Caution: ``each piece inside $T$ and the areas add up'' does \emph{not} imply disjointness; and the vanishing of a sum of edge \emph{vectors} is not chain equality.)
@@ -558,16 +558,7 @@ C_6=fq-er,\ C_6'=fq-et,\ C_7=ft-eq,\ C_8=f^2t-e^2r,\ C_9=fr-eq,\\
 C_{10}=M-q,\ E_1=bM+eft,\ E_2=eMf+bt,\ E_3=br+e^2t,\\
 L_A=bfM-e\kappa t+f^3q,\ L_B=bfM-e\kappa r+f^3q,\ L_C=efbM-e^2\kappa r+f^4t,
 \end{gather*}
-and that these are positive for the canonical triple. Under (K) they all follow from the four inequalities: $C_3,C_4,C_6,C_7>0$ are (K) itself; $C_2>0$, $C_{10}>0$ and $C_3',C_5>0$ are (\ref{eq:consK}); $C_6'=C_6+eC_2$, $C_8=fC_7+eC_6$, $C_9=fC_2+C_7$ are sums of positive terms; $E_1,E_2,E_3$ are sums of products of positive numbers; $L_A,L_B,L_C$ express that $U_1$, $U_2$, $V_2$ lie on the segments $[P_2,Q]$, $[C',B']$ of Step 1, which is automatic (verified exactly: block E). The tables, generated by \texttt{code/check\_thmW\_algebra.py}, are:
-\begin{table}[ht]\centering\caption{Separation of pieces: cross products, one row for each vertex of the second piece not on the edge line.}\label{tab:sep}
-\small\input{app_W_sep.tex}\addtocounter{table}{-1}
-\end{table}
-\begin{table}[ht]\centering\caption{Containment in $OAB$: $\langle Y-X,Z-X\rangle\ge0$ for each vertex $Z$ of a piece and each side $XY$ of the target in the order $OB$, $BA$, $AO$ (zero rows omitted).}\label{tab:cont}
-\small\input{app_W_sep_cont.tex}\addtocounter{table}{-1}
-\end{table}
-\begin{table}[ht]\centering\caption{Convexity: the consecutive cross products (``turns'') of each piece, with the vertex $X_j$ at which each starts; all are positive. The doubled signed area of piece $\pi_i$ equals $\tfrac{eb}2$ times its number of tiles.}\label{tab:conv}
-\small\input{app_W_sep_conv.tex}\addtocounter{table}{-1}
-\end{table}
+and that these are positive for the canonical triple. Under (K) they all follow from the four inequalities: $C_3,C_4,C_6,C_7>0$ are (K) itself; $C_2>0$, $C_{10}>0$ and $C_3',C_5>0$ are (\ref{eq:consK}); $C_6'=C_6+eC_2$, $C_8=fC_7+eC_6$, $C_9=fC_2+C_7$ are sums of positive terms; $E_1,E_2,E_3$ are sums of products of positive numbers; $L_A,L_B,L_C$ express that $U_1$, $U_2$, $V_2$ lie on the segments $[P_2,Q]$, $[C',B']$ of Step 1, which is automatic (verified exactly: block E). The three tables (separation, containment, convexity; about $100$ rows) are generated by \texttt{python3 code/check\_thmW\_algebra.py 60 --tex tables.tex} and are not reproduced here (they are in the earlier draft in the repository history); each row is a bilinear expansion with the sine table $\langle1,\varepsilon\rangle=\frac e{2f^2}$, $\langle1,\omega\rangle=-\frac1{2f}$, $\langle1,\bar\eta\rangle=-\frac b{2f^3}$, $\langle\varepsilon,\omega\rangle=\langle\varepsilon,\bar\eta\rangle=-\frac1{2f}$, $\langle\omega,\bar\eta\rangle=\frac e{2f^2}$.
 The values of the sixteen factors of the older proof for the three examples (all positive):
 \begin{center}\small
 \begin{tabular}{@{}lcccccccccccccc@{}}
