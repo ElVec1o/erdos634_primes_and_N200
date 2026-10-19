@@ -1,0 +1,44 @@
+% v3.1: fills have distinct grey levels (ef4 .93, ef2 .86, ef7 .78, ef1 .71, ef3 .60, ef6 .54, ef5 .49) and classes ef2,ef7,ef3,ef6,ef5,ef8 carry a faint
+% non-diagonal pattern (efpat<k>) so orientation classes stay decodable in greyscale.
+% erdosfig.sty -- figure kit for the Erdos #634 papers (style study: Beeson-Rosu's coloured tilings; no artwork copied).
+% Usage: \usepackage{erdosfig}.  Colours ef1..ef8 are Okabe-Ito based (colour-blind safe) light fills with spread lightness
+% so that neighbouring regions also differ in greyscale.  Mirrored tiles carry a diagonal hatch (style efmirror).
+\NeedsTeXFormat{LaTeX2e}\ProvidesPackage{erdosfig}[2026/10/19 figure kit]
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{tikz,xcolor}
+\usetikzlibrary{patterns,calc,angles,quotes,arrows.meta,decorations.markings}
+\definecolor{ef1}{HTML}{F4A94E}  % orange
+\definecolor{ef2}{HTML}{BFE3F6}  % sky
+\definecolor{ef3}{HTML}{5DBB8C}  % green
+\definecolor{ef4}{HTML}{FFF59D}  % yellow
+\definecolor{ef5}{HTML}{5B7FCF}  % blue
+\definecolor{ef6}{HTML}{E4694A}  % vermillion
+\definecolor{ef7}{HTML}{F2B5D4}  % purple-pink
+\definecolor{ef8}{HTML}{9A9A9A}  % grey
+\definecolor{efline}{HTML}{222222}
+\definecolor{efgrid}{HTML}{555555}
+\definecolor{efalpha}{HTML}{D55E00}  % angle alpha
+\definecolor{efbeta}{HTML}{0072B2}   % angle beta
+\definecolor{efgamma}{HTML}{009E73}  % angle gamma
+\tikzset{
+  efpat2/.style={pattern=dots, pattern color=black!28},
+  efpat7/.style={pattern=horizontal lines, pattern color=black!28},
+  efpat3/.style={pattern=crosshatch dots, pattern color=black!30},
+  efpat6/.style={pattern=vertical lines, pattern color=black!28},
+  efpat5/.style={pattern=grid, pattern color=black!30},
+  efpat8/.style={pattern=crosshatch, pattern color=black!30},
+  eftile/.style={draw=efgrid, line width=0.12pt, line join=round},
+  efhair/.style={draw=efgrid, line width=0.04pt, line join=round},
+  eftilebig/.style={draw=efgrid, line width=0.25pt, line join=round},
+  efregion/.style={draw=efline, line width=0.7pt, line join=round, fill=none},
+  eftarget/.style={draw=black, line width=0.9pt, line join=round},
+  efmirror/.style={pattern=north east lines, pattern color=black!22},
+  eflab/.style={font=\fontsize{8}{9}\selectfont, inner sep=1pt},
+  eflabbig/.style={font=\fontsize{9}{10}\selectfont\bfseries, inner sep=1.5pt},
+  efvert/.style={font=\fontsize{9}{10}\selectfont, inner sep=1.5pt},
+  efside/.style={font=\fontsize{8}{9}\selectfont, inner sep=1.5pt, fill=white, fill opacity=0.85, text opacity=1},
+  efdot/.style={circle, fill=black, inner sep=0.7pt},
+}
+% angle arc: \efarc{colour}{radius}{label}{P}{V}{Q}  draws the angle at V from P to Q (counter-clockwise), label outside
+\newcommand{\efarc}[6]{\pic[draw=#1, line width=0.9pt, fill=#1!25, angle radius=#2, angle eccentricity=1.45, "{\color{#1}\small #3}"] {angle=#4--#5--#6};}
+\endinput
