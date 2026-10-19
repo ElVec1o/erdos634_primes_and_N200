@@ -1,3 +1,45 @@
+2026-10-19 T2 (MATH_RULES V10.1 H5) for paper version 3.0 (`paper/erdos634_v3.tex`). UNAUDITED draft. Section A answers the questions that blind readers asked of the version-3.0 draft in six rounds (private reading log), and the questions a referee would ask; none changes a label. The FAQ for version 2.x is kept unchanged below `# FAQ for version 2.x`.
+
+# FAQ for version 3.0
+
+**A1. Is Theorem W really proved for T_M, in Lean?** The Lean statement `Draft.ThmW.thmW` gives the tiling for W_M and the *count* `TileCount (M^2(3f^2-e^2))` for T_M. The geometric tiling of T_M is the glue of one tile at scale Mf along the side Mfb (Section 3.3); that glue is the earlier-release Lean theorem `CollarG.betaTilable_of_wTilable`. The paper says this in the abstract, the Lean paragraph under Theorem 3.1 and the results table.
+
+**A2. What is imported from the earlier releases?** Four facts, stated in Section 1.1: W_M untiled if Me<f and T_M untiled if 2Me<f (`cor:ebelow`); W_M untiled if M(f-e)<=e (`cor:thickw`(a)); the threshold f for e=1 and e=f-1; tilings for M>=f. The sharpness half of Corollary 3.2 is only as self-contained as `cor:ebelow`(a).
+
+**A3. Why six pieces, and why n = floor(eM/f)?** Section 1.2 (the idea) and Section 3.4. The pieces are the ladder-subdividable shapes that fit around the bisector OP; n is the largest integer with fn <= eM, which makes the scale s_2 = fr - eM positive with r=n+1 and keeps all other scales positive when M >= M*(e,f) (sufficiency proved in Appendix A, Lemma C; that the canonical parameters work exactly when M >= M*(e,f) was checked by computation for f<=40, M<4f).
+
+**A4. Where exactly are (H1) and (H2) used?** n>=1 (H1); dM>=f+d and s=M-n>=2 and dn>=e+1 (H2, with coprimality). Appendix A, Lemma C (P1)-(P5). The failing case (3,5,3) in Section 3.5 shows the factor fq-er = -1.
+
+**A5. Is the hand proof checkable without the computer?** The area identity, the shape identities of Lemma A and the identity for (LB) are polynomial identities that can be expanded by hand; they were also verified by computer algebra and by the Lean kernel. The sign of each prefactor in Lemma B is a monomial in e,f,b,kappa times a fixed sign; the Lean modules have one lemma per factor.
+
+**A6. Is 26 the number of inequalities?** The complete list of linear or quadratic factors in the cross products has 26 members (audit); Lemma B lists 13 factors (C2-C8, M>q, t>0, r>0, LA, LB, LC) and three expressions that are always positive.
+
+**A7. Why does the text say the template was 'found by a search' if the proof is by hand?** The layout was found by a computer search (engine described only as far as the paper does); the proof of Theorem W does not use the search, only the layout.
+
+**A8. Are the 13 first witnesses part of Theorem W?** They are instances; they were found before the theorem and are Lean theorems on their own (Appendix F). 'Smallest M known tiled before version 3.0' in the table of Section 3.1 means before this version.
+
+**A9. Does Theorem W contradict a proved exclusion?** No: (H1) and (H2) imply that the hypotheses of the exclusions Me<f, 2Me<f, M(f-e)<=e fail (Section 3.6; a consistency check only). The 197 registry rows of recorded non-tilings (N, tile) do not meet the family.
+
+**A10. What is open for W_M and T_M?** For W_M with e>f/2, the two scales with (M-1)(f-e)<f<(M+1)(f-e); for T_M, the scales with 2Me>=f and M<M*(e,f) (Section 3.7).
+
+**A11. What did the collar step prove in Lean, and what by hand?** The one-layer case h=1 (for every row with ef <= f^2-e^2) in Lean; arbitrary height by hand. The tails 465g^2 (g>=5), 966g^2 (g>=17), 2485g^2 (g>=5) are Lean; the small g are the macro counts.
+
+**A12. Is 15m^2 for all m>=4 proved?** No, as a Lean theorem: 15m^2 for m in the semigroup <4,9> and for the individual m=5,6,7 is Lean; the rest is Paliy's claim (Section 5.2).
+
+**A13. Is Conjecture C a classification?** It is a conjecture stating the set of tile counts as a union of families; it is not claimed true; the existence half is a Lean theorem on a narrower collection of ranges; the exclusion half is open (Appendix B). The consistency check (c) there is partly circular and says so.
+
+**A14. What does 'excluded' mean in the census?** The decidable arithmetic hypothesis of the single exclusion theorem of the earlier release fails for N; the evaluation is a program, the theorem is Lean; the theorem has been audited inside the project only (Appendix C).
+
+**A15. Who proved what first?** Section 7 gives the dated credit table: Paliy (W/beta framework, caps and collars, alpha up-set 2026-09-29, 15m^2 seeds 2026-10-08, 4830), Beeson and Rosu (targets, methods), Herdt (1125), Harries (88, 189 as in Beeson's work), Laczkovich, Zhang. Nothing in the paper claims priority over Paliy for the results listed as his.
+
+**A16. How was AI used?** An AI system (Claude, Anthropic) assisted in obtaining the results; the questions and directions were the author's; the proofs were checked in Lean or by hand as labelled; the provenance table is in the repository README.
+
+**A17. Where do I send corrections?** To the author, Vico Bonfioli.
+
+---
+
+# FAQ for version 2.x
+
 2026-10-18 T2 (MATH_RULES V10.1 H5), revised per REVISION_2.md and REVISION_3.md. UNAUDITED draft. Answers cite the files named; none changes a label.
 
 **1. Is this just Beeson-Roșu?** The architecture of the section on T(g) is theirs (relation lattice and window, stopped run and quadratic patch, trapezoid lemma, how not to start a run, the pigeonhole on the ends, the side count). Ours: the transfer to the tile with gamma = 2 alpha (written out for this tile, with the fan lemma in place of gamma > pi/2), the split of the window into u and v, the corner start (Lemma K, which removes the 'tile across the ray' hypothesis at base corners), the counting identity and apex property used for the leg with alpha at both ends, and Theorem F. See `ours_vs_adapted.md`.

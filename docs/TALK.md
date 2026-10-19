@@ -1,3 +1,53 @@
+2026-10-19 T2 (MATH_RULES V10.1 H5), for paper version 3.0 (`paper/erdos634_v3.tex`). UNAUDITED draft written from the paper alone; not a result; nothing here changes a label. The talk for version 2.x is kept unchanged below the line `# Version 2.x talk`.
+
+# Talk (version 3.0): 50 minutes, 20 slides
+Title: "Congruent dissections of a triangle: the six-piece template and the scale thresholds"
+Audience: mathematicians who know tilings or combinatorial geometry; no Lean knowledge assumed. Labels on slides as in the paper: Lean, hand, computed, Paliy-claim, conjecture.
+Timing: 1-3 six minutes (problem, standing, the tile), 4-6 eight (targets and tools), 7-13 twenty-two (Theorem W: the core), 14-16 six (collar, macro pieces), 17-18 four (Conjecture C, census), 19-20 four (what is not proved, credits, how it was made).
+
+**Slide 1. The problem (2 min).** Erdos asked: for which N can some triangle be cut into N congruent triangles. Classical counts: squares, x^2+y^2, 3k^2, 6k^2. Laczkovich classified the possible tiles. This talk does not solve the problem and does not treat the primes; it is about *existence*: which counts occur, and at which scales.
+
+**Slide 2. Standing (2 min).** Five labels: proved in Lean (kernel-checked, standard axioms, statement compared with the mathematical one inside the project only), proved by hand (audited inside the project), computed (exact finite computation), claimed by Paliy (not re-proved), conjecture. Say plainly: nobody outside the project has read the Lean statements.
+
+**Slide 3. The tile (2 min).** Coprime e<f; sides a=ef, b=f^2-e^2, c=f^2 (triangle since a+b-c=e(f-e)>0). Angles satisfy 3 alpha + 2 beta = pi and gamma = 2 alpha + beta. Example (2,5): the tile (10,21,25), angles 23.1, 55.4, 101.5 degrees. Figure 2 of the paper.
+
+**Slide 4. The targets W_M, T_M, B_g (3 min).** W_M has angles 2 alpha, beta, alpha+beta and M^2(2f^2-e^2) tiles by area; T_M is W_M plus one tile of scale Mf (apex 3 alpha, base angles beta), M^2(3f^2-e^2) tiles; B_g the base-alpha isosceles, (f^2-e^2)(2f^2-e^2)g^2. Figure 3.
+
+**Slide 5. Two tools (3 min).** Ladder subdivision: a triangle similar to the tile with integer scale s has s^2 tiles; a parallelogram with sides sa, uc and angle beta has 2su tiles (picture: the unit cell cut along the diagonal b). Square closure: if N is a tile count so is k^2 N (enlarge by k, cut each enlarged tile by ladder). Prove the second on the board (3 lines).
+
+**Slide 6. What was known (2 min).** Paliy and Beeson: W_M and T_M tile for every M >= f. Earlier releases: no tiling if Me<f (W_M) or 2Me<f (T_M); no tiling of W_M if M(f-e)<=e; threshold exactly f for e=1 and e=f-1. Question: is f the threshold for 2<=e<=f-2? Answer: no.
+
+**Slide 7. Theorem W, statement (2 min).** For coprime 2<=e<=f-2 and Me>=f and (M-1)(f-e)>=f, W_M tiles with M^2(2f^2-e^2) tiles and T_M with M^2(3f^2-e^2). Table: (2,5): M*=3 (was 5), 414 tiles; (3,5): M*=4, 656; (2,11): M*=6, 8568. Corollary: for e<f/2 the threshold is exactly ceil(f/e) (the lower bound is the earlier theorem). Which parts are Lean: tiling for W_M, count for T_M; the glue giving the tiling of T_M is from the earlier release.
+
+**Slide 8. The idea (3 min).** The point P on the side AB with OP=OB; triangle OBP isosceles with base angles alpha+beta, so apex alpha, so OP bisects the angle 2 alpha. Cut W_M into six pieces, each a ladder triangle, trapezoid or parallelogram of integer scale; scales linear in M and in t,r,q (Figure 4). Area identity automatic: the six counts add up to M^2(2f^2-e^2) identically.
+
+**Slide 9. The worked example W_3(2,5) (4 min).** n=floor(6/5)=1, rho=1, delta=0, (t,r,q)=(1,2,1); pieces 221+121+25+9+30+8=414. Show Figure 4 and the enlargement (Figure 5). This is the "theorem doing something before reading why" (H5).
+
+**Slide 10. What remains: placement (3 min).** Pieces are convex; contained iff vertices are; disjoint if an edge line separates; so everything is positivity of a list of linear/quadratic expressions in e,f,M,t,r,q (26 factors in all; Lemma B lists the non-obvious ones).
+
+**Slide 11. The parameter choice (3 min).** n = floor(eM/f), rho = eM - fn, delta = [rho=0], t=n-delta, r=n+1, q=n. Where (H1) and (H2) enter: n>=1, dn>=e+1 (d=f-e), s=M-n>=2, dM>=f+d.
+
+**Slide 12. One lemma proved in full (5 min, on the board).** The decisive factor (LB) = bfM - e kappa r + f^3 q > 0: substitute M=(fs-rho)/d and n=(eM-rho)/f to get LB = s Psi - kappa(rho+e), Psi=f^3+2ef^2-e^2f-e^3; with s>=2, rho<=f-1: LB >= 2 Psi - kappa(f+e) + kappa > e(2f+e)(f-e) > 0.
+
+**Slide 13. A failing case and sharpness (3 min).** (e,f,M)=(3,5,3): (H2) fails, canonical (t,r,q)=(1,2,1) gives fq-er=-1<0 (the scale u_2 of the trapezoid pi_5 is negative); this does not show W_3(3,5) untiled (undecided). Evidence: 348,350 cases of the exact check; the canonical parameters work exactly when M>=M*, for f<=40 and M<4f.
+
+**Slide 14. The collar family (3 min).** B_{g0+h} = homothetic copy of B_{g0} at the apex plus a strip cut in three ladder pieces; the identity c^2 h + a(K-ah) = b kappa (g0+h) - b(sigma+bh) reduces to c^2-a^2=bc. Seeds for e=1: (f^2-1)(2f^2-1)g^2 for g>=f+1 (Lean); tails 465g^2 (g>=5), 966g^2 (g>=17), 2485g^2 (g>=5). Paliy's up-set is his; the construction is independent.
+
+**Slide 15. Macro pieces (2 min).** A piece that is a scaled copy of the target of a known tiling: 375 = 240+91+35+9 (Paliy's 240 seed). Twenty-seven counts are individual Lean theorems; 20 are small cases of 966g^2 and 2485g^2.
+
+**Slide 16. 143 and 4830 (1 min).** 143 (triangle (39,49,55) by (3,5,7)) is sporadic; 4830 is Paliy's, verified exactly.
+
+**Slide 17. Conjecture C (2 min).** Tile counts = k^2 times cores in nine families F0..F8; existence half Lean on the proved ranges, exclusion half open; falsifiable tests: 1860, 4185, 7440; squarefree 465, 966, 2485; 1617.
+
+**Slide 18. The census (2 min).** Non-squarefree N<=10^6 (392,074): 199,140 excluded, 129,108 tile counts, 63,826 undecided; Theorem W alone moves 26,138 values. Exclusion by a program evaluating a Lean-proved hypothesis; audited only inside the project.
+
+**Slide 19. What is not proved (2 min).** Exclusion half of C; the no side of (H2) for e>f/2; T_M scales with 2Me>=f and M<M*; V and A'; 15m^2 for all m>=4 as a Lean theorem; outside check.
+
+**Slide 20. Credits and how it was made (2 min).** Paliy (W/beta framework, caps and collars, alpha up-set, seeds, 15m^2, 4830), Beeson and Rosu (targets, seed), Herdt, Laczkovich, Zhang, Harries; dates in Section 7. An AI system (Claude, Anthropic) assisted; the questions and directions were Vico Bonfioli's; the proofs were checked in Lean or by hand as labelled.
+
+---
+
+# Version 2.x talk
 2026-10-18 T2 (MATH_RULES V10.1 H5), revised per REVISION_1.md, REVISION_2.md and REVISION_3.md. UNAUDITED draft. Not a result; nothing here changes a label.
 
 # Talk: 20 minutes, 12 slides

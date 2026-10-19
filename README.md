@@ -7,7 +7,7 @@ throughout, under the author's direction.
 
 **Archive:** Zenodo, doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433) (all versions); version 1.0: doi:[10.5281/zenodo.23400434](https://doi.org/10.5281/zenodo.23400434).
 
-**Paper (version 3.0):** `paper/erdos634_v3.pdf`, October 2026 (source `paper/erdos634_v3.tex`): the six-piece template (Theorem W), scale thresholds, the collar family, macro-piece tile counts, a conjectured classification of the tile counts (Conjecture C), the census, a list of corrections and a list of what is not proved. It is self-contained for its own results and uses the version 2.2 paper for the exclusion side. **Companion papers:** `paper/erdos634_primes_and_N200.pdf` (version 2.2: runs, windows and the corner, Theorem F, the census to one million, the prime case), `paper/erdos634_primes_and_N200_v1.pdf` (the first paper). Talk and FAQ: `docs/`.
+**Papers (version 3.0, two):** `paper/erdos634_v3W.pdf` (Paper W, source `.tex`): Tilings of W_M and T_M below the threshold scale (Theorem W, the six-piece template); and `paper/erdos634_v3C.pdf` (companion): the collar family, macro-piece tile counts, Conjecture C, the census, corrections and what is not proved. They share `paper/notation_table.tex`; the companion uses the version 2.2 paper for the exclusion side. **Companion papers:** `paper/erdos634_primes_and_N200.pdf` (version 2.2: runs, windows and the corner, Theorem F, the census to one million, the prime case), `paper/erdos634_primes_and_N200_v1.pdf` (the first paper). Talk and FAQ: `docs/`.
 
 Standing marks used below, as in the paper: **F** = theorem of the accompanying Lean 4 library, with the standard axioms
 only (`propext`, `Classical.choice`, `Quot.sound`) and no `sorry`; **W** = written proof in the paper, not formalized;
@@ -226,7 +226,7 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `LICENSE` | CC BY 4.0 for the text and data (`paper/`, `data/`), MIT for the code (`code/`, `lean/`, `rust/`) |
 | `.gitignore` | excludes build products (`lean/.lake/`, `rust/*/target/`, `rust/mrv2/out/`) and LaTeX auxiliary files |
 | `docs/` | `TALK.md`, `FAQ.md` |
-| `paper/` | `erdos634_v3.tex` and `.pdf` (the paper, version 3.0), `erdos634_primes_and_N200.tex` and `.pdf` (the version 2.2 paper), `..._v1.tex` and `.pdf` (the first paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
+| `paper/` | `erdos634_v3W.tex`/`.pdf` (Paper W) and `erdos634_v3C.tex`/`.pdf` (companion), version 3.0, `erdos634_primes_and_N200.tex` and `.pdf` (the version 2.2 paper), `..._v1.tex` and `.pdf` (the first paper), `tiling143.pdf` (figure: the triangle (39,49,55) cut into 143 copies of (3,5,7)) |
 | `lean/` | the Lean 4 library `Erdos634`: `README.md` (build and map), `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `Erdos634.lean` (root), `Erdos634/` (4768 modules), `axioms/` (`#print axioms` for every declaration of the Lean map, one file per aggregate) |
 | `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts), `r8/` (decoders and verifier driver of the R8 layouts) |
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values in `r8_exact/`; the 13 template tilings of release v1.15 in `template_exact/`; the 97 exact tilings of release v3.0 in `v3_exact/`: Theorem W, collar, macro pieces, Paliy's 4830) |
@@ -246,7 +246,7 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 * **What is not proved** (paper Section 10): the exclusion half of C; the no side of W for e > f/2; e = 1 and e = f-1 for T; V and A'; Theta and S3; 15m^2 for all m >= 4 as a Lean theorem; the squarefree values; and a check of the Lean statements, of theoremP_6 and of Theorem W by a person outside this project.
 * **Checks.** `lean/Erdos634/AllV3.lean` (84 modules built one at a time, no `sorry`, no `native_decide` in the new modules); `lean/axioms/AxiomsAllV3.lean`: 98 declarations, every line `[propext, Classical.choice, Quot.sound]` (axiom gate 98/98); the build log of the full aggregate: 58,118 axiom lines, 0 failures. Exact verification of all 97 witness files: 97/97 VERIFIED.
 * **Provenance.** The questions and directions are the author's. Claude (Anthropic) was used for exploration, computation, proof drafting and Lean development under that direction; the Lean proofs are checked by the kernel; the hand proof of Theorem W and the collar step were audited by separate instances and by exact computation (no reader outside the project). Search tools beyond those of release v1.16 are not part of this release.
-* **Paper:** version 3.0 (`paper/erdos634_v3.pdf`); the version 2.2 paper is unchanged.
+* **Paper:** version 3.0 (`paper/erdos634_v3W.pdf`, `paper/erdos634_v3C.pdf`); the version 2.2 paper is unchanged.
 
 ## Release v1.16: eight template tile counts are Lean theorems; W3+ census as evidence
 
