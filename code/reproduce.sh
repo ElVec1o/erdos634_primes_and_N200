@@ -15,3 +15,8 @@ for i in 1 2 3 4 5 W2; do python3 code/lakeserial.py lean build "Erdos634.AllCer
 for f in lean/axioms/*.lean; do
   ( cd lean && lake env lean "../$f" 2>&1 ) | python3 code/axiom_gate.py || { echo "axiom gate FAILED for $f"; exit 1; }
 done
+# exact verification of the template-search tilings of release v1.15 (an exact verifier, not Lean): every line must end in VERIFIED
+( cd rust/bonfioli_tiling_engine && cargo build --release )
+for f in data/witnesses/template_exact/*.gz data/witnesses/r8_exact/r8_*.gz; do   # (the u_*.gz files are checked by code/r8/fastverify.py; see r8_exact/verification_log_open_r8.txt)
+  rust/bonfioli_tiling_engine/target/release/bte verify "$f" | grep -q "VERIFIED" || { echo "bte verify FAILED for $f"; exit 1; }
+done

@@ -1,4 +1,4 @@
-% paper_v2_full.tex -- version 2.0 (2026-10-18; REVISION_5 text updated with the v1.14 facts). Self-contained: own preamble, own bibliography.
+% paper_v2_full.tex -- version 2.1 (2026-10-19; census and tile counts of release v1.15; text of version 2.0 otherwise). Self-contained: own preamble, own bibliography.
 % Marks: \sF (Lean theorem), \sW (written proof, not formalized), \sS (computation without a kernel-checked certificate).
 % Assembled by private/DRAFT/build_full.py from part files; the Herdt and census sections are patched copies of paper_v2_sections.tex.
 \documentclass[11pt,reqno]{amsart}
@@ -35,7 +35,7 @@
 
 \title[Runs, windows and the corner]{Congruent dissections of a triangle:\\ runs, windows and the corner}
 \author{Vico Bonfioli}
-\date{Version 2.0, 18 October 2026}
+\date{Version 2.1, 19 October 2026}
 
 \begin{document}
 
@@ -53,7 +53,7 @@ The proof adapts the run induction of Beeson and Ro\c{s}u to this tile. The new 
 Theorem~F settles every $\Omega_{2}$, and for $v=u+1$ every $g<v$. The case $g=1$ is Beeson's Theorem~11.7 of 2012; here it is the $g=1$ instance of the same run induction (a reproduction, Remark~\ref{rem:gone}), and the Lean theorem covers every $g\ge1$; the hypothesis $(g-1)(v-u)<u$ is not known to be sharp. Together with a test on the side words of a second family of targets it decides new values of $N$: for example $204$, $276$ and $279$ are not tile counts ($204$ and $228$ also by search certificates).
 \textup{(4)} Herdt's $1125$-tiling is the first member of a family of macro-dissections: its pieces fit if and only if two linear equations in six positive integers
 have a solution, and they have one exactly when $(v^2-u^2)^3v^2>u^8$. For such $(u,v)$, $\Omega_{g}$ has a tiling for every multiple $g$ of an explicit $g_0$.
-\textup{(5)} Of the $392\,074$ non-squarefree $N\le10^6$, $199\,140$ are excluded, $102\,471$ are tile counts and $90\,463$ are undecided (counts of type \sS). All $199\,140$ exclusions satisfy the decidable hypothesis of \emph{one} Lean theorem (\lean{not_tile_of_conditionsNSQzETWDS}); a program, not the kernel, evaluates that hypothesis for each $N$. Among the squarefree $N\le10^6$, $22$ values left open by an earlier row of the census are tile counts, by exact verification of nested-corner layouts of D.~Paliy ($345$ and $506$ also in Lean); $771$ squarefree values remain open at the exact level and $791$ at the Lean level.
+\textup{(5)} Of the $392\,074$ non-squarefree $N\le10^6$, $199\,140$ are excluded, $102\,613$ are tile counts and $90\,321$ are undecided (counts of type \sS). All $199\,140$ exclusions satisfy the decidable hypothesis of \emph{one} Lean theorem (\lean{not_tile_of_conditionsNSQzETWDS}); a program, not the kernel, evaluates that hypothesis for each $N$. Among the squarefree $N\le10^6$, $22$ values left open by an earlier row of the census are tile counts, by nested-corner layouts of D.~Paliy; all $22$ are now Lean theorems, as instances of three family theorems of Paliy's construction that are formalized here (\lean{PRevAll.prev_family}, \lean{PF2All.pf2_family}, \lean{PF3All.pf3_family}); $771$ squarefree values remain open, at the exact and at the Lean level.
 The formal statements have not been compared with the mathematical ones by a reader outside this work.
 \end{abstract}
 \maketitle
@@ -916,11 +916,11 @@ Of the $392\,074$ non-squarefree $N\le10^6$:
 \begin{itemize}
 \item $199\,140$ are excluded, all by the hypothesis of the single theorem \lean{not_tile_of_conditionsNSQzETWDS} (Section~\ref{sub:status}). Of the $199\,140$, $71\,039$ were already excluded by the program of the previous release ($62\,150$ by the earlier single theorem and $8\,889$ with sharpenings) and $128\,101=199\,140-71\,039$ are new with Theorem~F and the word leaf.
 The condition is evaluated by the program, not by the kernel.
-\item $102\,471$ are tile counts, by the existence families of the library: those of the theorem on $N\le200$ (squares, sums of two squares, $3k^2$, $6k^2$, $7m^2$, $11m^2$ and the sporadic values), the formal families $S_2$, $F_3$, $F_4$ and the base-$\psi$ tilings of scale $\mu\ge f$, all scaled by
+\item $102\,613$ are tile counts, by the existence families of the library: those of the theorem on $N\le200$ (squares, sums of two squares, $3k^2$, $6k^2$, $7m^2$, $11m^2$ and the sporadic values), the formal families $S_2$, $F_3$, $F_4$ and the base-$\psi$ tilings of scale $\mu\ge f$, all scaled by
 squares, the further tilings of the release paper, and Section~\ref{sec:herdt}.
-\item $90\,463$ are undecided.
+\item $90\,321$ are undecided.
 \end{itemize}
-The program reports for each undecided value the set of leaves that fail. The $90\,463$ values (the program's $91\,750$ minus the $1\,287$ later found to be tile counts by the known families) are partitioned
+The program reports for each undecided value the set of leaves that fail. The $90\,321$ values (the program's $91\,750$ minus the $1\,429$ later found to be tile counts: $1\,287$ by the known families, $134$ by the family theorems of Paliy's nested corners of Section~\ref{sec:new21}, and $8$ by exact verification of template tilings, Section~\ref{sec:new21}) are partitioned
 exactly, by the set of failing leaves, as follows: $S_1$ stands for the base-$\psi$ leaf at a scale $2\le \mu<f$, $S_4$ for the leaf of the targets $\mathcal W_\mu$ at such a scale, $G$ for the target with base angles $\alpha$ at a scale
 $g\ge\lceil u/d\rceil+1$ (so Theorem~F does not apply), $S_5$ for a $\theta$ target whose word exists.
 
@@ -942,15 +942,15 @@ $G,S_4$ & 877\\
 $G,S_1$ & 857\\
 other subsets of $\{S_1,S_4,G,S_5\}$ with at least two elements ($S_4S_5$ 295, $S_1S_5$ 197, $GS_1S_4S_5$ 90, $GS_1S_4$ 70, $S_1S_4S_5$ 21) & 673\\
 \emph{obstruction classes only (no minor leaf), subtotal} & \emph{85\,473}\\
-minor leaves only ($S_3$ 767, $\mathrm{Iso}$ 493, $E F_1$ 240, $E$ 226, $R_8$ 167, $A$ 85, other 46) & 2\,024\\
-minor leaves together with at least one obstruction class & 2\,966\\
+minor leaves only ($S_3$ 765, $\mathrm{Iso}$ 493, $E F_1$ 240, $E$ 226, $R_8$ 128, $A$ 85, other 43) & 1\,980\\
+minor leaves together with at least one obstruction class & 2\,868\\
 \hline
-total undecided & 90\,463\\
+total undecided & 90\,321\\
 \hline
 \end{tabular}
 \end{center}
-Thus the four counts $28\,615$, $18\,619$, $10\,964$, $2\,468$ (values for which \emph{one} obstruction class is the only failing leaf) account for $60\,666$ values; the remaining $29\,797$ either fail several obstruction classes and no minor leaf ($24\,807$) or involve a minor leaf
-($4\,990$: $2\,024$ with minor leaves only and $2\,966$ with an obstruction class as well). The partition was recomputed from the program's output for the final chain (exact integers; \sS), and the sums above were checked.
+Thus the four counts $28\,615$, $18\,619$, $10\,964$, $2\,468$ (values for which \emph{one} obstruction class is the only failing leaf) account for $60\,666$ values; the remaining $29\,655$ either fail several obstruction classes and no minor leaf ($24\,807$) or involve a minor leaf
+($4\,848$: $1\,980$ with minor leaves only and $2\,868$ with an obstruction class as well). The partition was recomputed from the program's output for the final chain (exact integers; \sS), and the sums above were checked.
 
 Among the $128\,101$ values that are new with Theorem~F and the word leaf, the smallest are $171$, $204$, $228$, $276$, $279$, $304$, $315$, $348$, $372$, $380$, $387$, $459$. (The value $171$ is below $200$ and is also decided by the theorem on $N\le200$; the census counts it as excluded by the chain.) At the program's previous tier, in which the $\theta$ branch is closed by the two closed-form bounds, the first eleven fail only the leaf $G$ and $459$ is the smallest that fails $G$ and the closed-form $\theta$ leaf; the word leaf is needed there because the instance $(3,7,10)$ of $459$ has $te=21\ge2f=20$ and $e\ne f-1$, and $te\,b=1071$ admits no word with $z\ge10$. In terms of the single Lean theorem the picture is different: each of them fails both the earlier $G$ test and the earlier parity test for $S_5$, so the theorem uses Theorem~F (or (G2)) and the word test together. For $204$, $268$, $276$, $279$ this is a kernel statement (Section~\ref{sub:fourvalues}). The value $268$ is not new: it was already excluded by the program of the previous release (its pair is of the form (G2)), and is listed in Section~\ref{sub:fourvalues} only as a control; \lean{NSQM.cnzETWD_268}, like \lean{NSQM.cnzETWD_204}, \lean{NSQM.no_dissection_276} and \lean{NSQM.cnzETWD_279}, is a check of the final chain on that value. The
 condition fails at the tile counts $72$, $143$, $320$ (\lean{NSQM.not_cnzETWD_72}, \lean{NSQM.not_cnzETWD_143},
@@ -964,14 +964,24 @@ scales below the threshold (for the base-$\psi$ targets, the question of which s
 
 
 %=====================================================================
+\section{What is new in version 2.1}\label{sec:new21}
+Relative to version 2.0 (release 1.14), this version records the following, each with its standing. The prime case is unchanged: nothing here bears on Theorem~1.1 or on the base-$\beta$ question.
+\begin{itemize}
+\item \textbf{Three family theorems of D.~Paliy's nested-corner layouts, formalized} (\sF; the constructions are Paliy's, the Lean proofs are ours): for naturals $0<b<a$ and $c^2=a^2+ab+b^2$ (the tile with sides $a,b,c$ and angle $2\pi/3$ opposite $c$), \lean{PRevAll.prev_family} gives a tiling with $(2a+b)(a+b)$ tiles if $bc-a^2\in\langle a,b,c\rangle$; \lean{PF2All.pf2_family} gives $(a+2b)(2a+b)$ tiles under the same hypothesis; \lean{PF3All.pf3_family} gives $3(a+b)(a+2b)$ tiles if $a<2b$, with no semigroup hypothesis. Each is a statement $\mathrm{TileCount}(\cdot)$ (a tiling of some triangle by that many congruent copies of some triangle), proved for all admissible $(a,b,c)$ and all semigroup witnesses, with the standard axioms; they are in the aggregate \texttt{AllR8}, which contains no search certificate. A statement-match audit (hypotheses, conclusion, non-vacuity by $22$ instances) was made within this work only.
+\item \textbf{All $22$ squarefree $R_8$ values are now Lean theorems}: $345, 506, 12\,922, 18\,602, 25\,179, 35\,763, 57\,479, 65\,626, 135\,746, 146\,982, 156\,647, 196\,251, 201\,122, 247\,494, 388\,847, 397\,371, 428\,978, 538\,346, 624\,338, 686\,945, 746\,327, 914\,529$ are instances of the three theorems (declarations \texttt{tileCount\_$N$} in \texttt{PRevAll}, \texttt{PF2All}, \texttt{PF3All}; $8$, $8$ and $6$ values). Squarefree $N\le10^6$ still open: $771$ at both levels.
+\item \textbf{$134$ further non-squarefree values are tile counts.} Among the $91\,750$ undecided non-squarefree $N\le10^6$ of the program, $135$ equal $(2a+b)(a+b)k^2$, $(a+2b)(2a+b)k^2$ or $3(a+b)(a+2b)k^2$ for admissible $(a,b,c)$ ($79$, $22$ and $34$ values); one of them was already known. They follow from a family theorem and the scaling lemma \lean{TileCountFamilies.tileCount_scale}, with $(a,b,c)$ found by search; no separate Lean theorem is stated for each of them, so the count is of type \sS. For the census it makes no difference whether the finite list is proved value by value. The older families $F_3$, $F_4$ ($a<b$) already covered $382$ values of the program's undecided list; these were already among the $1\,287$ removed in version 2.0 and are not new.
+\item \textbf{Eight values from a template engine, by exact verification} (type \sS, \emph{not} Lean): $11\,625$, $66\,960$, $119\,040$, $121\,765$, $167\,865$, $186\,000$, $364\,560$, $603\,750$ (in the census), and $1\,071\,360$, $1\,183\,350$, $1\,545\,600$, $1\,904\,640$, $2\,779\,136$ (above $10^6$). Each is a tiling found by a search over macro-pieces (similar triangles, bricks, trapezoids) with integer scales, expanded to the individual tiles and checked by an independent exact verifier (congruence of every tile, containment, pairwise disjoint interiors, equal areas); the tilings are in \texttt{data/witnesses/}. Each decides only its own value $N=N_0g^2$; the squarefree cores $465$, $966$, $2\,485$ and $2\,714$ remain open. No hit for these numbers was found in the public claim ledger or papers of Paliy; his archive of $220$ files was not read.
+\item \textbf{Census} of the $392\,074$ non-squarefree $N\le10^6$: $199\,140$ excluded (unchanged), $102\,613$ tile counts ($+142$: $134$ by the family theorems, $8$ by templates), $90\,321$ undecided. The counts are recomputed from the label files by a script that first reproduces the figures of version 2.0 ($102\,471$ and $90\,463$).
+\end{itemize}
+
 \section{What is new in version 2.0}\label{sec:new}
 Relative to the first full draft of this paper and to release 1.13.1 of the library, this version records the following, each with its standing.
 \begin{itemize}
 \item \textbf{Theorem~F for every $g\ge1$ in Lean} (\sF): \lean{ThmD.thmD_all_g} and, for $g=1$, \lean{ThmD.thmD_g1}. The case $g=1$ reproduces Beeson's Theorem~11.7 \cite{BeesonIso}; it is credited to him.
 \item \textbf{One theorem for all $199\,140$ non-squarefree exclusions up to $10^6$} (\sF{} for the theorem, \sS{} for the evaluation over $N$): \lean{not_tile_of_conditionsNSQzETWDS}, Section~\ref{sub:status}.
 \item \textbf{$204$ and $228$ are not tile counts} by the chain above, and in addition by two search certificates of the pairs $(6,34)$ and $(6,38)$ (\lean{Refl.MG204}, $504\,735$ nodes; \lean{Refl.MG228}, $752\,117$ nodes; \lean{NSQM.not_tile_204}, \lean{not_tile_228}); a second route, a reproduction.
-\item \textbf{$22$ tile counts among the squarefree values} of the rows $R_8$, by exact verification (tiles congruent, inside the hull, interiors disjoint, areas equal, by an independent exact checker) of the nested-corner layouts of D.~Paliy, to whom the layouts are credited: $345$, $506$, $12\,922$, $18\,602$, $25\,179$, $35\,763$, $57\,479$, $65\,626$, $135\,746$, $146\,982$, $156\,647$, $196\,251$, $201\,122$, $247\,494$, $388\,847$, $397\,371$, $428\,978$, $538\,346$, $624\,338$, $686\,945$, $746\,327$, $914\,529$. Only $345$ and $506$ are kernel-checked (tile $(7,8,13)$); the other $20$ are \sS.
-\item \textbf{Squarefree $N\le10^6$ still open:} $771$ at the exact level, $791$ at the Lean level.
+\item \textbf{$22$ tile counts among the squarefree values} of the rows $R_8$, by exact verification (tiles congruent, inside the hull, interiors disjoint, areas equal, by an independent exact checker) of the nested-corner layouts of D.~Paliy, to whom the layouts are credited: $345$, $506$, $12\,922$, $18\,602$, $25\,179$, $35\,763$, $57\,479$, $65\,626$, $135\,746$, $146\,982$, $156\,647$, $196\,251$, $201\,122$, $247\,494$, $388\,847$, $397\,371$, $428\,978$, $538\,346$, $624\,338$, $686\,945$, $746\,327$, $914\,529$. Only $345$ and $506$ are kernel-checked (tile $(7,8,13)$); the other $20$ are \sS. (Superseded in version 2.1: all $22$ are Lean theorems, Section~\ref{sec:new21}.)
+\item \textbf{Squarefree $N\le10^6$ still open:} $771$ at the exact level and (since version 2.1, when the $20$ other $R_8$ values became Lean theorems) at the Lean level.
 \item \textbf{Axioms.} The headline theorems use only \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}. Two modules of the library use \lean{native_decide} (\lean{NogoCount37} and \lean{PropNorm}); neither is in the import closure of the theorems named in this paper.
 \end{itemize}
 
@@ -996,6 +1006,7 @@ Counting identity, apex property, side words & ours & ---\\
 \textbf{Theorem F}, tests $\mathrm G(N)$, $\mathrm W(N)$, the values $204,276,279$ & ours & the case $g=1$ of $\mathrm G(N)$ is Beeson's \cite{BeesonIso}, and the argument of Theorem~F with $g=1$ reproduces it (Remark~\ref{rem:gone}; a reproduction)\\
 Herdt family (Section~\ref{sec:herdt}) & ours & the instance $(2,3)$, $N=1125$, is Herdt's, published by Beeson \cite{BeesonIso}\\
 Laczkovich's eight-piece family, uniform & formalized & Laczkovich\\
+Nested-corner family theorems (Section~\ref{sec:new21}) & formalized & Paliy: the layouts (construction); the symbolic Lean proofs for all $(a,b,c)$ are ours\\
 Census (Section~\ref{sec:census}) & ours & ---\\
 \hline
 \end{tabular}
