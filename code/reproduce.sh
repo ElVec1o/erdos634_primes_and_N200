@@ -6,7 +6,7 @@
 set -e
 cd "$(dirname "$0")/.."
 ( cd lean && lake exe cache get )                                  # Mathlib build products
-for t in All AllThreshold AllSpectrum AllR8; do                          # aggregates without the large certificates
+for t in All AllThreshold AllSpectrum AllR8 AllV3; do                          # aggregates without the large certificates
   python3 code/lakeserial.py lean build "Erdos634.$t"
 done
 bash code/regen_cert.sh all                                        # regenerate the large certificates (incl. G204, G228), check SHA-256
@@ -18,5 +18,9 @@ done
 # exact verification of the template-search tilings of release v1.15 (an exact verifier, not Lean): every line must end in VERIFIED
 ( cd rust/bonfioli_tiling_engine && cargo build --release )
 for f in data/witnesses/template_exact/*.gz data/witnesses/r8_exact/r8_*.gz; do   # (the u_*.gz files are checked by code/r8/fastverify.py; see r8_exact/verification_log_open_r8.txt)
+  rust/bonfioli_tiling_engine/target/release/bte verify "$f" | grep -q "VERIFIED" || { echo "bte verify FAILED for $f"; exit 1; }
+done
+# exact verification of the 97 tilings of release v3.0 (Theorem W, collar, macro pieces, Paliy's 4830): every line must end in VERIFIED
+for f in data/witnesses/v3_exact/*.gz; do
   rust/bonfioli_tiling_engine/target/release/bte verify "$f" | grep -q "VERIFIED" || { echo "bte verify FAILED for $f"; exit 1; }
 done

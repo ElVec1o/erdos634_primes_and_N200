@@ -1,7 +1,8 @@
 # Lean formalization
 
-This directory is the Lean 4 library `Erdos634` that accompanies the paper
-`paper/erdos634_primes_and_N200.pdf`. Every Lean declaration cited by the paper (Appendix A, Table 3) is in it.
+This directory is the Lean 4 library `Erdos634` that accompanies the papers
+`paper/erdos634_primes_and_N200.pdf` (version 2.2; Appendix A, Table 3 lists its declarations) and
+`paper/erdos634_v3.pdf` (version 3.0; Appendix C lists the declarations new in release v3.0). Every Lean declaration cited by the papers is in it.
 
 ## Credits
 
@@ -10,13 +11,18 @@ particular: the `Draft/ThmC*` and `Draft/ThmD*` modules adapt the method of M. B
 16 October 2026: Lemmas 30, 32, 33, 34 and Theorem 37); `Draft/Herdt*` generalizes B. Herdt's 1125-tiling (published by
 Beeson); `Draft/Lacz*` reconstructs M. Laczkovich's macro-dissection; `Draft/Zhang*` proves Y. X. Zhang's families for every
 tile; the certificates `R897Tiling`, `R990Tiling`, `R240Tiling` and the modules `F3All`, `F4All`, `S2All` formalize tilings
-and layouts of D. Paliy. See the paper's bibliography.
+and layouts of D. Paliy. Release v3.0 adds: `Draft/ThmW*` (Theorem W, the six-piece template: the targets and the framework are Paliy's and
+Beeson-Rosu's; the template is ours), `Draft/Collar*` (the collar step and the parametric seed; the alpha-isosceles up-set is Paliy's, 2026-09-29, our
+construction is independent), `Draft/MacroPiece.lean`, `Draft/TM*`, `Draft/T62125.lean` (macro pieces: Laczkovich-type macro-dissections; the 15m^2 seeds are
+Paliy's), `Draft/DebtB*`, `Draft/AllWBelow.lean` (the thirteen first tilings below the threshold), `ConjC/` (the existence half of Conjecture C, collecting the
+constructions of Paliy, Beeson, Zhang, Herdt, Harries, Laczkovich). See the papers' bibliographies.
+Headers of some modules say `UNAUDITED`: this means that no reader outside the project has compared the statement with the mathematical one.
 
 ## Contents
 
 * `lakefile.toml`, `lean-toolchain`, `lake-manifest.json`: Lean `v4.30.0`, Mathlib tag `v4.30.0`
   (commit `c5ea00351c28e24afc9f0f84379aa41082b1188f`) and its dependencies, pinned.
-* `Erdos634/`: 4678 modules on disk. 3597 are written modules (including 43 hand-written files in `Refl/`); 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
+* `Erdos634/`: 4768 modules on disk (release v3.0 added 80). 3677 are written modules (including 43 hand-written files in `Refl/`); 1081 (`Erdos634/Refl/M*.lean`, about 490 MB) are
   generated search certificates of moderate size. The seven largest certificates (4462 generated modules, about
   1.7 GB) are not stored; `code/regen_cert.sh` regenerates them (see below).
 * `Erdos634.lean`: the library root; it imports `Erdos634.All`.
@@ -38,6 +44,7 @@ union would need too much memory:
 | `Erdos634.AllCert5` | 3938 | 135; certificate EQ135 (2791 modules) |
 | `Erdos634.AllCertW2` | 437 + 670 certificate modules, 5 others | 204 and 228 (second route); certificates G204 (437 modules) and G228 (670 modules), not stored: `code/regen_cert.sh G204`, `G228` |
 | `Erdos634.AllR8` | 127 | 345 and 506 (tilings, Paliy's layouts, kernel-checked); the family theorems `PRevAll.prev_family`, `PF2All.pf2_family`, `PF3All.pf3_family` (Paliy's constructions, formalized) and the 22 R8 values as their instances; (v1.16) the eight template tile counts 11625, 66960, 119040, 121765, 167865, 186000, 364560, 603750 (`Draft/LadderFam`, `Draft/T<N>`, `Draft/AllTemplates`) |
+| `Erdos634.AllV3` | 847 (79 new in release v3.0) | Theorem W (`Draft.ThmW.thmW`), the collar family and tails (`CollarUp`, `CollarFam`, `CollarFam5`, `CollarFam17`), 26 macro-piece tile counts and 78246 (`AllMacro`), 12 square multiples (`TemplateSquares`), the 13 W-below tilings and closures (`AllWBelow`, `AllDebtB`), the existence half of Conjecture C (`AllConjC`); imports no search certificate, not imported by `All` |
 
 (Module counts include the regenerated certificate modules for `AllCert1` to `AllCert5`.)
 
@@ -61,6 +68,8 @@ python3 ../code/lakeserial.py . build Erdos634.AllThreshold
 lake env lean axioms/AxiomsAllThreshold.lean
 python3 ../code/lakeserial.py . build Erdos634.AllSpectrum
 lake env lean axioms/AxiomsAllSpectrum.lean
+python3 ../code/lakeserial.py . build Erdos634.AllV3          # release v3.0: Theorem W, collar family, macro pieces (the 84 modules new in v3.0 took 12 minutes with the older closure already built; one lean at a time; largest sampled lean about 5.4 GB)
+lake env lean axioms/AxiomsAllV3.lean                         # 98 declarations; every line [propext, Classical.choice, Quot.sound]
 ```
 
 `code/lakeserial.py` builds the modules of the target in dependency order with a single `lean` process at a
