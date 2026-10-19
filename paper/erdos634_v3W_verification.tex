@@ -22,7 +22,7 @@ statement & checked by\\
 Theorem~W, $W$ half & Lean (\lean{Draft.ThmW.thmW}, 19 helper modules, aggregate \lean{Erdos634.AllThmW}); and the hand proof of the paper (not Lean)\\
 Frame (coordinates of the points, metric, five directions) & hand; exact arithmetic against the older complex description, all coprime $e,f$ with $f\le24$, $M<3f$ (sampled $M$ for $f\le40$), $40\,624$ cases $(e,f,M,t,r,q)$: no mismatch (\texttt{code/check\_thmW\_frame.py}, block A)\\
 The $24$ edge identities, parallelism, cut lines & hand; exact: $18\,276$ cases (block B); and $3000$ random integer parameter sets (also outside (K)) re-checked 2026-10-19 for the rewrite: all $24$ identities and the two parallelogram identities hold identically\\
-The $22$ turns and their factorisation into the nine factors & computer algebra (sympy), 2026-10-19, scratch script in the working directory (\texttt{private/ROOM/READ\_W3/scratch\_turns.py}); not a saved tool; a Rust check (\texttt{anvil check/chain}) is planned\\
+The $22$ turns and their factorisation into the nine factors & computer algebra (sympy), 2026-10-19, a scratch script, not shipped; not a saved tool; a Rust check (\texttt{anvil check/chain}) is planned\\
 Chain identity (five line equations) & hand; collinearity of the points on the five lines identically in $e,f,M,t,r,q$ (block A, exact)\\
 Layout: containment, separation, convexity, orientation, areas & hand; exact on $201\,886$ triples $(e,f,M)$, $f\le60$, $M<5f$: no failure under (H1), (H2), none passes outside (block D)\\
 (K) $\Leftrightarrow$ the sixteen sign conditions of the older proof; layout exists iff $dn\ge e+1$; canonical triple works whenever any works & hand; exact enumeration of all $(t,r,q)$ for $f\le12$, $M<3f$, $17.9$ million triples (block E)\\

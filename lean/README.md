@@ -243,3 +243,6 @@ and running the corresponding file in `axioms/`.
 | Section 8.2 (text) | `Erdos634.Draft.N990.tileCount_990` | `Draft/N990.lean` | All |
 | Computation 6.9 | none (status S: a count by a program, not checked by the kernel) |  |  |
 | Proposition 8.1 | none (status W: written proof, not formalized) |  |  |
+
+## Release v3.0, second aggregate: `Erdos634.AllV3b`
+24 modules added after `AllV3` (chain lemma `Draft/Chain*`; thick regime `Draft/SplusThick*`; Theorem R2 arithmetic half and a corollary CONDITIONAL on the unproved statement `R2Count` (`Draft/SplusR2*`); `Draft/CollarFam2` (966 g^2 and 2485 g^2 for all g >= 2); the exclusion chain extension `NSQRWT2`, `NSQMMainZETW2(+Witness)`, `NSQMMainZETWD2(+Witness)`, `NSQS1T2`, `NSQMMainZETWD3(+W270)`: `no_dissection_412`, `no_dissection_270`). Build one module at a time; then `lake env lean axioms/AxiomsAllV3b.lean` and check that every line reads `[propext, Classical.choice, Quot.sound]`. The credits of D. Paliy and of Beeson and Rosu are in the module headers.

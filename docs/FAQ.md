@@ -1,4 +1,4 @@
-2026-10-19 T2 (MATH_RULES V10.1 H5) for paper version 3.0 (`paper/erdos634_v3.tex`). UNAUDITED draft. Section A answers the questions that blind readers asked of the version-3.0 draft in six rounds (private reading log), and the questions a referee would ask; none changes a label. The FAQ for version 2.x is kept unchanged below `# FAQ for version 2.x`.
+2026-10-19 T2 (MATH_RULES V10.1 H5) for paper version 3.0 (`paper/erdos634_v3.tex`). UNAUDITED draft. Section A answers the questions that blind readers asked of the version-3.0 draft in six rounds (reading log (not shipped)), and the questions a referee would ask; none changes a label. The FAQ for version 2.x is kept unchanged below `# FAQ for version 2.x`.
 
 # FAQ for version 3.0
 
@@ -93,3 +93,13 @@
 **25. Which hypotheses does `leg_c_count_S1/S2` have?** u<v<2u coprime; hirr (alpha/pi irrational); G real, 1 < G; a CongruentDissection with model sides u^2, b, uv and target distances G u b, G u b, G v b; a RealLeg/LegPos/LegEnd chain; hang (first tile shows alpha at the first end). S1 reads the leg from a base corner; S2 reads the other leg from the apex and needs alpha at the apex, so it covers the alpha-leg, not an arbitrary leg. The earlier sentence "applies to either leg" is withdrawn (Section 5.1).
 
 **26. Where is the apex case of Lemma 34(b) in Lean?** `apex_start`/`apex_end` are wrappers (angle sum pi-2alpha, interiority from `hwedge`, the tile across from `apex_ray_tile`, the chain hypothesis `hch`) that call the same `lemma33_interior` as the interior cases; not a separate induction. Written counterpart: Rw1 and Cs3 (Section 4.6, 5.2), Appendix A rows 2 and 8.
+
+## Version 3.0 additions (2026-10-20)
+
+**A30. Is Theorem R2 proved?** It is a hand proof (docs/THEOREM_R2_PROOF.md), audited twice inside the project by readers of the same model family as the author, and tested once by an exact region search at (4,7,2) that did not refute it. Lean has only its arithmetic half and a corollary conditional on `R2Count`. Nobody outside the project has read it. The 77 census values that use it are a separate row.
+
+**A31. What is formal in the thick regime?** `SplusThick.wTilable_not_of_small_M` (M(f-e) <= e+1, M < f, Me >= f) and its instances; `NSQM.no_dissection_412` and `no_dissection_270` in the exclusion chain. The other census values excluded by the thick theorem are census-level (the leaf checks are too heavy for the kernel in the present interface).
+
+**A32. Is 465 g^2 a tile count for all g >= 2?** Yes: g >= 5 by Lean (the up-set in g is Paliy's), g = 2, 3, 4 by exact-verified tilings (N = 1860, 4185, 7440) whose Lean certificates are planned. The core 465 is open.
+
+**A33. Does this settle the prime case?** The prime case is unchanged: no prime p = 3 (mod 4), p > 3, is a tile count (primes = 1 mod 4 are sums of two squares). Nothing in this release changes it, and the Lean statement has been audited only inside the project.

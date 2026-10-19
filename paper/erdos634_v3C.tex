@@ -52,7 +52,7 @@
 %=====================================================================
 \begin{abstract}
 A positive integer $N$ is a \emph{tile count} if some triangle can be cut into $N$ pairwise congruent triangles (Problem 634 of \texttt{erdosproblems.com}). This is the companion of Paper~W \cite{PaperW}, which proves that the triangles $W_M(e,f)$ and $T_M(e,f)$ built from the tile $(ef,f^2-e^2,f^2)$ are tiled once $Me\ge f$ and $(M-1)(f-e)\ge f$ (Theorem~W); that theorem is used here, not proved.
-This paper collects what surrounds it. (1) A \emph{collar family}: repeated one-layer steps give the tile counts $(f^2-1)(2f^2-1)g^2$ for $g\ge f+1$, and tails $465g^2$ ($g\ge5$), $966g^2$ and $2485g^2$. (2) Twenty-six further tile counts by macro-piece layouts found by a template search, each with a Lean proof, and a twenty-seventh by square closure. (3) \emph{Conjecture C}, a candidate description of all tile counts as a union of explicit families: its existence half is proved on the ranges known, its exclusion half is open. (4) A census of the non-squarefree $N\le10^6$, by exact computation. (5) Computer evidence, not a proof, on one open family. Every statement carries one of five labels (Lean, hand proof, exact computation, claimed by Paliy, conjecture); a list of corrections of earlier statements and a list of what is not proved are included. The prime case is not treated.
+This paper collects what surrounds it. (1) A \emph{collar family}: repeated one-layer steps give the tile counts $(f^2-1)(2f^2-1)g^2$ for $g\ge f+1$, and tails $465g^2$ ($g\ge5$ in Lean; $g=2,3,4$ by exact tilings), $966g^2$ and $2485g^2$ ($g\ge2$). (2) Twenty-six further tile counts by macro-piece layouts found by a template search, each with a Lean proof, and a twenty-seventh by square closure. (3) \emph{Conjecture C}, a candidate description of all tile counts as a union of explicit families: its existence half is proved on the ranges known, its exclusion half is open. (4) A census of the non-squarefree $N\le10^6$, by exact computation. (5) Computer evidence, not a proof, on one open family. (6) The \emph{thick regime}: Lean and hand no-tiling theorems for $W_M(e,f)$ when $M<f$, $Me\ge f$ and $M(f-e)\le e+2$, with the census effect, and a statement of what remains open. Every statement carries one of five labels (Lean, hand proof, exact computation, claimed by Paliy, conjecture); a list of corrections of earlier statements and a list of what is not proved are included. The prime case is not treated.
 \end{abstract}
 \maketitle
 
@@ -87,11 +87,12 @@ Where a result has two labels (say, a hand proof and a Lean proof) both are give
 
 \subsection{Results at a glance}
 In detail:
-(1) \textbf{Theorem~W} (Paper~W \cite{PaperW}, Theorem 3.1; Lean and hand proof there): for $2\le e\le f-2$, $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ tiles, and $T_M(e,f)$ by $M^2(3f^2-e^2)$ tiles, as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$; stated here in Section~\ref{sec:thmW} and used, not proved.
-(2) \emph{Collar family} (Lean): a collar construction for the isosceles target with base angles $\alpha$ gives, by repeated one-layer steps, the counts $(f^2-1)(2f^2-1)g^2$ for all $g\ge f+1$ ($f\ge2$), the tails $465\,g^2$ ($g\ge5$), $966\,g^2$ ($g\ge17$) and $2485\,g^2$ ($g\ge5$); together with the counts of (3) at small $g$ this gives $966g^2$ and $2485g^2$ for all $g\ge2$. The up-set in $g$ was announced earlier by Paliy.
-(3) \emph{Macro pieces}: twenty-six tile counts have individual Lean proofs, by macro-piece layouts found by a template search and verified exactly, and a twenty-seventh ($78\,246$) follows by square closure; twenty of them are values of $966g^2$ and $2485g^2$ at small $g$ (which complete the tails of (2); some also follow from others by Proposition~\ref{prop:square}), and seven are not ($375$, $540$, $735$, $825$, $630$, $1120$, $1750$). Ninety-seven tilings are shipped as exact data.
+(1) \textbf{Theorem~W} (Paper~W \cite{PaperW}, Theorem 2.1; Lean and hand proof there): for $2\le e\le f-2$, $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ tiles, and $T_M(e,f)$ by $M^2(3f^2-e^2)$ tiles, as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$; stated here in Section~\ref{sec:thmW} and used, not proved.
+(2) \emph{Collar family} (Lean): a collar construction for the isosceles target with base angles $\alpha$ gives, by repeated one-layer steps, the counts $(f^2-1)(2f^2-1)g^2$ for all $g\ge f+1$ ($f\ge2$), the tails $465\,g^2$ ($g\ge5$), $966\,g^2$ ($g\ge17$) and $2485\,g^2$ ($g\ge5$); together with the counts of (3) at small $g$ this gives $966g^2$ and $2485g^2$ for all $g\ge2$ (Lean). New: $465g^2$ for $g=2,3,4$ ($1860$, $4185$, $7440$) are tile counts of the tile $(4,15,16)$ by exact-verified tilings (not yet Lean), so $465g^2$ is a tile count for every $g\ge2$; the core $465$ ($g=1$) stays open. The up-set in $g$ was announced earlier by Paliy.
+(3) \emph{Macro pieces}: twenty-six tile counts have individual Lean proofs, by macro-piece layouts found by a template search and verified exactly, and a twenty-seventh ($78\,246$) follows by square closure; twenty of them are values of $966g^2$ and $2485g^2$ at small $g$ (which complete the tails of (2); some also follow from others by Proposition~\ref{prop:square}), and seven are not ($375$, $540$, $735$, $825$, $630$, $1120$, $1750$). One hundred tilings are shipped as exact data.
 (4) \textbf{Conjecture~C} (conjecture) states the set of tile counts as a union of explicit families; its existence half is a Lean theorem for the ranges proved so far (a collection narrower than the full table of families), and its exclusion half is open.
-(5) \emph{Census} (exact computation, partly formal): for the non-squarefree $N\le10^6$, $199\,140$ values are excluded by the earlier theorem (the assignment is made by a program; the theorem has been audited only inside the project), $129\,108$ are tile counts, $63\,826$ are undecided; $770$ squarefree values stay open.
+(5) \emph{Census} (exact computation, partly formal): for the non-squarefree $N\le10^6$, $199\,364$ values are excluded by Lean theorems (the assignment is made by a program; the theorems have been audited only inside the project), $129\,108$ are tile counts, $63\,602$ are undecided; counting the hand-proved Theorem~R2 class as well, $199\,441$ / $129\,108$ / $63\,525$; about $770$ squarefree values stay open. The three values $1860$, $4185$, $7440$ above were found after the census was run and are not in these numbers.
+(6) \textbf{The thick regime} (Section~\ref{sec:thick}): for coprime $2\le e<f$, $M<f$, $Me\ge f$: $W_M(e,f)$ has no tiling if $M(f-e)\le e+1$ (Lean; hand proof audited inside the project; $124$ census values; formally in the exclusion chain: $412$, $270$), and, as a hand proof only, if $M(f-e)=e+2$ ($77$ more values).
 
 The table gives the same results with their labels and places.
 \begin{center}
@@ -101,11 +102,12 @@ The table gives the same results with their labels and places.
 result & statement in one line & label and place\\
 \midrule
 Theorem W (Paper~W; \S\ref{sec:thmW} here) & $W_M(e,f)$ and $T_M(e,f)$ tile once $Me\ge f$ and $(M-1)(f-e)\ge f$ ($2\le e\le f-2$); Lean: the tiling for $W_M$, the count for $T_M$ & $W$ half \PL{} \PH{}; count of $T_M$ \PL{}; tiling of $T_M$ via an imported glue lemma; proved in Paper~W\\
-Sharpness (Paper~W, Cor.~3.2) & for $2\le e<f/2$: $W_M(e,f)$ tiles iff $Me\ge f$ & ``if'' \PL{}; ``only if'' imported from the earlier release\\
-Collar family (\S\ref{sec:collar}) & $(f^2-1)(2f^2-1)g^2$, $g\ge f+1$; tails $465g^2$ $(g\ge5)$, $966g^2$ and $2485g^2$ $(g\ge2$, using the macro counts at small $g)$ & \PL{}; collar step with arbitrary height \PH{}\\
+Sharpness (Paper~W, Cor.~2.4) & for $2\le e<f/2$: $W_M(e,f)$ tiles iff $Me\ge f$ & ``if'' \PL{}; ``only if'' imported from the earlier release\\
+Collar family (\S\ref{sec:collar}) & $(f^2-1)(2f^2-1)g^2$, $g\ge f+1$; tails $465g^2$ $(g\ge5$ \PL{}; $g=2,3,4$ \CE{} exact tilings only$)$, $966g^2$ and $2485g^2$ $(g\ge2$, using the macro counts at small $g)$ & \PL{}; collar step with arbitrary height \PH{}\\
 Macro-piece counts (\S\ref{sec:macro}) & 27 further tile counts (e.g.\ $3864$, $9940$, $62125$, $279174$) & \PL{}, \CE{} data\\
 Conjecture C (App.~\ref{sec:conjC}) & the set of tile counts is $\bigcup_k k^2\cdot\{\text{families}\}$ & existence half \PL{} on a narrower collection of proved ranges (App.~\ref{sec:conjC}); exclusion half \CJ{}\\
-Census (App.~\ref{sec:census}) & $199\,140$ / $129\,108$ / $63\,826$ (non-squarefree $N\le10^6$) & \CE{} with label columns\\
+Census (App.~\ref{sec:census}) & $199\,364$ / $129\,108$ / $63\,602$ (non-squarefree $N\le10^6$; with the hand-proved class R2: $199\,441$ / $129\,108$ / $63\,525$) & \CE{} with label columns\\
+Thick regime (\S\ref{sec:thick}) & $W_M(e,f)$ has no tiling for $e\ge2$, $M<f$, $Me\ge f$, $M(f-e)\le e+1$; and for $M(f-e)=e+2$ & first: \PL{} (hand proof audited inside the project); second: \PH{} only (arithmetic half in Lean)\\
 $W^{3+}$ evidence (App.~\ref{app:w3}) & a set of candidate boundary words of a tiling of an isosceles target, defined in the appendix; for $(4,7)$, $(5,8)$ at $g=3$ no tiling was found for any of these words (a verdict conditional on hand-proved filters) & \CE{} (not formal)\\
 \bottomrule
 \end{tabular}
@@ -184,7 +186,7 @@ $B_g(e,f)$ & $gbc,\ gbc,\ gb\kappa$ & isosceles; base angles $\alpha$, apex $\al
 (For $W_M$, the side opposite the angle $2\alpha$ is $Me\kappa$, opposite $\beta$ is $Mfb$, and opposite $\alpha+\beta$ is $Mf^3$.)
 $T_M$ and $W_M$ are the targets of Beeson--Ro\c{s}u and Paliy (``base-$\beta$'' targets); $B_g$ is the ``base-$\alpha$'' target (Paliy's $\alpha$-isosceles).
 We call a target \emph{tiled} if it is tiled by copies of the tile $\tile(e,f)$ of the same $(e,f)$.
-$W_M(e,f)$ and $T_M(e,f)$ are related by gluing: a tile at scale $Mf$ glued to the side $Mfb$ of $W_M$ gives $T_M$ (Paper~W, \S3.3); all three are drawn in Figure~\ref{fig:targets}.
+$W_M(e,f)$ and $T_M(e,f)$ are related by gluing: a tile at scale $Mf$ glued to the side $Mfb$ of $W_M$ gives $T_M$ (Paper~W, Proposition~2.3); all three are drawn in Figure~\ref{fig:targets}.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.8\linewidth]{figures/fig_targets.pdf}
@@ -211,16 +213,16 @@ Because of Proposition~\ref{prop:square} a tile count is naturally written $N=k^
 %=====================================================================
 \section{Theorem W (of Paper W) and what it does here}\label{sec:thmW}
 Everything in this section is proved in Paper~W \cite{PaperW}; the statements are restated so that the rest of this paper can be read alone. Notation: $M^*(e,f)=\max(\lceil f/e\rceil,\lceil f/(f-e)\rceil+1)$ and $d=f-e$.
-\begin{theorem}[Theorem W; Paper~W, Theorem 3.1; $W$ half \PL{} and \PH{}, count of $T_M$ \PL{}, tiling of $T_M$ via a glue lemma of the earlier release]\label{thm:W}
+\begin{theorem}[Theorem W; Paper~W, Theorem 2.1; $W$ half \PL{} and \PH{}, count of $T_M$ \PL{}, tiling of $T_M$ via a glue lemma of the earlier release]\label{thm:W}
 Let $e,f$ be coprime with $2\le e\le f-2$ and $M\ge1$ with (H1) $Me\ge f$ and (H2) $(M-1)(f-e)\ge f$. Then $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ copies of $\tile(e,f)$, and $T_M(e,f)$ by $M^2(3f^2-e^2)$ copies.
 \end{theorem}
-\begin{corollary}[Paper~W, Corollary 3.2; ``if'' \PL{}, ``only if'' imported from the earlier release]\label{cor:sharp}
+\begin{corollary}[Paper~W, Corollary 2.4; ``if'' \PL{}, ``only if'' imported from the earlier release]\label{cor:sharp}
 For coprime $2\le e<f/2$, $W_M(e,f)$ is tiled if and only if $Me\ge f$.
 \end{corollary}
-\begin{corollary}[Paper~W, Corollary 3.3]\label{cor:W435}
+\begin{corollary}[Paper~W, worked example in Section~5]\label{cor:W435}
 $W_4(3,5)$, with sides $320,492,500$, is tiled by $656$ copies of $(15,16,25)$. The earlier paper listed this case as open.
 \end{corollary}
-\emph{Role here.} Theorem W supplies the family $F_1$ of Conjecture~C and $26\,138$ of the $26\,312$ new values of the census that are Lean theorems (Appendix~\ref{sec:census}; the rest of the $26\,312$ are the collar family, tails, macro counts, the thirteen witnesses and $k^2$-multiples); the proof (a layout of six pieces, with a table of every sign condition and the exact statement of what is Lean, hand, computed or imported) is Paper~W. The corrections that Paper~W makes to earlier expectations are listed in Appendix~\ref{app:corr}. What stays open for $W_M,T_M$ (the ``no'' side for $e>f/2$, $e=1$ and $e=f-1$ for $T_M$, the $T$ half in general) is stated in Paper~W, Section 6, and summarised in Section~\ref{sec:notproved}. The glue that gives $T_M$ from $W_M$ (one tile of scale $Mf$ on the side $Mfb$) is Paper~W, Section 3.3.
+\emph{Role here.} Theorem W supplies the family $F_1$ of Conjecture~C and $26\,138$ of the $26\,312$ new values of the census that are Lean theorems (Appendix~\ref{sec:census}; the rest of the $26\,312$ are the collar family, tails, macro counts, the thirteen witnesses and $k^2$-multiples); the proof (a layout of six pieces, with a table of every sign condition and the exact statement of what is Lean, hand, computed or imported) is Paper~W. The corrections that Paper~W makes to earlier expectations are listed in Appendix~\ref{app:corr}. What stays open for $W_M,T_M$ (the ``no'' side for $e>f/2$, $e=1$ and $e=f-1$ for $T_M$, the $T$ half in general) is stated in Paper~W, Section~6, and summarised in Section~\ref{sec:notproved}. The glue that gives $T_M$ from $W_M$ (one tile of scale $Mf$ on the side $Mfb$) is Paper~W, Proposition~2.3 (Section~2.2).
 
 %=====================================================================
 \section{The collar family and the base-$\alpha$ rows}\label{sec:collar}
@@ -269,8 +271,8 @@ For $f=2,3,4,6$ the seed counts are $189$, $2176$, $11\,625$, $121\,765$; the fi
 The squarefree cores $465$, $966$ and $2485$ themselves ($g=1$) are not tile counts known to us; they are among the open squarefree values.
 \begin{remark}
 In our working notes we had recorded the pattern ``the smallest scale of a row is $f+1$ for even $f$''. (b) refutes it (the row $(1,6)$, with $f=6$ even, contains $g=2$, as does the row $(1,2)$), and (c) shows that the row $(2,5)$ contains $g=2$ as well.
-For $(1,4)$ the values $g=2,3,4$ ($1860$, $4185$, $7440$) are not known to be tile counts or non-tile counts.
-Paliy's threshold, read from his formula, is $K_0=17$ for $(2,5)$ (equal to our tail in (c) before the macro pieces fill $g=2,\dots,16$), $6$ for $(1,4)$ and $8$ for $(1,6)$ (we did not check these values with him).
+For $(1,4)$ the values $g=2,3,4$ ($1860$, $4185$, $7440$) are tile counts by exact-verified tilings of the base-$\alpha$ isosceles targets $B_g(1,4)$ (sides $240g,240g,465g$) by the tile $(4,15,16)$, found after the Lean work of this release (data files \texttt{tiling\_1860\_s3\_14\_run\_4\_15\_16\_g2} and the two others; the exact verifier says VERIFIED; \CE{}, not yet Lean; the Lean certificates and the use of $g_0=2$ as a seed of the layer step are planned). Hence $465g^2$ is a tile count for every $g\ge2$ ($g\ge5$ in Lean, $g=2,3,4$ exact only). The core $465$ ($g=1$) is open; an exact search of bounded depth found no closure.
+The up-set in $g$ and the threshold $K_0\ge\lceil B/v\rceil$ are Paliy's; they are the reason $g\ge5$ is a Lean theorem for $(1,4)$, and the new exact seeds lower the threshold in practice. Paliy's threshold, read from his formula, is $K_0=17$ for $(2,5)$ (equal to our tail in (c) before the macro pieces fill $g=2,\dots,16$), $6$ for $(1,4)$ and $8$ for $(1,6)$ (we did not check these values with him).
 \end{remark}
 
 %=====================================================================
@@ -324,15 +326,47 @@ $4830$ is a tile count: Paliy's certificate (4830 copies of $(24,11,31)$ tile th
 %=====================================================================
 \section{What is not proved}\label{sec:notproved}
 \begin{itemize}
-\item \textbf{The exclusion half of Conjecture~C.} No description of the set of tile counts above $200$ is proved; the census has $63\,826$ undecided non-squarefree values and $770$ squarefree values $\le10^6$.
+\item \textbf{The exclusion half of Conjecture~C.} No description of the set of tile counts above $200$ is proved; the census has $63\,602$ undecided non-squarefree values ($63\,525$ if the hand-proved Theorem~R2 is accepted) and about $770$ squarefree values $\le10^6$.
 \item \textbf{The no side of Theorem~W for $e>f/2$:} for each row exactly the scales $M$ with $(M-1)(f-e)<f<(M+1)(f-e)$ (at most two) are undecided; and \textbf{$e=1$ and $e=f-1$ for $T_M$} (for example $T_3(1,4)$); the $T$ side in general (only $2Me<f$ is excluded).
 \item \textbf{$V$ and $A'$ for $\gamma=2\alpha$:} the evidence of Appendix~\ref{app:w3} is not a proof; $(7,12)$ is incomplete ($95.06\%$).
-\item \textbf{$\Theta$ and $S_3$:} the thresholds of the $\theta$-isosceles family and of the base-$\alpha$ rows; the squarefree cores $465$, $966$, $2485$; the values $1860$, $4185$, $7440$.
+\item \textbf{$\Theta$ and $S_3$:} the thresholds of the $\theta$-isosceles family and of the base-$\alpha$ rows; the squarefree cores $465$, $966$, $2485$ ($g=1$); Lean certificates for the tile counts $1860$, $4185$, $7440$ (exact-verified only here).
 \item \textbf{$15m^2$ for every $m\ge4$ as a Lean theorem}; the collar step for arbitrary height $h$ (hand only); Paliy's claims that we have not verified ($134$ values $\le10^6$ in the census; the mixed-corner family beyond $4830$).
-\item \textbf{The squarefree values:} $770$ open; the squarefree tile counts known to us are of the classical forms, or come from a short list of sporadic and layout values (the $22$ of the earlier release, $77$, $143$, $4830$).
+\item \textbf{The squarefree values:} about $770$ open; the squarefree tile counts known to us are of the classical forms, or come from a short list of sporadic and layout values (the $22$ of the earlier release, $77$, $143$, $4830$).
 \item \textbf{Outside check.} The Lean statements and the proofs have been compared and audited only inside this project, including the statement of \texttt{theoremP\_6} (the prime case of the earlier releases) and of Theorem~W; a check by a reader outside the project has not been made, and announcing the prime case as proved remains the author's decision.
+\item \textbf{The thick regime beyond rung $e+2$:} for $M<f$, $Me\ge f$ and $M(f-e)\ge e+3$ (and $<f$) the question is open; Theorem~R2 is a hand proof read only inside the project; see Section~\ref{sec:thick}.
 \item The search that found the macro layouts is not part of this release and is not described further than in Section~\ref{sec:macro}; its outputs are verified independently.
 \end{itemize}
+
+
+%=====================================================================
+\section{The thick regime: no-tiling rungs}\label{sec:thick}
+This section is about the scales $M$ below $f$ for which Theorem~W does not apply and the exclusion of the earlier release does not either. Write $d=f-e$ and let $2\le e<f$ be coprime. Theorem~W covers $M\ge M^*$; the earlier exclusion (I2 of Paper~W) covers $Md\le e$ and $Me<f$. The new statements push the exclusion to $Md\le e+2$, when $M<f$ and $Me\ge f$.
+\begin{theorem}[rung $e+1$; \PL{} for the statement, hand proof audited inside the project]\label{thm:thick1}
+Let $\gcd(e,f)=1$, $2\le e<f$, $M<f$, $Me\ge f$ and $M(f-e)\le e+1$. Then $W_M(e,f)$ is not tiled by copies of $\tile(e,f)$.
+\end{theorem}
+\emph{Lean:} \lean{Draft.SplusThick.wTilable\_not\_of\_small\_M} (module \texttt{SplusThickFinal}; aggregate \texttt{Erdos634.AllSplusThick}; standard axioms, no \texttt{sorry}). The proof studies the side $AQ$ of $W_M$ that ends at the corner $2\alpha$: the thick corner-run theorem (Lean \lean{Draft.SplusThick.cornerrun\_counts\_thick}) gives a representation of its length by $a,b,c$ with $z\ge e+1$ tiles having their $c$-edge on the side, and $z\ge e+2$ when $e+2\le f$, while the arithmetic of the side (Lean \lean{Draft.SplusThick.C\_AQ'}) gives $z\le M(f-e)\le e+1$; these contradict. The hand proof was audited inside the project (verdict: sound, with fixes now applied: the hypothesis $M<f$, and the arithmetic of $AQ$ for $M(f-e)<f$); nobody outside the project has read it.
+\emph{Census.} There are $124$ non-squarefree values $N=M^2(2f^2-e^2)\le10^6$ that are excluded by this theorem and by no earlier one. They are census-level exclusions, except $N=412=W_2(5,8)$, which is a Lean theorem about $412$ itself: \lean{Draft.NSQM.no\_dissection\_412} (the S+ kill composed into the exclusion chain; modules \texttt{NSQRWT2}, \texttt{NSQMMainZETW2}, \texttt{NSQMMainZETWD2}). The value $270$ is a separate Lean exclusion (\lean{Draft.NSQM.no\_dissection\_270}, through the gap lemma for $30s^2$). The statement $W_2(5,8)$ was before this release the example of an open case with $e>f/2$ (Paper~W, Section~6): it is now excluded, so the ``computed, not proved'' search there is superseded.
+
+\begin{theorem}[Theorem R2, rung $e+2$; \PH{} only]\label{thm:R2}
+Let $\gcd(e,f)=1$, $2\le e$, $e+3\le f$, $M<f$, $Me\ge f$ and $M(f-e)\le e+2$. Then $W_M(e,f)$ is not tiled.
+\end{theorem}
+\emph{Status.} Hand proof, written out in \texttt{docs/THEOREM\_R2\_PROOF.md}. It was audited twice inside the project by readers of the same model family as the author (verdicts: sound with statement-level fixes, applied), re-checked by exact rational computation at twelve pairs $(e,f)$, and tested once by an exact region search at $(e,f,M)=(4,7,2)$, which did not refute it. It has \emph{not} been read by a person outside the project. Lean: only the arithmetic half (\lean{Draft.SplusR2.r2\_arith}) and a corollary that is \emph{conditional} on the geometric core, a statement \texttt{R2Count} that is not proved in Lean (\lean{Draft.SplusR2.wTilable\_not\_of\_small\_M2\_of\_R2}). So Theorem~R2 is not a Lean theorem, and the numbers that use it are reported in a separate row of the census.
+\emph{Sketch.} A tiling of $W_M$ has a run $C_1^{k}$ of tiles with their $c$-edges on the side $AQ$ at the corner $2\alpha$; the earlier work shows $k\ge e+1$ and the case $k=e+1$ (Theorem~\ref{thm:thick1}). For $k=e+2$ one looks at the tile $S_0$ in the free wedge at the second lattice point of the run. If it is the mirror image $N_0(0)$ of the first run tile in its $a$-edge, the chord along its $c$-edge forces (partition property, $e\ge2$) a $b$-edge on the next line, and the row above the run is $c^e$ or $a^f$; arithmetic shows $c-b$ and $a-b$ are not in the semigroup $\langle a,b,c\rangle$, so the end of a lattice edge must lie inside an edge of a tile, and two tiles then overlap in a wedge of angle $\beta$ at that point. If $S_0$ is the half-turn image of the first tile, the row at level $1$ is $c^{e+1}$ or $c\,a^f$, and the second is killed by a size-one instance of the corner lemmas. The remaining call has size $e+1$ at level $1$ and is killed by the same two ideas. Hypotheses: $e\ge2$ (the representation of $c$ is unique), $e+3\le f$ (multipliers stay $\le f-1$).
+\emph{Census.} For coprime $e<f\le40$, $M\ge2$, $Me\ge f$, $M(f-e)=e+2$ there are $26$ triples (first: $(4,7,2)$, $N=328$, and $(7,10,3)$, $N=1359$); the census program counts $77$ more excluded values $\le10^6$ with Theorem~R2: $199\,441$ / $129\,108$ / $63\,525$. The first rung not covered is $M(f-e)=e+3$: for $(5,9,2)$ and $(6,11,2)$.
+
+\begin{lemma}[scale two; \PH{}, audited once inside the project]\label{lem:W2}
+Let $e>f/2$, $\gcd(e,f)=1$, $g=f-e$, and suppose $W_2(e,f)$ is tiled. Then the side $OB$ (from the corner $2\alpha$ to the corner $\beta$; length $2fb$) carries exactly $2g$ tiles with an $a$-edge and $2g$ with a $c$-edge, and none with a $b$-edge; the corner run $C_1^k$ has $e+1\le k\le 2g$.
+\end{lemma}
+The proof is a congruence argument on the representation $2fb=xa+yb+zc$ together with the corner-run theorem of the earlier release (no representation with $z\ge f$ since $2g<f$). With Theorems~\ref{thm:thick1} and~\ref{thm:R2}: $W_2(e,f)$ has no tiling whenever $2g\le e+2$; what remains is the window $e+3\le k\le 2(f-e)$, with the smallest cases $(e,f)=(5,9)$ ($k=8$), $(6,11)$ ($k=9,10$), $(7,12)$ ($k=10$). This is \emph{not} proved: it is the open residual of the scale-two case.
+
+\subsection*{Boundary words of the known tilings (computed)}
+For all $37$ tilings of $W_M(e,f)$ and $15$ of $T_M(e,f)$ among the exact witnesses (all of them layouts of the template of Theorem~W) the three sides read, with $n=\lfloor eM/f\rfloor$, $\rho=eM\bmod f$, $\delta=[\rho=0]$ and $t=n-\delta$:
+$OA=c^{fM}$, $OB=c^{fM-er}a^{fr-eM}$, $AB=a^{fM-et}c^{ft}b^{eM-ft}$, with $r\in\{n+1,M,M+1\}$ (the three values occurring). That is the vertex table of Theorem~W read backwards; the observation that only these three $r$ occur is \CE{} on $52$ witnesses and is not proved. The $b$-run on $AB$ is the least residue of $eM$ modulo $f$, in every witness. Every interior chain of collinear same-side edges is monochromatic or a word $c^pa^q$ or $a^pc^q$ (in $15\,678$ interior chains), so no Sturmian or Beatty word occurs on lines.
+\emph{A Beatty form of the threshold} (identity, \CE{}: checked exactly for all $296\,736$ coprime triples with $2\le e\le f-2$, $f\le80$, $1\le M\le3f$, no mismatch; not proved here): with $n=\lfloor eM/f\rfloor$, ``$Me\ge f$ and $(M-1)(f-e)\ge f$'' holds if and only if $n\ge1$ and there is an integer $q\le M-1$ with $e(n+1)/f<q<fn/e$. So the threshold of Theorem~W says that this interval has caught an integer; below the threshold, for example $(5,9,2)$, $(6,11,2)$, $(7,12,2)$, it contains none. This restates the threshold and is not a new obstruction.
+
+\subsection*{Dead routes, with data (notes, not proofs)}
+(i) A conjectured lower bound $r\ge 2f-e$ for the corner run (``$R^*$'') is refuted by the scale-four witnesses $W_4(4,7)$, $W_4(5,9)$, $W_4(6,11)$, $W_4(7,12)$ ($r=8,11,14,13$, against $2f-e=10,13,16,17$). (ii) A conjectured bound on interior runs (``$S_\infty$'') is refuted by $2\,430$ interior runs in the witnesses. (iii) Describing the second layer of boundary words by a zigzag automaton gives a finite automaton ($K=f+1$ states) of positive entropy, so it cannot single out the tilings. (iv) Counts of Eisenstein-integer solutions and the windows for $\gamma=2\alpha$ were measured and gave no exclusion. (v) Reading a $W_2$ as a scale-two problem reduces it to the window of Lemma~\ref{lem:W2} and no further.
+\textbf{What is not proved:} the exclusion for $M(f-e)\ge e+3$ (and $<f$), the no side of Theorem~W for $e>f/2$ in general, $T_M$ below $M^*$, and everything about the prime case.
 
 %=====================================================================
 \section{Credits, with dates}\label{sec:credits}
@@ -347,7 +381,9 @@ Prime counts; the base-$\beta$ reduction & earlier releases & Paliy, first publi
 Targets $W_M$, $T_M$; tilings for $M\ge f$ & formalized & Paliy ($W/\beta$ framework, caps, collars: 2026-10-03; all $M\ge f$ (his $v$): 2026-10-10); Beeson and Ro\c{s}u (the targets, the seed)\\
 \textbf{Theorem~W}, six-piece template & ours & template found by our search; the setting and the earlier thresholds are Paliy's and Beeson's; the sharpness side ($Me<f$) is from the earlier releases\\
 $\alpha$ up-set, form $b\kappa K^2$, scale additivity & Paliy's; Lean here & Paliy, 2026-09-29 \cite{PaliyRepo}; seeds $84$, $189$: Beeson (Figs.~28--29), $189$: Harries\\
-Collar step, parametric seed $e=1$, tails & ours & independent of Paliy's construction; credit for the up-set as above\\
+Collar step, parametric seed $e=1$, tails & ours & independent of Paliy's construction; credit for the up-set and the threshold $K_0$ as above\\
+$465g^2$, $g=2,3,4$ (exact tilings) & ours (data) & seeds below Paliy's threshold; exact-verified, Lean planned\\
+Thick regime (no tiling for $M(f-e)\le e+1$, hand proof of $e+2$) & ours & uses the run framework of Beeson and Ro\c{s}u and Paliy's $W/\beta$ setting; the arithmetic of the corner side and the partition property are from earlier releases\\
 Macro pieces & ours (layouts, Lean) & macro-dissections: Laczkovich; Herdt ($1125$); seeds $15m^2$: Paliy (2026-10-08)\\
 $15m^2$ for all $m\ge4$, $4830$, mixed-corner family & Paliy's (\CP{}); $4830$ verified here & Paliy, 2026-10-08\\
 $990$, $264$, $897$, $240$, $312$ & earlier releases & Paliy: $990$ on 2026-10-06, $264$ on 2026-10-07; the others as dated in the earlier releases\\
@@ -368,7 +404,7 @@ The statements ``Paliy claims'' in this paper are statements in his public repos
 %=====================================================================
 \appendix
 \section{Where the proof of Theorem~W is}\label{app:W}
-The proof of Theorem~W (coordinates, the six pieces, the sign table, the choice of parameters, the exact accounting of what is Lean, hand and computed) is in Paper~W \cite{PaperW}, Sections 4 and 5 and Appendix A; the algebra is re-run by \texttt{code/check\_thmW\_algebra.py}. It is not repeated here.
+The proof of Theorem~W (coordinates, the six pieces, the sign table, the choice of parameters, the exact accounting of what is Lean, hand and computed) is in Paper~W \cite{PaperW}, Section~4 (with the worked rows in Section~5) and the separate verification record; the algebra is re-run by \texttt{code/check\_thmW\_algebra.py}. It is not repeated here.
 
 %=====================================================================
 \section{Conjecture C: a candidate classification of the tile counts}\label{sec:conjC}
@@ -422,7 +458,7 @@ The predicate in Lean is narrower than Table~\ref{tab:families}: it has $F_1$ fo
 \medskip
 \noindent\CE{} \emph{Consistency checks} (exact computations in the working notes, repeated for the census of this release where stated).
 (a) The families generate exactly the $105$ tile counts $\le200$ of the earlier theorem, no more and no fewer.
-(b) None of the $199\,140$ excluded values of the census is generated by any family (rechecked for the Theorem~W family and the macro counts in this release: no overlap).
+(b) None of the $199\,364$ Lean-formal excluded values of the census is generated by any family (rechecked for the Theorem~W family and the macro counts in this release: no overlap).
 (c) Every one of the known tile counts of the census is generated by some family; this check is partly circular, because the known values were found by these families, so it shows that the families are complete for what is known and nothing more.
 The sharp content of C is the exclusion half.
 
@@ -454,12 +490,13 @@ The baseline is the census of the previous release.
  & excluded & known (tile counts) & undecided\\
 \midrule
 version 2.2 / release v1.16 & $199\,140$ & $102\,613$ & $90\,321$\\
-version 3.0 / release v3.0 & $199\,140$ & $129\,108$ & $63\,826$\\
-change & $0$ & $+26\,495$ & $-26\,495$\\
+version 3.0 / release v3.0 (Lean-formal exclusions) & $199\,364$ & $129\,108$ & $63\,602$\\
+change & $+224$ & $+26\,495$ & $-26\,719$\\
+version 3.0 with the hand-proved class R2 (separate row) & $199\,441$ & $129\,108$ & $63\,525$\\
 \bottomrule
 \end{tabular}
 \end{center}
-The exclusion side did not change: this release is existence work. The $26\,495$ new known values, by label:
+The exclusion side grew by $224$ values: $124$ by the thick-regime theorem of Section~\ref{sec:thick}, $91$ by two further classes ($85$ values of the form $30s^2$ through the earlier gap lemma and $6$ values $t^2(12t^2-1)$ with $e=1$, $2M=f$), and $9$ from the re-run of the census program; the exclusion assignment is made by the census program, and only $412$ and $270$ below $1000$ are also Lean theorems about \emph{that} $N$ (\texttt{no\_dissection\_412}, \texttt{no\_dissection\_270}); the others are census-level (their leaf checks are too heavy for the kernel in the current interface). The row with Theorem~R2 adds $77$ values and is \emph{hand-proved}; do not read it as formal. The $26\,495$ new known values, by label:
 \begin{center}\small
 \begin{tabular}{@{}p{4.6cm}rp{6.0cm}@{}}
 \toprule
@@ -474,12 +511,12 @@ paper-formal closure over exact seeds & $3$ & upward closure statement of the ea
 \end{center}
 (The $102\,613$ known values of the baseline keep the labels of the previous release.)
 Theorem~W alone moves $26\,138$ values from undecided to known: the family has $44\,495$ values $\le10^6$ ($28\,946$ from $W$, $18\,431$ from $T$, union $44\,495$; the largest $f$ is $251$); $18\,357$ of them were already known by other means, none lies in the excluded set.
-\textbf{Paliy-claim-only values.} A further $134$ values $\le10^6$ lie in families that Paliy claims (\CP{}; examples are $1380$, $2024$, $3105$, $4554$, $5520$, $8096$, and the values $15m^2$, $m\ge4$, that no Lean theorem covers, such as $1815=15\cdot11^2$) and that we have neither proved nor verified; they are \emph{not} counted as known, they are among the $63\,826$ undecided.
+\textbf{Paliy-claim-only values.} A further $134$ values $\le10^6$ lie in families that Paliy claims (\CP{}; examples are $1380$, $2024$, $3105$, $4554$, $5520$, $8096$, and the values $15m^2$, $m\ge4$, that no Lean theorem covers, such as $1815=15\cdot11^2$) and that we have neither proved nor verified; they are \emph{not} counted as known, they are among the $63\,602$ undecided. The three values $1860$, $4185$, $7440$ ($465g^2$, $g=2,3,4$) were found after this census was run; they are exact-verified tile counts and are not in the table.
 
 \subsection{Squarefree values}
-Of the squarefree $N\le10^6$, $770$ remain open at the exact level ($771$ in version~2.2: the difference is $4830$, a tile count by Paliy's certificate, exact-verified here); at the Lean level the count of the previous release ($791$) is unchanged, since all new Lean theorems concern non-squarefree values.
+Of the squarefree $N\le10^6$, about $770$ remain open at the exact level ($771$ in version~2.2: the difference is $4830$, a tile count by Paliy's certificate, exact-verified here); at the Lean level the count of the previous release ($791$) is unchanged, since all new Lean theorems concern non-squarefree values.
 The open squarefree values $\le1000$ are $231,\ 329,\ 354,\ 385,\ 455,\ 465,\ 517,\ 777,\ 806,\ 935,\ 966$.
-The undecided non-squarefree values in $[201,1000]$ are now $38$: $236$, $270$, $280$, $284$, $297$, $332$, $351$, $412$, $420$, $423$, $444$, $480$, $524$, $531$, $552$, $594$, $616$, $644$, $668$, $716$, $732$, $747$, $750$, $816$, $824$, $840$, $855$, $876$, $880$, $908$, $912$, $924$, $927$, $944$, $945$, $956$, $963$, $999$ ($414$ and $639$, tile counts of $W_3(2,5)$ and $T_3(2,5)$, are no longer on the list).
+The undecided non-squarefree values in $[201,1000]$ were $38$ in the census of the first draft of this release; of these, $270$ and $412$ are now excluded by Lean theorems and $750$ and $963$ by the census program only, leaving $34$: $236$, $270$, $280$, $284$, $297$, $332$, $351$, $412$, $420$, $423$, $444$, $480$, $524$, $531$, $552$, $594$, $616$, $644$, $668$, $716$, $732$, $747$, $750$, $816$, $824$, $840$, $855$, $876$, $880$, $908$, $912$, $924$, $927$, $944$, $945$, $956$, $963$, $999$ ($414$ and $639$, tile counts of $W_3(2,5)$ and $T_3(2,5)$, are no longer on the list).
 Every $N\le200$ was already decided.
 
 \subsection{What the census is not}

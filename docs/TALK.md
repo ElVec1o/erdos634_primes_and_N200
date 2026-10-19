@@ -39,7 +39,7 @@ Timing: 1-3 six minutes (problem, standing, the tile), 4-6 eight (targets and to
 
 **Slide 17. Conjecture C (2 min).** Tile counts = k^2 times cores in nine families F0..F8; existence half Lean on the proved ranges, exclusion half open; falsifiable tests: 1860, 4185, 7440; squarefree 465, 966, 2485; 1617.
 
-**Slide 18. The census (2 min).** Non-squarefree N<=10^6 (392,074): 199,140 excluded, 129,108 tile counts, 63,826 undecided; Theorem W alone moves 26,138 values. Exclusion by a program evaluating a Lean-proved hypothesis; audited only inside the project.
+**Slide 18. The census (2 min).** Non-squarefree N<=10^6 (392,074): (version 3.0) 199,364 excluded, 129,108 tile counts, 63,602 undecided (Lean-formal exclusions; 199,441 / 129,108 / 63,525 with the hand-proved Theorem R2 class); Theorem W alone moves 26,138 values; about 770 squarefree values open. Exclusion by a program evaluating a Lean-proved hypothesis; audited only inside the project.
 
 **Slide 19. What is not proved (2 min).** Exclusion half of C; the no side of (H2) for e>f/2; T_M scales with 2Me>=f and M<M*; V and A'; 15m^2 for all m>=4 as a Lean theorem; outside check.
 
@@ -85,3 +85,7 @@ The talk now follows `paper_v2_full.tex`. Slide 3: use the pair parametrisation 
 
 ## Revision 5 note (2026-10-18)
 Names changed in the paper: sector facts (SF1)-(SF3); cases (J), (gamma), (Z), (O); steps Pg, Cs, Tr, Rw, Th, Cr; BR-n for Beeson-Rosu lemma n; the leg lemma (not "Lemma 34"); T(g) is now Omega_g in the paper (say "T of g" aloud); counting numbers kappa. Slide 7: add one line, "the same argument with g = 1 reproves Beeson's exclusion (credited)". Slide 8: sharpness: (g-1)d = u forces d = 1, g = u+1, N = 45, 112, 225; no tiling known; 45 and 112 only float-searched (S). Slide 5 (Lemma K): use the seven steps Cr0-Cr7 of Section 4.6 (what fails in BR-34, the wall = target side, induction). Figures 2-3 are now drawn at the true angle 28.96 degrees ((4,7), cos alpha = 7/8). Herdt slide: say plainly that disjointness of the eleven pieces is checked in Lean (HerdtSep1-4); show T_1/T_2: K - P_2 on opposite sides because s_7 b - X_1 = D u^4 > 0.
+
+
+## Version 3.0 additions (2026-10-20)
+**Thick regime (2 min).** W_M(e,f) with 2<=e<f, M<f, Me>=f has no tiling if M(f-e)<=e+1 (Lean; hand proof audited only inside the project; 412 = W_2(5,8) and 270 formally excluded). Theorem R2 (hand proof only, docs/THEOREM_R2_PROOF.md): same for M(f-e)=e+2. Open: M(f-e)>=e+3, smallest (5,9,2). **465 g^2 (1 min).** g=2,3,4 (1860, 4185, 7440) by exact-verified tilings with the tile (4,15,16); g>=5 Lean (Paliy's up-set); g=1 open. Prime case: no prime p = 3 (mod 4), p>3, is a tile count.
