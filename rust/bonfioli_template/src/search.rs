@@ -1,4 +1,4 @@
-//! Parametric corner-fill template enumerator (Rust port of private/ROOM/ENGINE/template_enum.py, generalised to any rational tile
+//! Parametric corner-fill template enumerator (Rust port of an earlier Python prototype, generalised to any rational tile
 //! family via angle vectors, plus trapezoid pieces).  Exact arithmetic only.
 use crate::aff::*;
 use crate::field::*;

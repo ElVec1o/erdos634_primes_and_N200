@@ -8,6 +8,7 @@ import Erdos634.Draft.N345N506
 import Erdos634.Draft.PRevAll
 import Erdos634.Draft.PF2All
 import Erdos634.Draft.PF3All
+import Erdos634.Draft.AllTemplates
 
 #print axioms Erdos634.Draft.N345N506.tileCount_345
 #print axioms Erdos634.Draft.N345N506.tileCount_506
@@ -36,3 +37,11 @@ import Erdos634.Draft.PF3All
 #print axioms Erdos634.Draft.PF3All.tileCount_196251
 #print axioms Erdos634.Draft.PF3All.tileCount_247494
 #print axioms Erdos634.Draft.PF3All.tileCount_397371
+#print axioms Erdos634.Draft.T11625.tileCount_11625
+#print axioms Erdos634.Draft.T66960.tileCount_66960
+#print axioms Erdos634.Draft.T119040.tileCount_119040
+#print axioms Erdos634.Draft.T121765.tileCount_121765
+#print axioms Erdos634.Draft.T167865.tileCount_167865
+#print axioms Erdos634.Draft.T186000.tileCount_186000
+#print axioms Erdos634.Draft.T364560.tileCount_364560
+#print axioms Erdos634.Draft.T603750.tileCount_603750

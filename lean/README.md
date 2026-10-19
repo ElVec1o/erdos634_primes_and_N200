@@ -37,7 +37,7 @@ union would need too much memory:
 | `Erdos634.AllCert4` | 1118 | 184; certificates S4N184, ISO184 |
 | `Erdos634.AllCert5` | 3938 | 135; certificate EQ135 (2791 modules) |
 | `Erdos634.AllCertW2` | 437 + 670 certificate modules, 5 others | 204 and 228 (second route); certificates G204 (437 modules) and G228 (670 modules), not stored: `code/regen_cert.sh G204`, `G228` |
-| `Erdos634.AllR8` | 117 | 345 and 506 (tilings, Paliy's layouts, kernel-checked); the family theorems `PRevAll.prev_family`, `PF2All.pf2_family`, `PF3All.pf3_family` (Paliy's constructions, formalized) and the 22 R8 values as their instances |
+| `Erdos634.AllR8` | 127 | 345 and 506 (tilings, Paliy's layouts, kernel-checked); the family theorems `PRevAll.prev_family`, `PF2All.pf2_family`, `PF3All.pf3_family` (Paliy's constructions, formalized) and the 22 R8 values as their instances; (v1.16) the eight template tile counts 11625, 66960, 119040, 121765, 167865, 186000, 364560, 603750 (`Draft/LadderFam`, `Draft/T<N>`, `Draft/AllTemplates`) |
 
 (Module counts include the regenerated certificate modules for `AllCert1` to `AllCert5`.)
 

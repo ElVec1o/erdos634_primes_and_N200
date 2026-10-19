@@ -7,7 +7,7 @@ throughout, under the author's direction.
 
 **Archive:** Zenodo, doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433) (all versions); version 1.0: doi:[10.5281/zenodo.23400434](https://doi.org/10.5281/zenodo.23400434).
 
-**Paper (version 2.1):** `paper/erdos634_primes_and_N200.pdf`, October 2026 (source `paper/erdos634_primes_and_N200.tex`); the first paper is `paper/erdos634_primes_and_N200_v1.pdf`. Talk and FAQ: `docs/`.
+**Paper (version 2.2):** `paper/erdos634_primes_and_N200.pdf`, October 2026 (source `paper/erdos634_primes_and_N200.tex`); the first paper is `paper/erdos634_primes_and_N200_v1.pdf`. Talk and FAQ: `docs/`.
 
 Standing marks used below, as in the paper: **F** = theorem of the accompanying Lean 4 library, with the standard axioms
 only (`propext`, `Classical.choice`, `Quot.sound`) and no `sorry`; **W** = written proof in the paper, not formalized;
@@ -232,6 +232,14 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values in `r8_exact/`; the 13 template tilings of release v1.15 in `template_exact/`) |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier), `bonfioli_template` (the template search `bto` that found the tilings of v1.15; source only) |
 
+## Release v1.16: eight template tile counts are Lean theorems; W3+ census as evidence
+
+**The prime case is unchanged. Nothing in this release bears on Theorem 1.1 or on the base-beta question.**
+
+* **Eight template tile counts are Lean theorems** (mark F; standard axioms, no `sorry`, no `native_decide`; aggregate `Erdos634.AllR8`, axiom gate 35/35): `TileCount N` for N = 11,625; 66,960; 119,040; 121,765; 167,865; 186,000; 364,560; 603,750 (`Draft/T<N>`, generic module `Draft/LadderFam`, aggregate `Draft/AllTemplates`; tiles (4,15,16), (6,35,36), (10,21,25)). Each target is cut into a few convex pieces (similar triangles and trapezoids) found by our template engine, each tiled by cells of the ladder subdivision, with the covering obtained from an area identity. Credits: our engine for the templates; the skew-frame layer reconstructs Beeson-Rosu III Theorem 10; the macro dissections are of Laczkovich type; the multiplicative scaling follows Paliy's families. Statement-match audit within this work (all eight match `TileCount N`); no outside reader. These eight values were "computed, exact-verified" in v1.15; they are now Lean-formal. The five values above 10^6 (1,071,360; 1,183,350; 1,545,600; 1,904,640; 2,779,136) remain exact-verified only. Census unchanged: 199,140 / 102,613 / 90,321.
+* **W3+ census (evidence only, not a theorem).** One-leg W3+ words at g = 3, exact arithmetic, conditional on the search filters (no Lean certificate). For (u,v) = (4,7) and (5,8) the word lists are complete (191,940 and 84,462 words); all but 323 and 630 words are decided "no tiling" within 2 s; a uniform sample of those, run 120 s each, decided about half, so roughly 160 and 315 words are still unresolved (an extrapolation, not a count). No tiling was found. For (7,12) (8.43e9 words) only a uniform sample of 19,999 was run: 19,994 "no tiling", 5 unresolved, none found. The conjecture is neither refuted nor proved by this.
+* Paper: version 2.2 (new Section "What is new in version 2.2", credits row). A private-path comment was removed from `rust/bonfioli_template/src/search.rs`.
+
 ## Release v1.15: Paliy's nested-corner family theorems in Lean; 8 + 5 new tile counts from a template search; census recount
 
 **The prime case is unchanged. Nothing in this release bears on Theorem 1.1 or on the base-beta question; it is census and existence work.**
@@ -435,6 +443,7 @@ Table 3.
 |  | F | `Erdos634.Draft.PRevAll.prev_family` (Paliy's construction) | `Draft/PRevAll.lean` | AllR8 |
 |  | F | `Erdos634.Draft.PF2All.pf2_family` (Paliy's construction) | `Draft/PF2All.lean` | AllR8 |
 |  | F | `Erdos634.Draft.PF3All.pf3_family` (Paliy's construction) | `Draft/PF3All.lean` | AllR8 |
+|  | F | `Erdos634.Draft.T<N>.tileCount_<N>` for N = 11625, 66960, 119040, 121765, 167865, 186000, 364560, 603750 (template tilings, our engine) | `Draft/T<N>.lean`, `Draft/LadderFam.lean` | AllR8 |
 |  | F | `Erdos634.R84TilingBridge.r84_nonempty_congruentDissection` | `R84TilingBridge.lean` | All |
 |  | F | `Erdos634.R88TilingBridge.r88_nonempty_congruentDissection` | `R88TilingBridge.lean` | All |
 |  | F | `Erdos634.R126TilingBridge.r126_nonempty_congruentDissection` | `R126TilingBridge.lean` | All |

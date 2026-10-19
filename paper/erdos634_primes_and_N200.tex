@@ -1,4 +1,4 @@
-% paper_v2_full.tex -- version 2.1 (2026-10-19; census and tile counts of release v1.15; text of version 2.0 otherwise). Self-contained: own preamble, own bibliography.
+% paper_v2_full.tex -- version 2.2 (2026-10-19; Lean tile counts for eight template values, W3+ census as evidence, release v1.16; text of version 2.1 otherwise). Self-contained: own preamble, own bibliography.
 % Marks: \sF (Lean theorem), \sW (written proof, not formalized), \sS (computation without a kernel-checked certificate).
 % Assembled by private/DRAFT/build_full.py from part files; the Herdt and census sections are patched copies of paper_v2_sections.tex.
 \documentclass[11pt,reqno]{amsart}
@@ -35,7 +35,7 @@
 
 \title[Runs, windows and the corner]{Congruent dissections of a triangle:\\ runs, windows and the corner}
 \author{Vico Bonfioli}
-\date{Version 2.1, 19 October 2026}
+\date{Version 2.2, 19 October 2026}
 
 \begin{document}
 
@@ -964,13 +964,22 @@ scales below the threshold (for the base-$\psi$ targets, the question of which s
 
 
 %=====================================================================
+\section{What is new in version 2.2}\label{sec:new22}
+Relative to version 2.1 (release 1.15). The prime case is unchanged: nothing here bears on Theorem~1.1 or on the base-$\beta$ question.
+\begin{itemize}
+\item \textbf{Eight template tile counts are now Lean theorems} (\sF): $11\,625$, $66\,960$, $119\,040$, $121\,765$, $167\,865$, $186\,000$, $364\,560$, $603\,750$, each as \lean{TileCount} $N$ (declarations \texttt{tileCount\_$N$} in \texttt{Draft/T$N$}, with the generic module \texttt{Draft/LadderFam}, aggregate \texttt{Draft/AllTemplates}, in \texttt{AllR8}); standard axioms, no \texttt{sorry}, no \texttt{native\_decide}, no tile list. Tiles: $(4,15,16)$ for six of them, $(6,35,36)$ for $121\,765$, $(10,21,25)$ for $603\,750$. The proof assembles the target from a few convex pieces (similar triangles and trapezoids found by our template engine), each tiled by cells of the ladder subdivision (\lean{LadderFam.ladderFam}), and obtains the covering from an area identity. Credits: our engine for the templates; the skew-frame layer is a reconstruction of Beeson--Ro\c{s}u III, Theorem~10; the macro dissections are of Laczkovich type; the multiplicative scaling follows Paliy's families. A statement-match audit (the Lean statement is the census statement $\mathrm{TileCount}\,N$; the model tile is the stated one) was made within this work, no outside reader. In the census these eight values are unchanged ($102\,613$ tile counts); only their label moves from \sS{} to \sF. The five values above $10^6$ remain \sS.
+\item \textbf{Evidence on the one-leg $W_3^+$ words at $g=3$} (type \sS, \emph{evidence only}; a conditional exact search with the filters named in the project notes, no Lean certificate). For the pairs $(u,v)=(4,7)$ and $(5,8)$ the word lists are complete ($191\,940$ and $84\,462$ words); every word was decided ``no tiling'' within $2$~s except $323$ and $630$ words; a uniform sample of those, run for $120$~s, decided about half of them, which extrapolates to roughly $160$ and $315$ words still unresolved (an extrapolation, not a count). No tiling was found for any word. For $(7,12)$ there are $8.4\cdot10^9$ words and only a uniform sample of $19\,999$ was run: $19\,994$ ``no tiling'', $5$ unresolved, none found. The conjecture is therefore neither refuted nor proved by this census, and the unresolved words are open.
+\item \textbf{Housekeeping:} a private-path comment was removed from \texttt{rust/bonfioli\_template/src/search.rs}.
+\end{itemize}
+
+%=====================================================================
 \section{What is new in version 2.1}\label{sec:new21}
 Relative to version 2.0 (release 1.14), this version records the following, each with its standing. The prime case is unchanged: nothing here bears on Theorem~1.1 or on the base-$\beta$ question.
 \begin{itemize}
 \item \textbf{Three family theorems of D.~Paliy's nested-corner layouts, formalized} (\sF; the constructions are Paliy's, the Lean proofs are ours): for naturals $0<b<a$ and $c^2=a^2+ab+b^2$ (the tile with sides $a,b,c$ and angle $2\pi/3$ opposite $c$), \lean{PRevAll.prev_family} gives a tiling with $(2a+b)(a+b)$ tiles if $bc-a^2\in\langle a,b,c\rangle$; \lean{PF2All.pf2_family} gives $(a+2b)(2a+b)$ tiles under the same hypothesis; \lean{PF3All.pf3_family} gives $3(a+b)(a+2b)$ tiles if $a<2b$, with no semigroup hypothesis. Each is a statement $\mathrm{TileCount}(\cdot)$ (a tiling of some triangle by that many congruent copies of some triangle), proved for all admissible $(a,b,c)$ and all semigroup witnesses, with the standard axioms; they are in the aggregate \texttt{AllR8}, which contains no search certificate. A statement-match audit (hypotheses, conclusion, non-vacuity by $22$ instances) was made within this work only.
 \item \textbf{All $22$ squarefree $R_8$ values are now Lean theorems}: $345, 506, 12\,922, 18\,602, 25\,179, 35\,763, 57\,479, 65\,626, 135\,746, 146\,982, 156\,647, 196\,251, 201\,122, 247\,494, 388\,847, 397\,371, 428\,978, 538\,346, 624\,338, 686\,945, 746\,327, 914\,529$ are instances of the three theorems (declarations \texttt{tileCount\_$N$} in \texttt{PRevAll}, \texttt{PF2All}, \texttt{PF3All}; $8$, $8$ and $6$ values). Squarefree $N\le10^6$ still open: $771$ at both levels.
 \item \textbf{$134$ further non-squarefree values are tile counts.} Among the $91\,750$ undecided non-squarefree $N\le10^6$ of the program, $135$ equal $(2a+b)(a+b)k^2$, $(a+2b)(2a+b)k^2$ or $3(a+b)(a+2b)k^2$ for admissible $(a,b,c)$ ($79$, $22$ and $34$ values); one of them was already known. They follow from a family theorem and the scaling lemma \lean{TileCountFamilies.tileCount_scale}, with $(a,b,c)$ found by search; no separate Lean theorem is stated for each of them, so the count is of type \sS. For the census it makes no difference whether the finite list is proved value by value. The older families $F_3$, $F_4$ ($a<b$) already covered $382$ values of the program's undecided list; these were already among the $1\,287$ removed in version 2.0 and are not new.
-\item \textbf{Eight values from a template engine, by exact verification} (type \sS, \emph{not} Lean): $11\,625$, $66\,960$, $119\,040$, $121\,765$, $167\,865$, $186\,000$, $364\,560$, $603\,750$ (in the census), and $1\,071\,360$, $1\,183\,350$, $1\,545\,600$, $1\,904\,640$, $2\,779\,136$ (above $10^6$). Each is a tiling found by a search over macro-pieces (similar triangles, bricks, trapezoids) with integer scales, expanded to the individual tiles and checked by an independent exact verifier (congruence of every tile, containment, pairwise disjoint interiors, equal areas); the tilings are in \texttt{data/witnesses/}. Each decides only its own value $N=N_0g^2$; the squarefree cores $465$, $966$, $2\,485$ and $2\,714$ remain open. No hit for these numbers was found in the public claim ledger or papers of Paliy; his archive of $220$ files was not read.
+\item \textbf{Eight values from a template engine, by exact verification} (type \sS in version 2.1; the eight values $\le10^6$ became Lean theorems in version 2.2, Section~\ref{sec:new22}; the five above $10^6$ remain \sS): $11\,625$, $66\,960$, $119\,040$, $121\,765$, $167\,865$, $186\,000$, $364\,560$, $603\,750$ (in the census), and $1\,071\,360$, $1\,183\,350$, $1\,545\,600$, $1\,904\,640$, $2\,779\,136$ (above $10^6$). Each is a tiling found by a search over macro-pieces (similar triangles, bricks, trapezoids) with integer scales, expanded to the individual tiles and checked by an independent exact verifier (congruence of every tile, containment, pairwise disjoint interiors, equal areas); the tilings are in \texttt{data/witnesses/}. Each decides only its own value $N=N_0g^2$; the squarefree cores $465$, $966$, $2\,485$ and $2\,714$ remain open. No hit for these numbers was found in the public claim ledger or papers of Paliy; his archive of $220$ files was not read.
 \item \textbf{Census} of the $392\,074$ non-squarefree $N\le10^6$: $199\,140$ excluded (unchanged), $102\,613$ tile counts ($+142$: $134$ by the family theorems, $8$ by templates), $90\,321$ undecided. The counts are recomputed from the label files by a script that first reproduces the figures of version 2.0 ($102\,471$ and $90\,463$).
 \end{itemize}
 
@@ -1007,6 +1016,7 @@ Counting identity, apex property, side words & ours & ---\\
 Herdt family (Section~\ref{sec:herdt}) & ours & the instance $(2,3)$, $N=1125$, is Herdt's, published by Beeson \cite{BeesonIso}\\
 Laczkovich's eight-piece family, uniform & formalized & Laczkovich\\
 Nested-corner family theorems (Section~\ref{sec:new21}) & formalized & Paliy: the layouts (construction); the symbolic Lean proofs for all $(a,b,c)$ are ours\\
+Template tile counts (Section~\ref{sec:new22}) & ours; Lean proofs ours & templates: our engine; skew-frame layer Beeson--Ro\c{s}u III Thm~10; Laczkovich-type macro dissections; Paliy's multiplicative families\\
 Census (Section~\ref{sec:census}) & ours & ---\\
 \hline
 \end{tabular}
