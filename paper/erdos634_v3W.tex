@@ -44,7 +44,7 @@
 
 %=====================================================================
 \begin{abstract}
-Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently $(f-e)\lfloor eM/f\rfloor\ge e+1$; for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ tile counts that were undecided in this project's census (not checked against Paliy's ledger). The paper says which part is Lean, hand, computed or imported.
+Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sides $ef,\ f^2-e^2,\ f^2$. The triangles $W_M$ and $T_M$ of scale $M$ were known to be tiled by $M^2(2f^2-e^2)$ and $M^2(3f^2-e^2)$ tiles when $M\ge f$ (Paliy). We prove that $W_M$ is tiled as soon as $Me\ge f$ and $(M-1)(f-e)\ge f$, equivalently, by an explicit integer inequality (Lemma~\ref{lem:equiv}); for $T_M$ the tile count is proved and the tiling follows from a gluing lemma imported from the earlier release. The proof is one layout of six pieces in a skew frame with integer coordinates; it has a written proof of about four pages and, independently, a Lean~4 proof. For $e<f/2$ and \emph{assuming an imported exclusion theorem}, the condition is exact for $W_M$. Example: $W_4(3,5)$ is tiled by $656$ tiles (open in the earlier release). A program count (computed, not proved) gives $26\,138$ tile counts that were undecided in this project's census (not checked against Paliy's ledger). The paper says which part is Lean, hand, computed or imported.
 \end{abstract}
 \maketitle
 
@@ -68,7 +68,7 @@ Before this paper both were known to be tiled for every $M\ge f$ (Paliy), and fo
 \textbf{Theorem~W} (Theorem~\ref{thm:W}). If $2\le e\le f-2$, $\gcd(e,f)=1$, $Me\ge f$ and $(M-1)(f-e)\ge f$, then $W_M(e,f)$ is tiled by $M^2(2f^2-e^2)$ copies of $\tile(e,f)$ and $T_M(e,f)$ by $M^2(3f^2-e^2)$.
 \end{quote}
 Example: $(e,f)=(2,5)$, $M=3$ gives a tiling of a triangle with sides $315,276,375$ by $414$ copies of $(10,21,25)$; before, the smallest scale known was $M=f=5$.
-\emph{What this does not do.} It does not settle which $M$ fail when $e>f/2$ (Section~\ref{sec:open}), the members $e=1$ and $e=f-1$, or the prime case of Problem~634.
+\emph{Why it matters.} The scales $M<f$ are exactly the targets for which smaller tile counts $M^2(2f^2-e^2)$ become available; each tiling adds new integers to the set of tile counts that Erd\H{o}s's question asks about, and the earlier release listed $W_4(3,5)$ as an open case.\par\emph{What this does not do.} It does not settle which $M$ fail when $e>f/2$ (Section~\ref{sec:open}), the members $e=1$ and $e=f-1$, or the prime case of Problem~634.
 
 \subsection{Reader's guide}
 \emph{The proof in outline} (Section~\ref{sec:proof}; every claim below is an equation or inequality a reader can check by hand; ``scale $s$'' means a triangle with sides $sa,sb,sc$, and a ``tile-row'' is a strip one scale-one tile wide).
@@ -412,7 +412,7 @@ $PP_2P_3$ ($et$) & $P_2-P=bet\,(1,0)$; $P-P_3=e^2ft\,(0,1)$; $P_3-P_2=-et\,(b,ef
 $P_3P_2Q$ ($ft$) & $Q-P_3=f^3t\,(0,1)$; $Q-P_2=-bt\,(e,-f)$; $P_2-P_3=et\,(b,ef)$ & $c\!\cdot\! ft$; $b\!\cdot\! ft$; $a\!\cdot\! ft$\\
 $OB'C'$ ($v$) & $C'-O=-bv\,(1,0)$; $B'-O=-fv\,(f,-e)$; $B'-C'=-ev\,(e,-f)$ & $b\!\cdot\! v$; $c\!\cdot\! v$; $a\!\cdot\! v$\\
 $RQV_2$ ($s_1$) & $R-Q=fb(r-t)\,(0,1)$; $V_2-Q=es_1\,(f,-e)$; $V_2-R=fs_1\,(e,-f)$ & $b\!\cdot\! s_1$; $a\!\cdot\! s_1$; $c\!\cdot\! s_1$\\
-$RBB'$ ($s_2$) & $R-B=bs_2\,(0,1)$; $B'-R=fs_2\,(e,-f)$; $B'-B\parallel OB$ & $b\!\cdot\! s_2$; $c\!\cdot\! s_2$\\
+$RBB'$ ($s_2$) & $R-B=bs_2\,(0,1)$; $B'-R=fs_2\,(e,-f)$; $B'-B=es_2\,(f,-e)$ (parallel to $OB$) & $b\!\cdot\! s_2$; $c\!\cdot\! s_2$; $a\!\cdot\! s_2$\\
 $X_4U_1P_2$ ($u_1$) & $P_2-X_4=-bu_1\,(1,0)$; $U_1-X_4=-fu_1\,(f,-e)$; $P_2-U_1=eu_1\,(e,-f)$ & $b\!\cdot\! u_1$; $c\!\cdot\! u_1$; $a\!\cdot\! u_1$\\
 $X_4C'U_2$ ($u_2$) & $C'-X_4=-bu_2\,(1,0)$; $U_2-X_4=-fu_2\,(f,-e)$; $U_2-C'=-eu_2\,(e,-f)$ & $b\!\cdot\! u_2$; $c\!\cdot\! u_2$; $a\!\cdot\! u_2$\\
 \bottomrule
@@ -430,7 +430,7 @@ By Steps 1 and 2, $W_M$ is the union of six pieces with disjoint interiors, each
 (f^2M^2-e^2t^2)+v^2+f^2t^2+(s_1^2-s_2^2)+2s_1x+(u_1^2-u_2^2)=M^2(2f^2-e^2)
 \]
 is a polynomial identity in $e,f,M,t,r,q$ (expand with (\ref{eq:scales}); checked by computer algebra, Appendix~\ref{app:checks}). It is also forced by area: the tiles are disjoint, cover $W_M$, and all have the area of the tile. For $\delta=0$ and the canonical triple it reads, with $eM=fn+\rho$, $f^2M^2-e^2n^2+(fM-en-e)^2+f^2n^2+\rho(2f-\rho)+2f\,dn+e(2dn-e)=M^2\kappa$.
-The canonical triple of Proposition~\ref{prop:exact} satisfies (K) under (H1), (H2). This proves the $W$ half of Theorem~\ref{thm:W}. The $T$ half is Section~\ref{sub:T}. \hfill$\square$
+For $\delta=1$ ($t=n-1$, $r=n+1$, $q=n$, $\rho=0$) the same identity reads $f^2M^2-e^2(n-1)^2+(fM-e(n+1))^2+f^2(n-1)^2+(4f^2-f^2)+4f(dn-f)+(dn+e)^2-(dn-e)^2=M^2\kappa$ with $eM=fn$ (checked by computer algebra). The canonical triple of Proposition~\ref{prop:exact} satisfies (K) under (H1), (H2). This proves the $W$ half of Theorem~\ref{thm:W}. The $T$ half is Section~\ref{sub:T}. \hfill$\square$
 
 \smallskip\noindent\emph{Remark} (where the hypotheses enter). (H1) gives $n\ge1$; (H2) enters only through $dn\ge e+1$, that is the single inequality $er<fq$ with $q=n$, $r=n+1$: the apex $X_4$ of the corner removed from $\pi_5$ lies on $PO$ at or beyond $C'$. Everything else in (K) holds for all $M\ge1$ with $dn\ge1$ (for $\delta=1$ the inequality $eq<ft$ needs $dn>f$, which follows from $de\ge f+1$ since $n=em'$).
 
@@ -490,10 +490,9 @@ Two examples: $414=2\cdot 3^2\cdot 23$ and $639=3^2\cdot71$ were undecided befor
 
 \subsection{What stays open}
 \begin{itemize}
-\item \textbf{$e<f/2$: nothing} (Corollary~\ref{cor:sharp}) for $W_M$; for $T_M$ the scales with $2Me\ge f$ and $M<M^*(e,f)$ are neither proved tiled nor excluded (for example $T_3(2,11)$).
+\item \textbf{$e<f/2$: nothing open for $W_M$ (given the import (I1), Corollary~\ref{cor:sharp});} for $T_M$ the scales with $2Me\ge f$ and $M<M^*(e,f)$ are neither proved tiled nor excluded (for example $T_3(2,11)$).
 \item \textbf{$e>f/2$, the ``no'' side.} The exclusion imported here is only (I2), $M(f-e)\le e$. So for each row $(e,f)$ with $e>f/2$ the scales $M$ neither covered by Theorem~\ref{thm:W} nor excluded by (I2) are exactly those with $e/d<M<f/d+1$, $d=f-e$ (for $e>f/2$ the condition $Me\ge f$ holds for all $M\ge2$); the interval has length exactly $2$, so it contains at most two integers: at most two undecided scales per row. (That the interval holds at most two integers is proved: it is an open interval of length $2$.) \CJ{}\ \emph{Conjecture $W^*$:} for coprime $e,f$ with $2\le e\le f-2$, $W_M(e,f)$ is tiled iff $M\ge M^*(e,f)$ (for $e>f/2$: iff $(M-1)(f-e)\ge f$).
-Examples, relative to the imports (I1)--(I3) only (see also the next item): $W_2(3,5)$, $W_3(3,5)$, $W_2(5,8)$. For $W_2(5,8)$ ($412=4\cdot103$ tiles) a restricted exact computer search found no tiling (evidence only, not formal, \CE{}); the next item says it is decided by a newer theorem.
-\item \textbf{A newer exclusion, not part of this release's claims.} In the project repository (not in the release that accompanies this paper; so here $W_2(3,5)$ and $W_2(5,8)$ are open) there is a Lean theorem, \lean{Draft.SplusThick.wTilable_not_of_small_M}, stating that $W_M(e,f)$ is not tiled when $\gcd(e,f)=1$, $2\le e<f$, $M<f$, $f\le Me$ and $M(f-e)\le e+1$; it extends (I2) by one and decides $W_2(3,5)$ and $W_2(5,8)$ (no tiling) and leaves $W_3(3,5)$ open. Its hand proof has been audited inside the project (verdict: sound, with one repair), the Lean file is marked unaudited in its header, and it has not been checked by anyone outside the project. It does not interact with Theorem~\ref{thm:W}: for $e>f/2$ Theorem~\ref{thm:W} needs $(M-1)(f-e)\ge f$, the exclusion needs $M(f-e)\le e+1<f$.
+Examples, relative to the imports (I1)--(I3) only: $W_2(3,5)$, $W_3(3,5)$, $W_2(5,8)$. For $W_2(5,8)$ ($412=4\cdot103$ tiles) a restricted exact computer search found no tiling (evidence only, not formal, \CE{}).
 \item \textbf{$e=1$ and $e=f-1$} lie outside Theorem~\ref{thm:W}; for $W_M$ the threshold is $M=f$ by (I3); for $T_M(1,f)$ the exclusion $2M\le f$ of (I1) leaves, for example, $T_3(1,4)$ open.
 \item \textbf{The $T$ half in general:} only the tile count and the glue; the converse of the glue is unknown.
 \item \textbf{Nothing is claimed about the prime case or any integer outside $F$.}
@@ -504,7 +503,7 @@ Examples, relative to the imports (I1)--(I3) only (see also the next item): $W_2
 \section{Credits and disclosure}\label{sec:credit}
 \emph{Credit.} The targets $W_M,T_M$, the $W/\beta$ framework and the tilings for $M\ge f$ are due to D.~Paliy and to M.~Beeson and G.~Ro\c{s}u (the tile with $3\alpha+2\beta=\pi$ is Beeson's case III \cite{BeesonIII}); the isosceles-apex frame at the point $P$ with $OP=OB$ is the one of Beeson--Ro\c{s}u; the six-piece layout was found by our own computer search and is proved here, and the lattice lines $\ell_k$ of Section~\ref{sub:frame} are our way of reading it. The companion paper \cite{Companion} credits, statement by statement, B.~Herdt, Y.~X.~Zhang, M.~Laczkovich, J.~P.~Harries, and Snover--Waiveris--Williams, whose work enters there rather than here.
 \emph{AI.} The work was done with the help of an AI system (Claude, Anthropic); the questions and directions were the author's, and each claim carries the label saying how it was checked (explicit tilings are checked by an exact program, not by Lean).
-The statements ``Paliy'' in this paper refer to his public repository \cite{PaliyRepo}; we have read his documents and checked some examples; nothing here claims priority over him for the results listed as his.
+Statements about Paliy's work refer to his public repository \cite{PaliyRepo}; we have read his documents and checked some examples; nothing here claims priority over him for the results listed as his.
 
 %=====================================================================
 \appendix
