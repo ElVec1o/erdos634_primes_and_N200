@@ -48,6 +48,11 @@ Fix coprime integers $2\le e\le f-2$ and the triangle (the \emph{tile}) with sid
 \end{abstract}
 \maketitle
 
+\begin{center}\fbox{\begin{minipage}{0.94\linewidth}\small
+\textbf{Key (everything needed to read \S1.2).} Coprime integers $2\le e\le f-2$; $d=f-e$; tile sides $a=ef$, $b=f^2-e^2$, $c=f^2$; $\kappa=2f^2-e^2$. A triangle of \emph{scale} $s$ has sides $sa,sb,sc$ (tiled by $s^2$ tiles). $W_M$ is the triangle $OAB$ with $|OB|=Mfb$, $|OA|=Mf^3$, $|AB|=Me\kappa$; $P$ is the point of $AB$ with $OP=OB$.
+\emph{Frame:} origin $P$, axes along $PO$ and $PB$; a point is $(\xi,y)$, a vector has squared length $\xi^2+y^2+\frac ef\xi y$; $O=(fbM,0)$, $B=(0,ebM)$, $A=(0,-ef^2M)$ (all points of the layout have integer coordinates, Table~\ref{tab:pts}). \emph{Lattice lines:} with $\varphi=f\xi+ey$, the line $\ell_k$ is $\varphi=efb\,k$ ($k\in\mathbb Z$); it has direction $(e,-f)$ and meets $PO$ at $\xi=ebk$ and $AB$ at $y=fbk$. $\ell_t$ and $\ell_r$ are the two lattice lines on either side of $B$ ($ft<eM<fr$), and the \emph{strip} $S$ is the part of $OPB$ between them; its width is one tile-row ($=af$ along $OB$) when $f\nmid eM$. Lattice coordinates $u=\varphi/efb$, $w=(e\xi+fy)/efb$ tell on which side of a line a point is. $n=\lfloor eM/f\rfloor$; canonical $t=n-\delta$, $r=n+1$, $q=n$ ($\delta=1$ iff $f\mid eM$). (H1) $Me\ge f$, (H2) $(M-1)d\ge f$.
+\end{minipage}}\end{center}
+
 %=====================================================================
 \section{Introduction}\label{sec:intro}
 
@@ -327,7 +332,9 @@ If they hold, the triple $t=n-\delta$, $r=n+1$, $q=n$ satisfies (K). Every tripl
 (ii)$\Leftrightarrow$(iii) is Lemma~\ref{lem:equiv}. (ii)$\Rightarrow$(i) for the stated triple: $n\ge1$ by (ii). \emph{$ft<eM$:} if $\delta=0$ then $\rho>0$ and $fn<fn+\rho=eM$; if $\delta=1$ then $f(n-1)<fn=eM$. \emph{$eM<fr$:} $eM=fn+\rho<fn+f$. \emph{$er<fq$:} $e(n+1)<fn\Leftrightarrow dn>e$, which is (ii). \emph{$eq<ft$:} if $\delta=0$, $en<fn$; if $\delta=1$ then $f\mid eM$, so $f\mid M$ (coprimality), $M=fm'$, $n=em'$ and $dn\ge de\ge f+1$ by $(\ast)$, which is $en<f(n-1)$.
 (i)$\Rightarrow$(ii) and the last sentence: from $ft<eM$ we get $t<eM/f<n+1$, so $t\le n$, and $t\le n-1$ if $\rho=0$; from $eM<fr$ we get $r>n$, so $r\ge n+1$. Suppose $dn\le e$, that is $fn\le e(n+1)$. Then $fq>er\ge e(n+1)\ge fn$, so $q\ge n+1$, and $eq\ge e(n+1)\ge fn\ge ft>eq$, a contradiction.
 \end{proof}
-\noindent So the layout below exists for \emph{no} integers $t,r,q$ when $dn\le e$; this is a statement about this layout, not about tilings (Section~\ref{sec:open}). \CE{}: for $f\le12$ and all $M<3f$, all integer triples with $0\le t<r\le fM/e+2$, $0\le q\le M+2$ were enumerated; (K) (and the sixteen named factors of the older proof, Appendix~\ref{app:complex}) hold for the same triples; no discrepancy. (There can be several admissible triples; for $(e,f,M)=(2,5,3)$ the triples $(1,2,1),(1,2,2),(1,3,2),(1,4,2)$ all satisfy (K). The canonical triple is the extreme one.)
+\noindent So the layout below exists for \emph{no} integers $t,r,q$ when $dn\le e$; this is a statement about this layout, not about tilings (Section~\ref{sec:open}). \CE{}: for $f\le12$ and all $M<3f$, all integer triples with $0\le t<r\le fM/e+2$, $0\le q\le M+2$ were enumerated; (K) (and the sixteen named factors of the older proof, Appendix~\ref{app:complex}) hold for the same triples; no discrepancy. \begin{remark}[why these values of $t,r,q$]
+Only $t\le n-\delta$ and $r\ge n+1$ are forced (by $ft<eM<fr$). The admissible triples are not unique: for $W_3(2,5)$ the triples $(t,r,q)=(1,2,1),(1,2,2),(1,3,2),(1,4,2)$ all satisfy (K). The canonical triple $(n-\delta,n+1,n)$ is the extremal admissible one: it has the narrowest strip, and it is admissible whenever any triple is (Proposition~\ref{prop:exact}). Nothing else is claimed.
+\end{remark}
 
 \subsection{The six pieces}\label{sub:pieces}
 Fix $(t,r,q)$ with (K). The six pieces are the following regions, written with the lattice coordinates $(u,w)$ and $(\xi,y)$ of Section~\ref{sub:frame}; $O,A,B,\dots$ are the points of Table~\ref{tab:pts}.
@@ -375,14 +382,28 @@ In coordinates these are, in this order: $0\le t,r$ and $bet,ber\le fbM$ (as $et
 \end{itemize}
 So $\Omega\subseteq\bigcup\pi_i$, and by containment $\Omega=\bigcup\pi_i$.
 
-\emph{Disjointness of interiors.} The 15 pairs are separated by six lines, one line for each of: $y=0$ for $\pi_0|\pi_1,\pi_3,\pi_4,\pi_5$; the line $P_2P_3$ for $\pi_0|\pi_2$; $u=t$ for $\pi_2|\pi_1,\pi_3,\pi_4,\pi_5$; $u=r$ for $\pi_1|\pi_3,\pi_4,\pi_5$; $w=ft/e$ for $\pi_3|\pi_4,\pi_5$; $w=q$ for $\pi_4|\pi_5$. The needed sides: by Table~\ref{tab:pieces}, $\pi_0\subseteq\{y\le0\}$ and $\pi_1,\pi_5\subseteq\{y\ge0\}$; $\pi_3$ has $w\ge ft/e\ge er/f\ge eu/f$ (using $e^2r<f^2t$, $u\le r$), i.e.\ $y\ge0$, and $\pi_4$ has $w\ge q>er/f\ge eu/f$, i.e.\ $y\ge0$; $\pi_0\subseteq\{ef\xi-by\ge e^2fbt\}$ and $\pi_2\subseteq\{ef\xi-by\le e^2fbt\}$; $\pi_2\subseteq\{u\le t\}$ and $\pi_3\subseteq\{u\ge t\}$ because $\xi\ge0$ gives $u\ge ew/f$, and $w\ge ft/e$ gives $ew/f\ge t$; $\pi_4,\pi_5\subseteq\{u\ge t\}$, $\pi_1\subseteq\{u\ge r\}$; $\pi_3,\pi_4,\pi_5\subseteq\{u\le r\}$; $\pi_3\subseteq\{w\ge ft/e\}$ while $\pi_4,\pi_5\subseteq\{w\le ft/e\}$ (as $q\le ft/e$); $\pi_4\subseteq\{w\ge q\}$, $\pi_5\subseteq\{w\le q\}$.
+\emph{Disjointness, pair by pair.} For each pair the separating line, and the reason each piece lies on its side:
+\begin{center}\small
+\begin{tabular}{@{}p{3.3cm}p{3.1cm}p{6.2cm}@{}}
+\toprule
+pairs & line & reason\\
+\midrule
+$\pi_0|\pi_1,\pi_3,\pi_4,\pi_5$ & $y=0$ & $\pi_0$: $y\le0$ by definition; $\pi_1,\pi_5$: $y\ge0$ by definition; $\pi_3,\pi_4$: $w\ge eu/f$ since $w\ge q\ge er/f\ge eu/f$ (or $w\ge ft/e\ge er/f$, using $e^2r<f^2t$)\\
+$\pi_0|\pi_2$ & $ef\xi-by=e^2fbt$ & the definitions\\
+$\pi_2|\pi_1,\pi_3,\pi_4,\pi_5$ & $u=t$ & $\pi_2$: $u\le t$; $\pi_1\ (u\ge r)$, $\pi_4,\pi_5\ (u\ge t)$; $\pi_3$: $u\ge ew/f\ge t$\\
+$\pi_1|\pi_3,\pi_4,\pi_5$ & $u=r$ & $\pi_1$: $u\ge r$; the others $u\le r$\\
+$\pi_3|\pi_4,\pi_5$ & $w=ft/e$ & $\pi_3$: $w\ge ft/e$; $\pi_4,\pi_5$: $w\le ft/e$ (as $q\le ft/e$)\\
+$\pi_4|\pi_5$ & $w=q$ & $\pi_4$: $w\ge q$; $\pi_5$: $w\le q$\\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \subsection{Step 2: each piece is a union of tiles}\label{sub:shapes}
 Table~\ref{tab:sides} lists the side vectors of every triangle used, as an integer times a primitive vector of Table~\ref{tab:dirs}; each line is a subtraction of two rows of Table~\ref{tab:pts}. By (\ref{eq:metric}) the length of a side is that integer times the length of the primitive vector, so the triangle has the stated scale (SSS).
 \begin{table}[ht]
 \centering\small
 \caption{Side vectors. In a triangle of scale $s$ the three sides have lengths $sa$, $sb$, $sc$ (listed in the order of the vectors).}\label{tab:sides}
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}p{2.6cm}p{7.3cm}p{2.6cm}@{}}
 \toprule
 triangle (scale) & side vectors & lengths\\
 \midrule
@@ -413,16 +434,7 @@ The canonical triple of Proposition~\ref{prop:exact} satisfies (K) under (H1), (
 
 \smallskip\noindent\emph{Remark} (where the hypotheses enter). (H1) gives $n\ge1$; (H2) enters only through $dn\ge e+1$, that is the single inequality $er<fq$ with $q=n$, $r=n+1$: the apex $X_4$ of the corner removed from $\pi_5$ lies on $PO$ at or beyond $C'$. Everything else in (K) holds for all $M\ge1$ with $dn\ge1$.
 
-\subsection{A second route to Step 1: the chain lemma, and certificates for (K)}\label{sub:chain}
-\emph{Hand-proved, audited inside the project (verdict: sound, with four repairs, all applied here); not in Lean.} Step 1 above is a direct case analysis. A shorter argument replaces containment, separation and the area identity by one lemma (winding-number additivity; the integer frame is due to a study inside this project).
-\begin{lemma}[chain lemma]\label{lem:chain}
-Let $T$ and $\Pi_1,\dots,\Pi_k$ be polygons with counter-clockwise vertex lists, all with \emph{strictly} positive turns (cross products of consecutive edge vectors). Then each $\Pi_i$ is a convex polygon: for a $3$- or $4$-gon whose exterior angles all lie in $(0,\pi)$ and sum to $2\pi$, the boundary is a simple closed convex curve. If, as formal sums of oriented segments, $\sum_i\partial\Pi_i=\partial T$, where the equality means equal oriented multiplicity on every line (collinear segments add: $[p,q]+[q,r]=[p,r]$ in any order of the points, and $[p,q]+[q,p]=0$), then the $\Pi_i$ have pairwise disjoint interiors, lie in $T$, and cover $T$.
-\end{lemma}
-\noindent\emph{Proof.} Winding numbers are additive in the boundary chain; a convex counter-clockwise polygon has winding number $1$ inside and $0$ outside, so $\sum_i\mathbf 1_{\Pi_i}=\mathbf 1_T$ off finitely many lines. If two interiors met, the sum would be $\ge2$ on an open set; if some $\Pi_i$ left $T$, it would be $\ge1$ off $T$. $\square$
-(Caution: ``each piece inside $T$ and the areas add up'' does \emph{not} imply disjointness; and the vanishing of a sum of edge \emph{vectors} is not chain equality.)
-\emph{The chain identity} holds for all integers $e,f,M,t,r,q$, because the points of Table~\ref{tab:pts} lie on five lines: $AB$ ($\xi=0$: $A,P_3,Q,B$), $OP$ ($y=0$: $O,P_2,C'$), $OB$ ($e\xi+fy=efbM$: $O,B,B'$), $\ell_t$ ($\varphi=efbt$: $P_2,Q,U_1$), $\ell_r$ ($\varphi=efbr$: $C',B',U_2,V_2$); in each the parameters cancel (for $U_1$: $f\cdot ef(ft-eq)+e\cdot ef(fq-et)=efb\,t$). Then on each line the oriented edges cancel: $C'\to O+O\to P_2+P_2\to C'=0$; $B\to Q+Q\to P_3+P_3\to A=B\to A$; $O\to B'+B'\to B=O\to B$; $P_2\to Q+Q\to U_1+U_1\to P_2=0$; $V_2\to B'+B'\to C'+C'\to U_2+U_2\to V_2=0$; and $P_2P_3$, $QV_2$, $U_1U_2$ are shared by two pieces with opposite orientation.
-\emph{What remains} is strict positivity of every turn: each is a positive monomial times a product of the factors $t$, $r-t$, $eM-ft$, $fr-eM$, $fM-er$, $ft-eq$, $fq-er$, $fM-et$, $fq-et$. Five are independent: $t$, $C_3=eM-ft$, $C_4=fr-eM$, $C_6=fq-er$, $C_7=ft-eq$; the others follow from $f(r-t)=C_3+C_4$, $fq-et=C_6+e(r-t)$, $fM-et>0$ (as $et<eM<fM$) and the identity $e\,C_5=f\,C_3+f\,C_7+e\,C_6$ for $C_5=fM-er$ (and $C_5=u+1+fs$ below, positive anyway).
-\emph{Certificates.} Put $\mu:=dn-e-1$ ($\ge0$ by Lemma~\ref{lem:equiv}), $\rho'=f-1-\rho\ge0$, $M=n+s$, so $\rho=es-dn$. For the canonical triple: $C_3=\rho+f\delta$, $C_4=\rho'+1$, $C_5=\mu+1+fs$, $C_6=\mu+1$, and $C_7=\mu+1+e$ if $\delta=0$; if $\delta=1$ ($M=fm'$, $n=em'$, $e-1=1+x$, $d-1=1+y$, $x,y\ge0$, $x+y\ge1$) then $C_7=(m'-1)ed+x+y+xy\ge1$. Each is a sum of non-negative terms with a positive constant. Checked exactly for all $982\,658$ admissible triples ($f\le120$, $M\le3f$); the $27\,322$ non-admissible triples in that range each violate a turn, so for these triples the canonical layout fails (compare Proposition~\ref{prop:exact}, which is the actual sharpness statement). The Lean proof of this paper does not use the chain lemma: it proves the placement conditions the older way (the sixteen named factors of Appendix~\ref{app:complex}, $143$ generated sign lemmas, kernel-checked). A Lean version of the chain lemma is planned, not done. Still needed for Step 2, unchanged: that each piece is a union of tiles (the edge-length identities of Table~\ref{tab:sides} and Proposition~\ref{prop:ladder}).
+\emph{Remark.} A shorter alternative to Step 1 (a winding-number chain lemma, audited inside the project, not in Lean) is given in Appendix~\ref{sub:chain}; it is not needed here.
 
 %=====================================================================
 \section{Worked rows for $W_3(2,5)$}\label{sec:worked}
@@ -450,8 +462,8 @@ The first four columns of the earlier version's tables (Appendix~\ref{app:comple
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}[x=1bp,y=1bp]
-\node[anchor=south west,inner sep=0] (m) at (0,0) {\includegraphics[trim=0 100bp 0 0,clip,width=380bp]{figures/fig_thmW_template.pdf}};
-\draw[red!70!black,thick] (0.4698*380,380/500.258*5) rectangle (0.8196*380,380/500.258*207);
+\node[anchor=south west,inner sep=0] (m) at (0,0) {\includegraphics[trim=0 100bp 0 0,clip,width=450bp]{figures/fig_thmW_template.pdf}};
+\draw[red!70!black,thick] (0.4698*450,450/500.258*5) rectangle (0.8196*450,450/500.258*207);
 \end{tikzpicture}
 \caption{The layout for $W_3(2,5)$ (tile $(10,21,25)$, $414$ tiles, $(M,n,t,r,q)=(3,1,1,2,1)$). Colours are pieces, numbered $0$--$5$ as in Table~\ref{tab:pieces} ($0$ light blue, $1$ orange, $2$ yellow, $3$ green, $4$ pink, $5$ dark blue); the thin lines are the $414$ tiles of the exact tiling. The large pieces $\pi_0$ and $\pi_1$ carry $342$ of the $414$ tiles; the four small pieces lie in the red box (compare Figure~\ref{fig:frame}).}\label{fig:template}
 \end{figure}
@@ -460,7 +472,7 @@ $(e,f,M)=(3,5,4)$: $a=15$, $b=16$, $c=25$, $\kappa=41$; $n=\lfloor12/5\rfloor=2$
 \end{example}
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.85\linewidth]{figures/fig_thmW_small_v3.pdf}
+\includegraphics[width=\linewidth]{figures/fig_thmW_small_v3.pdf}
 \caption{The same layout for $W_4(3,5)$ ($656$ tiles of $(15,16,25)$, $(M,n,t,r,q)=(4,2,2,3,2)$). Colours and numbers as in Figure~\ref{fig:template}; counts $364+121+100+16+40+15$.}\label{fig:small}
 \end{figure}
 \begin{example}[the case $\delta=1$: $(e,f,M)=(2,5,5)$, $M=f$]\label{ex:delta}
@@ -520,6 +532,17 @@ Not in this paper's Lean statement & the tiling of $T_M$ (glue (I5), Lean in the
 \end{center}
 Consistency with the proved exclusions: (H1), (H2) imply $M(f-e)>e$, $Me\ge f$ and $2Me\ge f$, so no instance of the theorem contradicts (I1) or (I2).
 Reproduction: \texttt{python3 code/check\_thmW\_frame.py ALL 60} (about one minute on one core) and \texttt{python3 code/check\_thmW\_algebra.py 60 --tex tables.tex}.
+
+\subsection{Alternative to Step 1: the chain lemma, and certificates for (K)}\label{sub:chain}
+\emph{Hand-proved, audited inside the project (verdict: sound, with four repairs, all applied here); not in Lean.} Step 1 above is a direct case analysis. A shorter argument replaces containment, separation and the area identity by one lemma (winding-number additivity; the integer frame is due to a study inside this project).
+\begin{lemma}[chain lemma]\label{lem:chain}
+Let $T$ and $\Pi_1,\dots,\Pi_k$ be polygons with counter-clockwise vertex lists, all with \emph{strictly} positive turns (cross products of consecutive edge vectors). Then each $\Pi_i$ is a convex polygon: for a $3$- or $4$-gon whose exterior angles all lie in $(0,\pi)$ and sum to $2\pi$, the boundary is a simple closed convex curve. If, as formal sums of oriented segments, $\sum_i\partial\Pi_i=\partial T$, where the equality means equal oriented multiplicity on every line (collinear segments add: $[p,q]+[q,r]=[p,r]$ in any order of the points, and $[p,q]+[q,p]=0$), then the $\Pi_i$ have pairwise disjoint interiors, lie in $T$, and cover $T$.
+\end{lemma}
+\noindent\emph{Proof.} Winding numbers are additive in the boundary chain; a convex counter-clockwise polygon has winding number $1$ inside and $0$ outside, so $\sum_i\mathbf 1_{\Pi_i}=\mathbf 1_T$ off finitely many lines. If two interiors met, the sum would be $\ge2$ on an open set; if some $\Pi_i$ left $T$, it would be $\ge1$ off $T$. $\square$
+(Caution: ``each piece inside $T$ and the areas add up'' does \emph{not} imply disjointness; and the vanishing of a sum of edge \emph{vectors} is not chain equality.)
+\emph{The chain identity} holds for all integers $e,f,M,t,r,q$, because the points of Table~\ref{tab:pts} lie on five lines: $AB$ ($\xi=0$: $A,P_3,Q,B$), $OP$ ($y=0$: $O,P_2,C'$), $OB$ ($e\xi+fy=efbM$: $O,B,B'$), $\ell_t$ ($\varphi=efbt$: $P_2,Q,U_1$), $\ell_r$ ($\varphi=efbr$: $C',B',U_2,V_2$); in each the parameters cancel (for $U_1$: $f\cdot ef(ft-eq)+e\cdot ef(fq-et)=efb\,t$). Then on each line the oriented edges cancel: $C'\to O+O\to P_2+P_2\to C'=0$; $B\to Q+Q\to P_3+P_3\to A=B\to A$; $O\to B'+B'\to B=O\to B$; $P_2\to Q+Q\to U_1+U_1\to P_2=0$; $V_2\to B'+B'\to C'+C'\to U_2+U_2\to V_2=0$; and $P_2P_3$, $QV_2$, $U_1U_2$ are shared by two pieces with opposite orientation.
+\emph{What remains} is strict positivity of every turn: each is a positive monomial times a product of the factors $t$, $r-t$, $eM-ft$, $fr-eM$, $fM-er$, $ft-eq$, $fq-er$, $fM-et$, $fq-et$. Five are independent: $t$, $C_3=eM-ft$, $C_4=fr-eM$, $C_6=fq-er$, $C_7=ft-eq$; the others follow from $f(r-t)=C_3+C_4$, $fq-et=C_6+e(r-t)$, $fM-et>0$ (as $et<eM<fM$) and the identity $e\,C_5=f\,C_3+f\,C_7+e\,C_6$ for $C_5=fM-er$ (and $C_5=u+1+fs$ below, positive anyway).
+\emph{Certificates.} Put $\mu:=dn-e-1$ ($\ge0$ by Lemma~\ref{lem:equiv}), $\rho'=f-1-\rho\ge0$, $M=n+s$, so $\rho=es-dn$. For the canonical triple: $C_3=\rho+f\delta$, $C_4=\rho'+1$, $C_5=\mu+1+fs$, $C_6=\mu+1$, and $C_7=\mu+1+e$ if $\delta=0$; if $\delta=1$ ($M=fm'$, $n=em'$, $e-1=1+x$, $d-1=1+y$, $x,y\ge0$, $x+y\ge1$) then $C_7=(m'-1)ed+x+y+xy\ge1$. Each is a sum of non-negative terms with a positive constant. Checked exactly for all $982\,658$ admissible triples ($f\le120$, $M\le3f$); the $27\,322$ non-admissible triples in that range each violate a turn, so for these triples the canonical layout fails (compare Proposition~\ref{prop:exact}, which is the actual sharpness statement). The Lean proof of this paper does not use the chain lemma: it proves the placement conditions the older way (the sixteen named factors of Appendix~\ref{app:complex}, $143$ generated sign lemmas, kernel-checked). A Lean version of the chain lemma is planned, not done. Still needed for Step 2, unchanged: that each piece is a union of tiles (the edge-length identities of Table~\ref{tab:sides} and Proposition~\ref{prop:ladder}).
 
 \subsection{The older proof: complex coordinates and cross-product tables}\label{app:complex}
 The first version of this paper, and the Lean proof, use complex numbers with $O=0$ and $OB$ the positive real axis. With $D=4f^2-e^2$ write $\xi+i\sqrt D\,\zeta$ as $[\xi,\zeta]$ and put
