@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
 
-This version (v3.0): doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
+This version (v3.1): doi:[ZENODO_V31_DOI](https://doi.org/ZENODO_V31_DOI). Previous version v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
 
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
@@ -233,6 +233,15 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts), `r8/` (decoders and verifier driver of the R8 layouts) |
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values in `r8_exact/`; the 13 template tilings of release v1.15 in `template_exact/`; the 97 exact tilings of release v3.0 in `v3_exact/`: Theorem W, collar, macro pieces, Paliy's 4830) |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier), `bonfioli_template` (the template search `bto` that found the tilings of v1.15; source only) |
+
+## Release v3.1: follow-up to v3.0 (Lean aggregate AllV3c, census update, rung e+3 note)
+
+**The prime case is unchanged. No paper is rewritten; see `RELEASE_NOTES_v3.1.md` and `docs/ADDENDUM_v3.1.md`.**
+
+* **Lean (`lean/Erdos634/AllV3c.lean`, 77 new source modules; built in the author's working repository, NOT rebuilt here; axiom lines in `lean/axioms/AxiomsAllV3c.lean`, standard axioms only):** `no_dissection_win` (67 census-excluded values <= 10^5, including 270, 412, 750, 963; unaudited; controls `NSQWinCtl6`); 465 g^2 and 7672 g^2 are tile counts for every g >= 2 (`CollarFam465`, `CollarFam59`; Paliy's up-set covers K >= 153 for 7672).
+* **Census** (non-squarefree N <= 10^6): 199,364 excluded / 129,117 tile counts / 63,593 undecided (hand-proved R2 row separate: 199,441 / 129,117 / 63,516); 67 of the exclusions are Lean-formal.
+* **Rung e+3: computer-assisted case tree for 26 triples with f <= 40, 9,990 of 9,990 certificates verified by an independent verifier; NOT a theorem**, not in Lean, no outside read; trusted items in the addendum; engine sources not released.
+* Further tile-count candidates from a sweep are listed in the addendum and are not claimed.
 
 ## Release v3.0: Theorem W, the collar family, macro-piece tile counts, Conjecture C
 
