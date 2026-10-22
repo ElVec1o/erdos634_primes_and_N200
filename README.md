@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
 
-This version (v3.1): doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114). Previous version v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
+This version (v4.0): DOI to be filled after the Zenodo record exists (placeholder; do not cite a version DOI for v4.0 until then). Previous version v3.1: doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114); v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
 
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
@@ -233,6 +233,15 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `code/` | `reproduce.sh` (one entry point: every check below, in order), `lakeserial.py` (serial, memory-guarded `lake` runner), `regen_cert.sh` (regenerates the large search certificates), `split_sound.py` (cuts a generated soundness module into parts), `r8/` (decoders and verifier driver of the R8 layouts) |
 | `data/` | `certificates/MANIFEST.tsv`, the manifest of the nine large search certificates that are not stored (and `certificates/trees/`, two search trees, gzipped); `witnesses/` (exact tilings of the 22 R8 values in `r8_exact/`; the 13 template tilings of release v1.15 in `template_exact/`; the 97 exact tilings of release v3.0 in `v3_exact/`: Theorem W, collar, macro pieces, Paliy's 4830) |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier), `bonfioli_template` (the template search `bto` that found the tilings of v1.15; source only) |
+
+## Release v4.0: band theorem, registry extract, census update
+
+**The problem is not solved. Not refereed; not audited outside the project.** See `RELEASE_NOTES_v4.0.md` and `docs/ADDENDUM_v4.0.md`. The companion paper (`paper/erdos634_v3C.pdf`) is now version 4.0 (new Section "What is new in version 4.0"); Paper W is unchanged.
+
+* **Band theorem (Lean, internal audit only).** For coprime 2 <= e < f, M >= 2, f <= 2Me < f + e, the triangle T_M(e,f) has no dissection into congruent copies of (ef, f^2-e^2, f^2) (`Erdos634.LaczJunction.Walk.band_theorem_free`; also `no_tiling_U`, `no_tiling_U2`). The Lean files are in the public repository "Formalizing triangle tiling in Lean" (github.com/ElVec1o/formalizing-triangle-tiling-in-lean, commit d728130; `Erdos634/Draft/LaczFormalMJFinal.lean` and its imports) and are not repeated here; not rebuilt in this repository. Fans-and-chords method after Laczkovich, Beeson and Beeson-Zhang.
+* **Registry extract:** `data/registry/` (3,204 excluded instances of the base-beta family; internal extract).
+* **Census** (non-squarefree N <= 10^6): 200,282 excluded / 62,421 undecided (v3.1: 199,364 / 63,593); the count of known tile counts is not printed for this version (not yet reconciled value by value).
+* **Prime case: unchanged, dates.** `theoremP_6` in our release of 15 October 2026 (Lean, internal audit only); Paliy made a proof public on 29 September 2026; Beeson and Rosu, arXiv:2607.23453 (v2 16 October, v3 21 October 2026), state a result on prime tile counts, about whose proof we claim nothing. Parallel works; no announcement is made here.
 
 ## Release v3.1: follow-up to v3.0 (Lean aggregate AllV3c, census update, rung e+3 note)
 

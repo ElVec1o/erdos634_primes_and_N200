@@ -89,3 +89,9 @@ Names changed in the paper: sector facts (SF1)-(SF3); cases (J), (gamma), (Z), (
 
 ## Version 3.0 additions (2026-10-20)
 **Thick regime (2 min).** W_M(e,f) with 2<=e<f, M<f, Me>=f has no tiling if M(f-e)<=e+1 (Lean; hand proof audited only inside the project; 412 = W_2(5,8) and 270 formally excluded). Theorem R2 (hand proof only, docs/THEOREM_R2_PROOF.md): same for M(f-e)=e+2. Open: M(f-e)>=e+3, smallest (5,9,2). **465 g^2 (1 min).** g=2,3,4 (1860, 4185, 7440) by exact-verified tilings with the tile (4,15,16); g>=5 Lean (Paliy's up-set); g=1 open. Prime case: no prime p = 3 (mod 4), p>3, is a tile count.
+
+---
+
+# Version 4.0 addendum (2026-10-22), one slide, 3 min
+
+**Slide 21. The band theorem (3 min).** For coprime 2 <= e < f, M >= 2, f <= 2Me < f + e: T_M(e,f) has no dissection into copies of (ef, f^2-e^2, f^2) (Lean, internal audit only; Lean files in the public repository "Formalizing triangle tiling in Lean"). Registry extract of 3,204 instances; census 200,282 excluded / 62,421 undecided (+918). Not covered: d >= e, e = 1. Credits: Laczkovich, Beeson, Beeson-Zhang (method), Beeson-Rosu, Paliy. Prime case unchanged; dates as in the notes.

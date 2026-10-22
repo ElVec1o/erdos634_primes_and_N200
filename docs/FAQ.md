@@ -103,3 +103,17 @@
 **A32. Is 465 g^2 a tile count for all g >= 2?** Yes: g >= 5 by Lean (the up-set in g is Paliy's), g = 2, 3, 4 by exact-verified tilings (N = 1860, 4185, 7440) whose Lean certificates are planned. The core 465 is open.
 
 **A33. Does this settle the prime case?** The prime case is unchanged: no prime p = 3 (mod 4), p > 3, is a tile count (primes = 1 mod 4 are sums of two squares). Nothing in this release changes it, and the Lean statement has been audited only inside the project.
+
+## Version 4.0 additions (2026-10-22)
+
+**A34. What is the band theorem and what does it not cover?** For coprime 2 <= e < f, M >= 2, f <= 2Me < f + e, T_M(e,f) has no tiling by (ef, f^2-e^2, f^2) (Lean `band_theorem_free`). It does not cover d = 2Me - f >= e (19,151 census values) or e = 1 (39 values).
+
+**A35. Has anyone outside the project checked it?** No. The statement, arithmetic and axioms were audited by fresh sessions of the same model family; the induction was read twice line by line; nothing from outside.
+
+**A36. Where are the Lean files?** In the public repository "Formalizing triangle tiling in Lean" (commit d728130). They are not rebuilt in this repository.
+
+**A37. What are the 918?** Non-squarefree values <= 10^6 newly excluded by the census program using registry rows from the band theorem and its variants (199,364 -> 200,282). Program output; the leaf model is the program's.
+
+**A38. Why is the number of known tile counts missing?** It has not been reconciled value by value against exact verification and Paliy's repository since v3.1.
+
+**A39. Does this change the prime case?** No. Dates: Paliy 29 September 2026; our release 15 October 2026; Beeson-Rosu arXiv:2607.23453 v2 16 October, v3 21 October 2026. Parallel works; we claim nothing about their proof, and no announcement of the prime case is made here.

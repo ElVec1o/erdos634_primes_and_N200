@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Congruent dissections of a triangle: prime counts, the counts up to 200, and a family of isosceles targets"
+version: "4.0"
+date-released: "2026-10-22"
+doi: "10.5281/zenodo.23400433"
+authors:
+  - family-names: Bonfioli
+    given-names: Vico
+abstract: >-
+  Erdős Problem 634: for which N can a triangle be cut into N congruent triangles. The problem is not solved.
+  Lean 4 formalization and papers on the prime case, the counts up to 200, the base-beta family and a census
+  of tile counts. Not refereed; not audited outside the project. Version 4.0 adds a band theorem
+  (Lean, internal audit) and a census update.
+keywords:
+  - Erdős problem 634
+  - triangle tiling
+  - congruent triangles
+  - Lean 4
+license: CC-BY-4.0
+repository-code: "https://github.com/ElVec1o/erdos634_primes_and_N200"
