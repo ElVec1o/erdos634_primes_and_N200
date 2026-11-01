@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage[margin=2.7cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Z}{\mathbb{Z}}
+\title{Supplement to version 5.0: the collar at coprime pairs $(u,v)$,\\ the up-set theorem, and 117 further tile counts}
+\author{Vico Bonfioli}
+\date{1 November 2026}
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status.} The problem (Erd\H{o}s Problem 634) is not solved here, and nothing in this supplement concerns the prime case. Nothing has been checked by anyone outside the project. Labels: \textbf{PROVED-hand} means \emph{PROVED (hand proof; AI-assisted internal audit; not formalized in Lean)}; \textbf{VERIFIED-Lean} means \emph{VERIFIED (Lean, internal audit only; standard axioms; no outside check)}; \textbf{KERNEL-ONLY} means \emph{kernel-checked in Lean (builds with standard axioms propext, Classical.choice, Quot.sound); NOT audited}; \textbf{COMPUTED} means an exact rational check by the project's verifier, with negative controls. Tiles may be reflected (the convention of the Lean definition \texttt{CongruentDissection}).
+
+\section{Setting}\label{sec:setting}
+Let $u<v<2u$ be coprime positive integers, $d=v-u$, $b=v^2-u^2=d(2u+d)$. The tile is $\Delta=(a,b,c)=(u^2,\,v^2-u^2,\,uv)$ with angles $\alpha$ (opposite $a$), $\beta=\pi-3\alpha$ (opposite $b$), $2\alpha$ (opposite $c$), where $\cos\alpha=v/(2u)$. Let $T(g)$ be the isosceles triangle with legs $g\,u\,b$ and base $g\,v\,b$ (base angles $\alpha$). Its area is $b\,g^2$ times the area of $\Delta$.
+Put
+\[
+g_D=\Big\lfloor \tfrac{u-1}{d}\Big\rfloor+1=\max\{g:(g-1)d<u\}.
+\]
+\emph{Theorem D$'$} (Lean: \texttt{thmD\_all\_g}, VERIFIED-Lean; the case $g=1$ is Beeson's, 2012): $T(g)$ has no tiling for $g\le g_D$. It is used here as an input and is not reproved.
+
+We use oblique coordinates: $(x,y)$ is the point $x\,e+y\,w$ with $e=1$, $w=e^{i\alpha}$ (an affine image of the plane; incidence, area ratios and disjointness are preserved). The squared length is $|(x,y)|^2=x^2+\frac vu xy+y^2$. Put $s=(v,-u)$. Then $|s|=|(u,-v)|=u$. Take $T(g)$ with vertices $(0,0)$, $(gvb,0)$, $(0,gub)$: the legs are $|(0,gub)|=gub$ and $gb|s|=gub$, the base is $gvb$.
+
+\section{Statements}\label{sec:statements}
+\begin{theorem}[Strip, PROVED-hand]\label{thm:strip}
+For every coprime $u<v<2u$ and every $g\ge g_D$: any tiling of $T(g)$ extends to a tiling of $T(g+1)$ by adding a region $Z(g)=T(g+1)\setminus T(g)$ tiled by exactly $b(2g+1)$ copies of $\Delta$ (using both chiralities). The tiles of $Z(g)$ are explicit (Section~\ref{sec:proofs}); nothing is assumed about the tiling of $T(g)$.
+\end{theorem}
+\begin{theorem}[Up-set theorem, PROVED-hand]\label{thm:upset}
+Assume coprimality of $u<v<2u$, Theorem D$'$, and that reflections of the tile are allowed. Then $\{g\ge1: T(g)\text{ is tiled}\}=\{g\ge g^*\}$ for some $g^*\in[g_D+1,\infty]$.
+\end{theorem}
+\begin{proposition}[R1, R2, PROVED-hand]\label{prop:r}
+Write $u-1=qd+r$, $0\le r<d$ (so $g_D=q+1$) and $X=(u-1)(v-1)+u^2$. Then
+(R1) $X-qb=1+r(2u+d)>0$ and $(q+1)b-X=(d-r)(2u+d)-1>0$, hence $\lceil X/b\rceil=g_D$;
+(R2) the strip equation
+\begin{equation}\tag{SE}\label{eq:se}
+a'u+b'v=g\,b-u^2,\qquad a',b'\in\Z_{\ge0},
+\end{equation}
+is solvable if $g\ge g_D$ and not solvable if $g\le g_D-1$. Equivalently: a strip with the cap of Lemma~\ref{lem:cap} exists iff $T(g+1)$ is not excluded by D$'$.
+\end{proposition}
+\begin{theorem}[Collar at $(2,3)$, VERIFIED-Lean]\label{thm:collar23}
+The tile is $(4,5,6)$ and $b=5$. For every $g\ge12$, $T(g)$ is tiled by $5g^2$ copies of $(4,5,6)$; hence $5g^2$ is a tile count for every $g\ge12$. The seed $T(12)$, $720$ tiles, is B.~Herdt's layout (kernel-checked), and Theorem~\ref{thm:strip} at $(2,3)$ supplies the induction ($g_D=2$).
+\end{theorem}
+\begin{remark}
+The statement of Theorem~\ref{thm:upset} does not decide whether a tiling exists at a given pair, nor the value of $g^*$. At $(7,10)$ ($b=51$, tile $(49,51,70)$, $g_D=3$) a tiling of $T(130)$ is known (Herdt), so $g^*\le130$ and $T(g)$ is tiled for all $g\ge130$.
+\end{remark}
+
+\section{Proofs}\label{sec:proofs}
+\paragraph{The strip.}
+$T(g+1)\setminus T(g)=\{g\,uvb<ux+vy\le(g+1)uvb,\ x,y\ge0\}$ is a trapezoid; translating by $(0,-gub)$ it becomes the quadrilateral $Z$ with vertices
+\[
+A=(0,0),\quad B=(0,ub),\quad D=g\,b\,s=(gvb,-gub),\quad C=D+(vb,0).
+\]
+Here $AB=ub$ (direction $w$), $AD=gub$ (direction $s$), $DC=vb$ (direction $e$), $BC=(g+1)b\,s$, so $AD\parallel BC$.
+
+\begin{lemma}[Cap]\label{lem:cap}
+Let $A'$ be a point, $B'=A'+ub\,w$, $D'=A'+u^2s$, $C'=D'+vb\,e$. Then $A'D'C'B'$ is a convex quadrilateral, $B'D'$ is an interior diagonal, and the triangles $A'B'D'$, $B'D'C'$ are $u\Delta$ and $v\Delta$ (SSS). Hence the quadrilateral is tiled by $u^2+v^2$ copies of $\Delta$.
+\end{lemma}
+\begin{proof}
+With $A'=0$: $B'-D'=(-u^2v,\,ub+u^3)=(-u^2v,\,uv^2)=uv\,(-u,v)$, so $|B'D'|=u^2v$. Further $|A'B'|=ub$, $|A'D'|=u^3$, so $A'B'D'$ has sides $(ub,u^3,u^2v)=u(b,a,c)$. Also $|D'C'|=vb$, $|B'D'|=u^2v=va$, and $C'-B'=(v^3,-uv^2)=v^2s$ gives $|B'C'|=uv^2=vc$; so $B'D'C'$ has sides $v(b,a,c)$. The edge vectors $e_1=D'-A'$, $e_2=C'-D'$, $e_3=B'-C'$, $e_4=A'-B'$ have positive oriented cross products $e_1\times e_2=u^3vb$, $e_2\times e_3=uv^3b$, $e_3\times e_4=uv^3b$, $e_4\times e_1=u^3vb$ (multiples of the area form), so the quadrilateral is convex. A $k$-fold scaled copy of $\Delta$ splits into $k^2$ copies (the standard subdivision: $k(k+1)/2$ translates and $k(k-1)/2$ point reflections). \qedhere
+\end{proof}
+\begin{remark}
+That every \emph{minimal} tileable cap has this form is not proved and not used.
+\end{remark}
+
+\paragraph{Slices.} A \emph{C-brick} is the parallelogram with sides $p=us$ (length $u^2=a$) and $q=bw$ (length $b$); its diagonal $p-q=(uv,-v^2)=v(u,-v)$ has length $uv=c$, so both halves are congruent to $\Delta$ (SSS; one is the point reflection of the other). A \emph{C-slice} is $u$ bricks stacked along $w$ (a parallelogram with sides $us$, of length $a$ along the strip, and $ub\,w$), $2u$ tiles. A \emph{B-brick} has sides $p=vs$ (length $c$) and $q'=b\,e$ (length $b$); its diagonal is $p-q'=(v^2-b,-uv)=u(u,-v)$ of length $u^2=a$. A \emph{B-slice} is $v$ bricks along $e$, $2v$ tiles. (Both uses of $v^2=u^2+b$ are exactly what makes the diagonals equal $c$ and $a$.)
+
+\paragraph{Assembly (proof of Theorem~\ref{thm:strip}).}
+Along the direction $s$ from $A$ to $D$ place $a'$ C-slices, then the cap of Lemma~\ref{lem:cap} (with $A'$ at the end of the C-slices), then $b'$ B-slices. Their lengths along $s$ are $a'u$, $u^2$ and $b'v$ (in units of $s$), and they add up to $g\,b$ if and only if \eqref{eq:se} holds. The interfaces are segments in the directions $w$ (between C-slices and cap) and $e$ (between cap and B-slices); the union of the pieces is $Z$, because the cap's side $B'C'=v^2s$ lies on the line $BC$ and the slices' outer sides lie on $BC$ and on $AD$. The tile count is
+\[
+2ua'+(u^2+v^2)+2vb'=2(gb-u^2)+u^2+v^2=(2g+1)b,
+\]
+which equals $\operatorname{area}(Z)/\operatorname{area}(\Delta)=b((g+1)^2-g^2)$. A tiling of $T(g)$ is moved by an isometry (a reflection if needed) onto $T(g)$ at the corner $A$ and shares the segment with $Z$. Solvability of \eqref{eq:se} for $g\ge g_D$ is Proposition~\ref{prop:r}.\hfill$\square$
+
+\paragraph{Proof of Proposition~\ref{prop:r}.}
+(R1) $(q+1)b-X=(u-1-r+d)(2u+d)-(2u^2-2u+1+ud-d)=2ud+d^2-2ur-dr-1=(d-r)(2u+d)-1\ge 2u+d-1>0$; the first identity is the same computation.
+(R2, solvable) For $g\ge g_D$, $gb-u^2\ge(q+1)b-u^2\ge X-u^2=(u-1)(v-1)$ by (R1), and every integer $n\ge(u-1)(v-1)$ is a nonnegative combination of the coprime integers $u,v$ (Sylvester).
+(R2, not solvable) Let $g=g_D-1-m$, $m\ge0$. Then $gb-u^2=uv-k(u+v)$ with $k=1+r+md\ge1$ (using $b=(u+v)d$). If $iu+jv$ were equal to it with $i,j\ge0$, then $(i+k)u+(j+k)v=uv$ with both coefficients $\ge1$; by coprimality $u\mid j+k$ and $v\mid i+k$, so the left side is at least $2uv$, a contradiction. $\square$
+
+\paragraph{Proof of Theorem~\ref{thm:upset}.}
+By D$'$ every $g$ with $T(g)$ tiled satisfies $g>g_D$. By Theorem~\ref{thm:strip}, tileability propagates from $g$ to $g+1$. Hence the set is $\{g\ge g^*\}$ with $g^*\ge g_D+1$ (and $g^*=\infty$ if the set is empty). Without D$'$ a tileable $g<g_D$ would not propagate. The construction uses both chiralities, so the theorem is false as stated for direct congruences only. $\square$
+
+\paragraph{Checks (COMPUTED).} The identities were checked by exact integer and rational arithmetic: the cap at 15 pairs (sides, SSS, angles, containment, area, pairwise disjointness); $892$ strips at $12$ pairs (all $g$ from $g_D$ to $40$, first and last solution of \eqref{eq:se}) and $887$ strips (every solution for $g\le20$ at six pairs), $0$ failures; thirty negative controls (a dropped slice, a shifted brick, $a'+1$, a wrong diagonal, a reflected cap, $b'+1$) all fail; R1 and R2 by brute force on all $6115$ coprime pairs with $v\le200$ (least solvable $g$ equals $g_D$ in each case).
+
+\sloppy
+\section{Lean statements}\label{sec:lean}
+The following were built in the author's working repository (axioms \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound} only; no \texttt{sorry}, no \texttt{native\_decide}); they are to be added to the public Lean repository and are not rebuilt here. Label: VERIFIED-Lean (internal audit only) for the collar items (internal fresh-context audit of 29 October 2026, no defect found) and for \texttt{thinW\_base} (audit verdict SOUND); the Zhang items are kernel-checked only, not audited.
+\begin{itemize}\sloppy
+\item \texttt{tile23\_12}: $T(12)$ is tiled by $720$ copies of $(4,5,6)$ (kernel evaluation, \texttt{decide +kernel}).
+\item \texttt{collar23}: $T(g)$ is tiled by $5g^2$ copies of $(4,5,6)$ for all $g\ge12$ (the only hypothesis is $12\le g$); \texttt{collar23\_dissection}: an explicit \texttt{CongruentDissection (5 g\^{}2)} with target $T(g)$; \texttt{collar23\_tileCount\_all}: $5g^2$ is a tile count for $g\ge12$.
+\item \texttt{thinW\_base}, \texttt{thinW\_base\_bcount}: for coprime $1\le e<f$ and $Me<f$, the decomposition of the base length in the thin-W regime has the form $q=Me$, $p=\xi f$, $r=2Me-\xi e$ with $\xi e\le 2Me-f$ (the precise statement is that of the Lean file). It is an arithmetic lemma, stronger than the printed one (two printed hypotheses are dropped); four witnesses instantiate it and a negative control shows that $Me<f$ is needed. The count of the base word of an actual tiling is not formalized.
+\item \texttt{zhang\_prop10\_2\_tileCount}, \texttt{zhang\_prop11\_2\_tileCount} and forty instances \texttt{tileCount\_$N$} (label: kernel-checked in Lean (builds with standard axioms propext, Classical.choice, Quot.sound); NOT audited; no audit of this file exists), $N$ in the Zhang list of Section~\ref{sec:table}: $\mathrm{TileCount}\;N:=\mathrm{Nonempty}(\texttt{CongruentDissection}\;N)$.
+\end{itemize}
+
+\section{Further tile counts and the census}\label{sec:table}
+All $117$ values are new to this repository's list of tile counts; each has an explicit tile and construction in \texttt{data/registry/new\_tile\_counts\_5.0.tsv}.
+\begin{center}\footnotesize
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+family & construction & values & $N$ range & check\\
+\midrule
+Harries route (rows I--V, E) & Harries & 49 & $165{,}240$--$969{,}150$ & stored, exact 49/49\\
+Zhang Prop.~10(2) & Zhang & 38 & $174{,}825$--$999{,}460$ & Lean + regenerated, exact\\
+Zhang Prop.~11(2) & Zhang & 2 & $419{,}328$; $591{,}318$ & same\\
+$(7,10)$, $g=131..139$ & Herdt seed + strip & 9 & $875{,}211$--$985{,}371$ & 1 stored, 8 regenerated, exact\\
+collar $(2,3)$, $g=13..30$, $g\ne15$ & Herdt seeds + strip & 17 & $845$--$4{,}500$ & stored, exact 17/17\\
+collar $(3,4)$, $g=72,73$ & Herdt seed + strip & 2 & $36{,}288$; $37{,}303$ & stored, exact 2/2\\
+\bottomrule
+\end{tabular}
+\end{center}
+Exact check (COMPUTED): congruence of every tile, inclusion, pairwise disjointness, area, and the hull triangle; $117/117$ pass; $12/12$ negative controls (a dropped or a duplicated tile) fail as required, and the Zhang generator's two corrupted runs fail. For $(7,10)$ the file for $g=131$ is stored ($4.6$\,MB) and the nine tilings are regenerated by an expander from the seed $T(130)$ and the strip recipe, byte-identically for $g=131$. Zhang's forty values are produced by the construction of Harries' rows III and II in the reversed orientation with the count formula $m^2(a+b)(a+2b)$ (Prop.~10(2): $a,b,c$ coprime with $c^2=a^2+b^2+ab$ and $m\ge3\big((c^2-a-b)/(ab)+1\big)$; Prop.~11(2) analogously), and have no stored witness; they are regenerated from $(a,b,m)$ and checked exactly. Large witnesses ($38$ Harries files up to $6.7$\,MB) are not included.
+
+\paragraph{Credit and priority.} D.~Paliy's repository (read to its last commit of 17 October 2026) states a general equilateral theorem that covers the $15$ values of row E (he credits J.~P.~Harries for the equilateral conclusion) and an F4 theorem that covers three of the five row III values; he is first for these. His printed theorem does not cover the reversed orientation (the Zhang values; Zhang, arXiv:2512.22696, is first). For the remaining values no statement was found in the files read. No value is in his instance lists. The seeds of the collar rows are B.~Herdt's (M.~Beeson's Fig.~24); the collar idea is Paliy's.
+
+\paragraph{Census (program output).} Non-squarefree $N\le10^6$ ($392{,}074$ values):
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & excluded & known tile counts & undecided\\
+\midrule
+v4.0 (reproduced) & $200{,}282$ & $129{,}371$ & $62{,}421$\\
+v5.0 & $200{,}282$ & $129{,}420\ (+49)$ & $62{,}372\ (-49)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The $49$ are the $40$ Zhang values and the nine $(7,10)$ values; the other $68$ of the $117$ were already counted as known by the program's family rules. With the hand-proved class R2 of version 3.0 kept separate, the undecided count goes from $62{,}344$ to $62{,}295$. No excluded value changed. The baseline $129{,}371$ has not been rechecked value by value; the census is a program output and not a Lean statement about each $N$.
+
+\section{Observations (not claimed as results)}\label{sec:obs}
+The search engine \texttt{bte} (versions 2.1.2, 2.3.1, 2.4.0; options band:16, la1, cbj1, ng; no symmetry reduction) ended without a tiling on two instances of the base-$\beta$ family: $T_2(4,5)$ with tile $(20,9,25)$, legs $250$ and base $472$ ($46{,}313{,}414$ nodes, reproduced from scratch with the same count), and $T_2(3,5)$ with tile $(15,16,25)$, legs $250$ and base $396$ ($192{,}438{,}239$ nodes; $249{,}950{,}358$ in a second run with a different cache-eviction policy). No certificate was produced; a run with cache eviction is a statement about the engine. They are consistent with the picture that $T_M(e,f)$ is tiled exactly when $M\ge f$; they are not exclusions, are not used above, and are not in the census.
+
+\section{What is not claimed}
+No outside verification; no classification of the tile counts; no statement about the prime case beyond version 4.0; no claim that a tiling exists at any pair $(u,v)$ other than those listed, nor about the value of $g^*$; no claim that a minimal cap has the form of Lemma~\ref{lem:cap}; the full problem is open.
+
+\paragraph{Credits.} M.~Beeson and G.~Rosu; D.~Paliy; B.~Herdt; Y.~X.~Zhang; M.~Laczkovich; J.~P.~Harries. The general-$(u,v)$ cap, slice and strip construction, the strip equation and the up-set statement are ours. These results were obtained with the help of an AI system (Claude, Anthropic); the questions and directions were the author's; proofs are checked in Lean or by hand as labelled.
+
+\end{document}
