@@ -1,0 +1,18 @@
+# RECIPE (WP1 COLLAR-ALL, 2026-10-31): the nine tilings T(g) of the gamma=2alpha target of (u,v)=(7,10), tile (a,b,c)=(49,51,70), g=131..139, N=51*g^2 = 875211 ... 985371.
+# Seed: data/witnesses/tiling_861900_gamma2alpha_7_10_g130.oblique.txt.gz = T(130) (Herdt 720-layout, Beeson 1206.1974v7 Fig. 24, generalised: LEVER1 herdt24; bte VERIFIED).
+# Step g0 -> g0+1 appends the collar strip Z(g0) = a C-slices + Cap + b' B-slices (a*7 + b'*10 = 51*g0 - 49); Cap = Delta_7 U Delta_10 = 149 tiles
+#   (the 7-scaled tile A'B'D' and the 10-scaled tile B'D'C', A'=(0,0), B'=(0,357), D'=(490,-343), C'=(1000,-343) in oblique coordinates, shifted by a*7^2*h, h=(10/7,-1));
+# Only T(131) is stored expanded: data/witnesses/tiling_875211_collar_gamma2alpha_7_10_g131.oblique.txt.gz. The other eight are regenerated and were verified one by one
+# Credit: the project's AI assistant (collar/cap/slices), Herdt (seed), Beeson (Fig. 24), capsearch, Paliy (collar idea).
+PAIR 7 10
+SEED 130
+STRIP 130 933 5
+STRIP 131 946 1
+STRIP 132 949 4
+STRIP 133 962 0
+STRIP 134 965 3
+STRIP 135 968 6
+STRIP 136 981 2
+STRIP 137 984 5
+STRIP 138 997 1
+# Expander (Rust, exact, streaming; source is not part of this release): regenerates any T(g), 131<=g<=139 from the seed T(130) and the STRIP lines above. T(131) was regenerated 2026-11-01 byte-identically to the stored expanded witness; T(131..139) all pass the exact verifier (congruent, disjoint, area, hull a triangle).
