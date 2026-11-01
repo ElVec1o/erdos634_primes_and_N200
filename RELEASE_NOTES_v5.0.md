@@ -53,4 +53,4 @@ M. Beeson and G. Rosu (the tile and targets, vertex-figure lemmas; Beeson's Fig.
 These results were obtained with the help of an AI system (Claude, Anthropic); the questions and directions were the author's; proofs are checked in Lean or by hand as labelled.
 
 ## Citation
-Concept DOI (all versions): 10.5281/zenodo.23400433. This version: DOI to be filled after the Zenodo record exists. Previous: v4.0 DOI to be filled (placeholder in that release); v3.1 10.5281/zenodo.23488114; v3.0 10.5281/zenodo.23483290.
+Concept DOI (all versions): 10.5281/zenodo.23400433. This version (v5.0): 10.5281/zenodo.23857682. Previous: v4.0 10.5281/zenodo.23557194; v3.1 10.5281/zenodo.23488114; v3.0 10.5281/zenodo.23483290.

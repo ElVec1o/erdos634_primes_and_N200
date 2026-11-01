@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
 
-This version (v5.0, 1 November 2026): DOI to be filled after the Zenodo record exists (placeholder; do not cite a version DOI for v5.0 until then). Previous versions: v4.0 (22 October 2026; version DOI to be filled, placeholder in that release); v3.1: doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114); v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
+This version (v5.0, 1 November 2026): doi:[10.5281/zenodo.23857682](https://doi.org/10.5281/zenodo.23857682). Previous versions: v4.0 (22 October 2026; doi:[10.5281/zenodo.23557194](https://doi.org/10.5281/zenodo.23557194)); v3.1: doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114); v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
 
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
