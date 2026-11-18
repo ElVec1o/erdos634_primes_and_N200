@@ -1,6 +1,6 @@
 # Release v6.0 (18 November 2026)
 
-This version: DOI to be filled after the Zenodo record exists. Previous version v5.0 (1 November 2026): doi:10.5281/zenodo.23857682. All versions (concept DOI): doi:10.5281/zenodo.23400433.
+This version (v6.0, 18 November 2026): doi:10.5281/zenodo.24345081. Previous version v5.0 (1 November 2026): doi:10.5281/zenodo.23857682. All versions (concept DOI): doi:10.5281/zenodo.23400433.
 
 A positive integer N is a tile count if some triangle can be cut into N pairwise congruent triangles (Erdős Problem 634). **The problem is not solved here.** The previous public release is v5.0 of 1 November 2026 (collar construction, up-set theorem at every gamma = 2alpha pair, 117 explicit tile counts). This release adds a theorem that excludes a family of values, with a kernel-checked Lean statement for each excluded value; two families of constructions; 132 explicit tilings; and an updated census. It does not touch the prime case (settled by Paliy on 29 September 2026, by Beeson–Roșu, and independently by us; see v4.0).
 
