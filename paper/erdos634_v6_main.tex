@@ -1,0 +1,642 @@
+\documentclass[11pt,reqno]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{graphicx}
+\usepackage{array,longtable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{computation}[theorem]{Computation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\Area}{Area}
+\newcommand{\sF}{\textup{\textsf{F}}}
+\newcommand{\sW}{\textup{\textsf{W}}}
+\newcommand{\sS}{\textup{\textsf{S}}}
+\DeclareUrlCommand{\lean}{\urlstyle{tt}}
+\newcommand{\rec}[1]{\textup{\texttt{#1}}}
+\emergencystretch=2em\sloppy
+
+\title[Release 6.0]{Erd\H{o}s Problem 634, release 6.0: the W-gap theorem, the notch and band families, tile counts by explicit tilings, and the census up to $10^6$}
+\author{Vico Bonfioli}
+\date{18 November 2026 (release 6.0; not refereed)}
+\newcommand{\TODOCOUNT}[1]{\textbf{[\,TODO: final count\,]}}
+
+\begin{document}
+\begin{abstract}
+Erd\H{o}s Problem~634 asks for the integers $N$ for which some triangle can be cut into $N$ congruent triangles
+(\emph{tile counts}). \emph{The problem is not solved here.} Since release v5.0 we add: a Lean theorem that a family of
+triangles $W_M(e,f)$ (defined in Section~\ref{sub:intro:notation}) is not tiled by the tile $\tau(e,f)$ for coprime
+$2\le e<f$ when $f\le Me$ and $M(f-e)<f$, with per-value Lean instances for the $5{,}593$
+values it excludes (all $5{,}593$ checked by the Lean kernel); an explicit threshold and a band theorem (Lean) for isosceles targets
+with base angles $\alpha+\beta$; three structural theorems (Lean); a refutation of a conjectured foot property;
+and $132$ further tile counts by explicit tilings (exact programs, not Lean). The undecided values $N\le10^6$ fall
+from $62{,}372$ to $52{,}045$. The bottom rung of $W$ and the thresholds for $T_M$ stay open. All checks are internal; no outside reader has checked anything.
+\end{abstract}
+\maketitle
+
+\section{Overview: the problem, what is new, and how to read this paper}\label{sec:intro}
+
+\emph{Roadmap.} This section states the problem in plain words, says what is new and what is not claimed, explains the
+labels, fixes the notation (Table~\ref{tab:notation}), gives the status of the problem (Table~\ref{tab:status}) and
+lists the results (Table~\ref{tab:glance}). Sections~\ref{sec:wgap}--\ref{sec:band} contain the theorems,
+Section~\ref{sec:tilings} the explicit tilings, Section~\ref{sec:census} the census; the credits and the disclosure are at the end.
+
+\subsection{The problem}\label{sub:intro:problem}
+A positive integer $N$ is a \emph{tile count} if some triangle can be cut into $N$ pairwise congruent triangles
+(the tiles may be mirror images of each other; the cut need not be edge-to-edge). Erd\H{o}s Problem~634 asks which $N$ are
+tile counts. The hard direction is to \emph{prove that
+a given $N$ is not} a tile count. We say that such an $N$ is \emph{excluded}. An $N$ is \emph{decided} if it is
+known to be a tile count or is excluded, and \emph{undecided} otherwise.
+
+\subsection{What is new, and what is not claimed}\label{sub:intro:new}
+\textbf{New since release v5.0 (1 November 2026).}
+(1)~A theorem, checked in Lean, that a certain family of large triangles $W_M(e,f)$ cannot be tiled by the tile
+$\tau(e,f)$ in a range of parameters (the \emph{W-gap theorem}); it excludes $5{,}593$ values of $N$.
+(2)~A construction and a theorem, checked in Lean, for isosceles targets (the \emph{notch family} and the \emph{band theorem}),
+which give $1{,}410$ new tile counts. (3)~Three structural statements about every tiling of $W_M$ and $T_M$.
+(4)~A refutation of a conjectured property (the \emph{foot property}). (5)~$132$ further tile counts by explicit tilings,
+verified by exact programs, not by Lean. (6)~The census: of the non-squarefree $N\le10^6$, the number of undecided
+values fell from $62{,}372$ (v5.0) to $52{,}045$.
+
+\textbf{Not claimed.} The problem is not solved: Table~\ref{tab:status} shows what is still open. We do not claim that any
+undecided $N$ is or is not a tile count. The bottom rung of $W$, the thresholds for $T_M$ and $\theta_t$, and the
+family $\gamma=2\alpha$ stay open. All checking is internal to the project; no reader outside the project has checked any
+statement. Nothing here bears on the prime case.
+
+\subsection{How to read the labels}\label{sub:intro:labels}
+Every result carries one mark.
+\begin{itemize}\setlength{\itemsep}{0pt}
+\item \sF{} \textbf{(Lean)}: a theorem of the Lean~4 library, checked by the Lean kernel, with no \texttt{sorry} and no axiom
+beyond \texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}, and compared with the printed statement by an
+auditor inside the project.
+\item \sF$^\ast$: as \sF{}, but compared with the printed statement by one reader only.
+\item \sW{} \textbf{(hand)}: a written proof, not formalized.
+\item \sS{} \textbf{(program)}: the output of a computer search or count, with exact verification but without a Lean
+certificate.
+\end{itemize}
+Nothing in this paper is marked as checked by a person outside the project. ``Lean-checked'' and ``kernel-checked'' both mean
+\sF{} or \sF$^\ast$; a tiling that is only \sS{} is called \emph{machine-verified}. Lean names and file positions are
+printed after each theorem so that a reader can look them up in the formalization repository.
+
+\subsection{Notation}\label{sub:intro:notation}
+Throughout, $e<f$ are coprime positive integers and $\tau=\tau(e,f)$ is the \emph{tile}, a triangle with sides
+$a=ef$, $b=f^2-e^2$, $c=f^2$. Its angles are $\alpha,\beta,\gamma$, opposite $a,b,c$. They satisfy
+$\gamma=2\alpha+\beta$ and $3\alpha+2\beta=\pi$. In words: $c$ is the longest side and $\gamma$ the largest angle, and the three angles are in the proportions fixed by
+$\gamma=2\alpha+\beta$. (Section~\ref{sec:tilings} uses a different
+family of tiles with an angle $2\pi/3$, and re-uses the letters $a,b,c$ there; it says so.)
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}p{3.1cm}p{9.6cm}@{}}
+\hline
+Symbol & Meaning\\\hline
+$\tau(e,f)$ & the tile, sides $a=ef$, $b=f^2-e^2$, $c=f^2$, angles $\alpha,\beta,\gamma$ opposite $a,b,c$\\
+$N$ & number of tiles; $N$ is a \emph{tile count} if some triangle is cut into $N$ congruent triangles\\
+$M$ & integer scale factor ($M\ge1$): sides of the targets below are multiplied by $M$\\
+$W_M(e,f)$ & the triangle with angles $\beta,\,2\alpha,\,\alpha+\beta$ and sides $Mf(f^2-e^2)$, $Me(2f^2-e^2)$, $Mf^3$ (opposite those angles); it needs $(2f^2-e^2)M^2$ tiles\\
+$T_M(e,f)$ & the isosceles triangle with apex angle $3\alpha$ (so base angles $\beta$), legs $Mf^3$, base $Me(3f^2-e^2)$\\
+$\theta_t(e,f)$ & the isosceles triangle with apex $\alpha$, base angles $\alpha+\beta$, legs $tf(f^2-e^2)$, base $te(f^2-e^2)$; it needs $(f^2-e^2)t^2$ tiles\\
+$\Theta(e,f)$ & the set of $t\ge1$ for which $\theta_t(e,f)$ is tiled by $\tau(e,f)$\\
+$\alpha_g(e,f)$ & the isosceles triangle with base angles $\alpha$ (Section~\ref{sub:band:setting})\\
+$f-e$, $M(f-e)$ & the gap of the tile; the \emph{W-window} is $f\le Me$ and $M(f-e)<f$\\
+\sF,\ \sF$^\ast$,\ \sW,\ \sS & the marks of Section~\ref{sub:intro:labels}\\\hline
+\end{tabular}
+\caption{Notation. A triangle is \emph{tiled} (by $\tau$) if it is the union of congruent copies of $\tau$ with disjoint interiors.}
+\label{tab:notation}
+\end{table}
+
+\subsection{Status of the problem}\label{sub:intro:status}
+The census (Section~\ref{sec:census}) concerns the non-squarefree integers $N\le10^6$ ($392{,}074$ values); squarefree $N$
+are treated by other results of the project and are not counted here.
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}p{7.4cm}rp{3.6cm}@{}}
+\hline
+Statement & Count & Status\\\hline
+Non-squarefree $N\le10^6$ (the census universe) & $392{,}074$ & ---\\
+Decided (tile count or excluded) & $340{,}029$ & decided\\
+Undecided $N\le10^6$ & $52{,}045$ & open\\
+Undecided $N\le10^6$ at v5.0 (1 Nov.\ 2026) & $62{,}372$ & fell by $10{,}327$\\
+Undecided $N\le10^5$ / $\le10^4$ / $\le3{,}000$ & $5{,}115$ / $462$ / $111$ & open\\
+Undecided $N\le1000$ & $27$ & open\\
+Every $N\le200$ & --- & decided\\
+Values decided by the $W$-theorems (this release) & $5{,}593$ & decided (Lean)\\
+Values newly shown to be tile counts by explicit tilings & $132$ & decided (program)\\
+Conjectures T, theta, gamma (Section~\ref{sub:cen:conj}) & $3$ & conjecture, open\\\hline
+\end{tabular}
+\caption{Status of the problem as measured by the census of 2026-11-16g.}
+\label{tab:status}
+\end{table}
+
+\subsection{Results at a glance}\label{sub:intro:glance}
+Open: the bottom rung of $W$, the thresholds for $T_M$, $\theta_t$, and the $\gamma=2\alpha$ family (Section~\ref{sub:cen:conj}).
+\begin{table}[h]\centering\footnotesize
+\begin{tabular}{@{}p{4.9cm}p{0.9cm}p{2.6cm}p{4.5cm}@{}}
+\hline
+Result & Label & Where & Lean name\\\hline
+W-gap theorem: $W_M(e,f)$ not tiled for $f\le Me$, $M(f-e)<f$ & \sF & Thm.~\ref{thm:wgap} & \texttt{no\_tiling\_W\_gap}\\
+Rungs 2--5 (earlier, weaker) & \sF & Cor.~\ref{cor:wrung} & \texttt{no\_tiling\_W\_rung$k$}\\
+Per-value instances $\neg\,\mathrm{TileCount}\,N$ for the $5{,}593$ $W$-values & \sF & \S\ref{sub:wgap:light} & per file; $5{,}593$ of $5{,}593$ done\\
+Long run at the $2\alpha$ corner of $W_M$ & \sF$^\ast$ & Thm.~\ref{thm:wrun} & \texttt{w\_corner\_run\_long}\\
+Bottom-rung corner words & \sF$^\ast$ & Thm.~\ref{thm:wbottom} & \texttt{w\_bottom\_rung\_words}\\
+One apex leg of $T_M$ has a long run & \sF$^\ast$ & Thm.~\ref{thm:tapex} & \texttt{t\_apex\_one\_leg\_long}\\
+Notch seed family, $t\ge t_0(e,f)$ & \sF & Thm.~\ref{thm:notch} & \texttt{thetaTiled\_all}\\
+Case $e=1$ exact: $t\ge2f$ & \sF & Thm.~\ref{thm:e1} & \texttt{thetaTiled\_e1\_iff}\\
+Alpha hub & \sF & Prop.~\ref{prop:hub} & \texttt{alphaTiled\_of\_thetaTiled}\\
+Band theorem; odd-$e$ corollary; $1{,}410$ instances & \sF & Thm.~\ref{thm:band}, Cor.~\ref{cor:odde} & \texttt{thetaTiled\_band}\\
+FOOT-U is false ($T_3(1,2)$, $T_4(1,2)$) & \sS & Prop.~\ref{prop:foot} & ---\\
+$132$ tile counts by explicit tilings & \sS & \S\ref{sec:tilings}; companion data paper & ---\\
+Census: undecided $N\le10^6$: $62{,}372\to52{,}045$ & \sS & \S\ref{sec:census} & ---\\
+Hand proof of the W-gap theorem (not used by Lean) & \sW & \S\ref{sub:wgap:thm} & ---\\\hline
+\end{tabular}
+\caption{Results of this release, with marks and Lean names.}\label{tab:glance}
+\end{table}
+
+\section{The W-gap theorem}\label{sec:wgap}
+
+\emph{Roadmap.} We define the triangles $W_M(e,f)$ and link them to tile counts (\ref{sub:wgap:setting}); state the
+W-gap theorem and sketch its proof (\ref{sub:wgap:thm}); state weaker rung versions and three structural theorems
+(\ref{sub:wgap:struct}); describe the per-value Lean instances (\ref{sub:wgap:light}); report a refuted conjecture,
+the foot property (\ref{sub:wgap:foot}); and list what the theorem does not cover (\ref{sub:wgap:limits}).
+
+\begin{remark}[Standing of this section]\label{rem:wgap:status}
+The theorems of this section are theorems of the Lean library (mark \sF), with the standard axioms
+\texttt{propext}, \texttt{Classical.choice}, \texttt{Quot.sound}, and no \texttt{sorry}. They have been audited
+inside the project only: an auditor who was not the builder compared each formal statement with the statement
+printed here, hypothesis by hypothesis (work items \rec{wgap\_2026-11-16}, \rec{wrung\_2026-11-16},
+\rec{wgap\_mid\_2026-11-16}, \rec{wgap\_rlgen\_2026-11-16}). \emph{No reader outside the project has checked
+any of them.} The three structural theorems of Section~\ref{sub:wgap:struct} were built after these audits and
+had one statement-match audit on 16 November 2026 (one reader, inside the project; work item
+\rec{NEVERTRIED\_T\_2026-11-16/V20.md}), which found the formal statements to match the printed ones. The section excludes certain values of $N$ as tile counts; it contains no
+construction, and it does not decide the problem.
+\end{remark}
+
+\subsection{Setting}\label{sub:wgap:setting}
+Let $2\le e<f$ be coprime integers. Put
+\[
+ a=ef,\qquad b=f^2-e^2,\qquad c=f^2,
+\]
+and let $\tau=\tau(e,f)$ be the triangle with sides $a,b,c$ (opposite its angles $\alpha,\beta,\gamma$); then
+$\gamma=2\alpha+\beta$ and $3\alpha+2\beta=\pi$. For an integer $M\ge1$ let $W_M(e,f)$ be the triangle with sides
+\[
+ M\,f\,(f^2-e^2),\qquad M\,e\,(2f^2-e^2),\qquad M\,f^3,
+\]
+whose angles are $\beta$, $2\alpha$, $\alpha+\beta$ (in this order, opposite the three sides). Its area is
+$(2f^2-e^2)M^2$ times the area of $\tau$. We say that $W_M(e,f)$ is \emph{tiled} if it is the union of
+$(2f^2-e^2)M^2$ triangles congruent to $\tau$ with pairwise disjoint interiors; the tiles may be mirror images,
+and the tiling is not assumed edge-to-edge. In Lean this is
+\texttt{Erdos634.Draft.CollarG.WTilable e f M} (\lean{lean/Erdos634/Draft/CollarG.lean:615}): there is a
+\texttt{CongruentDissection} of $(2f^2-e^2)M^2$ tiles whose target has the three displayed side lengths and whose
+model has sides $(ef,\,f^2-e^2,\,f^2)$, where \texttt{HasSides} allows any vertex labelling.
+
+\emph{Link to tile counts} (Lean: \rec{s4\_wTilable}, \lean{lean/Erdos634/Draft/WGapLink1.lean:36}; \sF, audited
+only as part of the census chain of Section~\ref{sec:census}). Suppose a congruent dissection of $N$ triangles has a
+target with angles $(2\alpha,\beta,\alpha+\beta)$, for a tile with $3\alpha+2\beta=\pi$, $\alpha/\pi$ irrational,
+and sides $a=rc$, $b=(1-r^2)c$ with $r$ rational. Then there are coprime $0<e<f$ and $M\ge1$ with
+$N=(2f^2-e^2)M^2$ and $W_M(e,f)$ tiled. In words: a tile count of this kind is always of the form
+$(2f^2-e^2)M^2$, so the W-gap theorem removes the representations of $N$ of this type that lie in its window (a value is excluded only
+when all its representations are, Section~\ref{sub:wgap:limits}).
+
+\subsection{The theorem}\label{sub:wgap:thm}
+
+\begin{theorem}[W-gap theorem; \sF]\label{thm:wgap}
+Let $e,f,M$ be integers with $\gcd(e,f)=1$, $2\le e<f$, $f\le Me$ and $M(f-e)<f$. Then $W_M(e,f)$ is not tiled
+by copies of $\tau(e,f)$.
+\end{theorem}
+
+\noindent\emph{In words.} In the stated window, one cannot fill $W_M(e,f)$ with copies of the tile, however they are
+arranged. \emph{Smallest example.} Take $(e,f,M)=(2,3,2)$: the tile has sides $(6,5,9)$, the window conditions read $3\le4$
+and $2<3$, and $W_2(2,3)$ has sides $30$, $56$, $54$; the theorem says it is not cut into $(2\cdot 9-4)\cdot 4=56$ copies of the tile.
+For contrast, $W_3(2,3)$ (with $126$ tiles) has $M(f-e)=3=f$, lies just outside the window, and does have a
+kernel-checked tiling.
+
+\noindent Lean: \texttt{Erdos634.Draft.WGapRung.no\_tiling\_W\_gap}
+(\lean{lean/Erdos634/Draft/WGapStation4.lean:70}),
+\begin{center}
+\begin{minipage}{0.95\textwidth}\small\ttfamily no\_tiling\_W\_gap (e f M : N) (hco : Nat.Coprime e f)\\ (he : 2 <= e) (hef : e < f) (hfM : f <= M*e)\\ (hMf : M*(f-e) < f) : not WTilable e f M\end{minipage}
+\end{center}
+There is no further hypothesis (the theorem is unconditional; an earlier version of the project had it
+conditional on a statement \rec{WGapMainStmt}, now discharged). The proof is the module chain
+\texttt{WGapStation1..4}, \texttt{WGapMainRed}, \texttt{WGapFinal}, \texttt{WGapRung7..9}, with 730 project
+modules in its import closure; no module contains \texttt{sorry}, \texttt{axiom}, \texttt{native\_decide},
+\texttt{unsafe} or \texttt{implemented\_by}. The hypotheses are satisfiable together (for example
+$(e,f,M)=(2,3,2)$, $(5,7,3)$, $(100,101,2)$); the geometric preliminaries of the proof are satisfied by the real
+tiling of $W_3(2,3)$ (a kernel-checked tiling, outside the window).
+
+\paragraph{Proof (sketch; \sW; the Lean proof does not use this text).}
+The hand argument has two halves, a structure theorem and a count, which contradict each other.
+\paragraph{Step 1 (structure theorem, for every $M\ge1$).}
+The lengths of the sides enter only through the hypothesis $|s'|>(f-1)c$ (see the errata below). Let $AQ$ be the side of length $Mf(f^2-e^2)$ that is
+adjacent to the corner of angle $2\alpha$. In a lattice chart at that corner, in which the tile edges $c$ and $b$
+span the first lattice, the tiles along $AQ$ begin with a run of $f$ consecutive tiles with their $c$-edge on
+$AQ$ (alternative~(i) of the corner-run theorem, a statement of the boundary-run method of Beeson--Ro\c{s}u),
+because alternative~(ii) is excluded by a joint induction on the rows and anti-diagonals of the lattice (the
+lemmas called AD, U3, the wall lemma, stations, the recursion RL and the climb in PROOF.md \S\S3--10). Hence the
+number $z$ of $c$-edges on $AQ$ satisfies $z\ge f$.
+\paragraph{Step 2 (count).} Since
+$x\,ef+y\,(f^2-e^2)+z\,f^2=Mf(f^2-e^2)$, the window $f\le Me$, $M(f-e)<f$ forces $z<f$ (a word-count argument in
+the semigroup $\langle a,b,c\rangle$, \rec{SplusThick.C\_AQ'}).
+\paragraph{Step 3 (conclusion).} Steps 1 and 2 give $z\ge f$ and $z<f$; hence no tiling exists.
+%%ERRATA-BEGIN
+\paragraph{Sources and errata of the hand proof.}
+The written proof is \rec{WGAP\_PROOF\_2026-11-15/PROOF.md}, with an errata block from the formalization
+(findings F5, F7--F11). F5 and F7--F10 are bookkeeping of the invariant and change no statement. F11 \emph{does}
+correct a stated clause: in lemma U3 (and its variant U3-ST) the far-side tile beside the last lattice $a$-edge
+need not show the angle $\beta$ at the end point of the run (clause (U3-c) keeps only that the tile beside each
+$a$-step of the chord has exactly that $a$-edge), and the companion statement (D) holds only for $j\le J-1$
+(resp.\ $j\le H-1$); the places that used the dropped part were re-read and derive it locally, so the corrected
+induction still closes, but the earlier hand draft was wrong there. A further finding of the hand proof (U3-1) adds
+the hypothesis $|s'|>(f-1)c$ to the lemma on the corner at the end of the run; it holds for $W_M$ (the side has
+length $Mf^3$) and is open for general triangles. The formal theorem does not use any of these statements.
+The hand proof has been read only by its author and a reader of the same model family; it is not claimed as an
+independently checked proof, and the Lean theorem does not depend on it.
+
+\subsection{Corollaries and structural theorems}\label{sub:wgap:struct}
+
+\begin{corollary}[Rungs; \sF]\label{cor:wrung}
+Under the hypotheses of Theorem~\ref{thm:wgap}, if moreover $M(f-e)\le e+j$ for one $j\in\{2,3,4,5\}$, then
+$W_M(e,f)$ is not tiled. (These are weaker than Theorem~\ref{thm:wgap}; they were proved first by a shorter
+induction, \texttt{no\_tiling\_W\_gap\_of\_sigma\_le}, and the lists of $N$ they decide are in Section~\ref{sec:census}.)
+\end{corollary}
+\noindent Lean: \texttt{no\_tiling\_W\_rung2} (\lean{WGapRung1.lean:110}), \texttt{no\_tiling\_W\_rung3}
+(\lean{WGapRung3.lean:41}), \texttt{no\_tiling\_W\_rung4} (\lean{WGapRung5.lean:40}),
+\texttt{no\_tiling\_W\_rung5} (\lean{WGapRung7.lean:56}); same arguments as Theorem~\ref{thm:wgap}, one more
+hypothesis \texttt{hk : M*(f-e) <= e + j}.
+
+Two statements concern every tiling and decide no $N$ by themselves. They are the geometric half of the proof,
+extracted. \emph{Their statements had one statement-match audit (16 November 2026; one reader, inside the project).}
+
+\begin{theorem}[Long run at the $2\alpha$ corner, any $M$; \sF, statement-match audited once, internally]\label{thm:wrun}
+Let $e<f$ be coprime, $1\le e$, $M\ge1$, and let $D$ be a dissection of $W_M(e,f)$ into copies of $\tau(e,f)$
+with sides as above (any $N$). Then there are integers $x,y,z\ge0$ such that the side adjacent to the corner of
+angle $2\alpha$ carries the long-run word $\texttt{WLongRunWord}\ D\ M\ e\ f\ x\ y\ z$, with
+$x\,ef+y\,(f^2-e^2)+z\,f^2=Mf(f^2-e^2)$ and $z\ge f$.
+\end{theorem}
+\noindent\emph{In words.} Whatever the tiling, the side next to the $2\alpha$ corner starts with a run of at least $f$ tiles
+whose longest side $c$ lies on it, and the whole side is a sum of $a$'s, $b$'s and $c$'s.\\
+\noindent Lean: \texttt{w\_corner\_run\_long} (\lean{WCornerStruct1.lean:72}). Neither $f\le Me$ nor $2\le e$ is
+used. Control: \texttt{no\_tiling\_W\_gap'} (\lean{WCornerStruct1.lean:138}) re-derives Theorem~\ref{thm:wgap}
+from this theorem and the count of $c$-tiles.
+
+\begin{theorem}[The bottom rung; \sF, statement-match audited once, internally]\label{thm:wbottom}
+Let $e<f$ be coprime, $2\le e$, $f\le Me$ and $(M-1)(f-e)<f\le M(f-e)$. In every dissection of $W_M(e,f)$ into
+copies of $\tau(e,f)$ the long-run word of Theorem~\ref{thm:wrun} has $y=0$ and either $x=z=M(f-e)$, or
+$x=M(f-e)-f$ and $z=M(f-e)+e$.
+\end{theorem}
+\noindent\emph{In words.} On the bottom rung the side next to the $2\alpha$ corner uses no $b$-edge and has only two possible
+counts of $a$- and $c$-edges; this is not yet a contradiction.\\
+\noindent Lean: \texttt{w\_bottom\_rung\_words} (\lean{WCornerStruct2.lean:145}). This is a statement about counts; it
+does not exclude any tiling.
+
+\begin{theorem}[One leg of the apex of $T_M$ has a long run; \sF, statement-match audited once, internally]\label{thm:tapex}
+Let $1\le e<f$ be coprime, $M\ge1$, and let $T_M(e,f)$ be the isosceles triangle with legs $Mf^3$ and base
+$Me(3f^2-e^2)$ (apex angle $3\alpha$) tiled by copies of $\tau(e,f)$. Then at least one of the two legs from the
+apex satisfies \texttt{TLegLong}, that is, alternative~(i) of the corner-run theorem: it carries $f$ consecutive
+tiles of the type $C_1$, or $f$ consecutive tiles of the type $C_2$. The statement does not say that alternative~(ii) is absent on the other leg.
+\end{theorem}
+\noindent\emph{In words.} At the apex of $T_M$, at least one of the two legs begins with a run of $f$ tiles of the same type.\\
+\noindent Lean: \texttt{t\_apex\_one\_leg\_long} (\lean{TApexStruct1.lean:164}). It is the scale-$M$ form of
+Beeson--Ro\c{s}u's Theorem~37 for the apex.
+
+\subsection{Per-value instances of the exclusion}\label{sub:wgap:light}
+The census (Section~\ref{sec:census}) uses the link of Section~\ref{sub:wgap:setting} one value at a time: for each
+$N$ whose open representations are all of the type $W_M(e,f)$ in the window of Theorem~\ref{thm:wgap} (or its rungs), a
+Lean module proves $\neg\,\texttt{TileCount}\ N$ by applying \texttt{not\_tileCount\_of\_CNzFixW} to the decided
+representation table of $N$. These instances cover the $5{,}593$ values that the $W$ exclusions remove from the census
+($77+65+98$ by rungs $2$--$4$, $5{,}351$ by Theorem~\ref{thm:wgap}, $2$ by \texttt{CNzFixW}). They are kernel-checked per
+value in Lean (generator, manifest and axioms replay in the repository): all $5{,}593$ of $5{,}593$ instances have been
+built, and each depends only on the three standard axioms (\texttt{propext}, \texttt{Classical.choice},
+\texttt{Quot.sound}); a comment-aware scan of the import closure found no \texttt{sorry}, \texttt{native\_decide},
+\texttt{ofReduceBool} or \texttt{axiom}. The $163$ values of rungs $3$ and $4$ and $74$ of the $77$ values of rung $2$
+pass the same predicate as the values of the main theorem, so the Lean predicate agrees with its independent
+transcription on every one of them.
+
+\subsection{A refuted conjecture: the foot property}\label{sub:wgap:foot}
+In the search for a route to the thin part of the $T_M$ wall, the following was formulated. Put $n=Me(2f^2-e^2)$; on the
+base of $T_M(e,f)$ there is a corner $B$ and a tile vertex $Q$ with $|QB|=n$. The \emph{foot property} FOOT$^\ast$ says that
+the first tile at $Q$ along $[Q,B]$ is not the tile type with the angle $\gamma$ at $Q$, together with a companion
+condition on the second tile. FOOT$^\ast$ together with $Me<f$ gives a contradiction by a hand count (not formalized), so the
+conjecture FOOT-U (every tiling of every $T_M(e,f)$ has FOOT$^\ast$) would have excluded the thin part.
+
+\begin{proposition}[FOOT-U is false; \sS]\label{prop:foot}
+$T_3(1,2)$ ($N=99$) and $T_4(1,2)$ ($N=176$) have tilings without FOOT$^\ast$ at either base corner.
+\end{proposition}
+\noindent\emph{In words.} The hoped-for property (``the first tile at $Q$ is not of type $\gamma$'') fails in actual
+tilings, the smallest cases being $N=99$ and $N=176$.\\
+\noindent The tilings were produced by the project's engine, and are checked as valid dissections by an exact rational
+checker (not by Lean). In a search of $400{,}000$ tilings of $T_3(1,2)$, $56{,}972$ violate FOOT$^\ast$; of $260{,}000$ tilings of
+$T_4(1,2)$, $254{,}800$ do. All $252$ tilings of $T_2(1,2)$ and all sampled instances with $M\le f$ satisfy it. This
+closes the route through FOOT$^\ast$ for $M>f$; it is not evidence about whether any open $T_M(e,f)$ is tiled, and the $T$-threshold
+statement (Conjecture~\ref{conj:T}) is unaffected.
+
+\subsection{What is not covered}\label{sub:wgap:limits}
+\begin{enumerate}
+\item The \emph{bottom rung}, $M(f-e)\ge f>(M-1)(f-e)$ with $f\le Me$, is outside Theorem~\ref{thm:wgap}. Theorem~\ref{thm:wbottom}
+ gives its two corner words only. Whether $W_M(e,f)$ is tiled there is open; the bottom rung carries 2,529 open
+ representations on the list of Section~\ref{sec:census}.
+\item The cases $e=1$ and $Me<f$ (the latter excluded earlier by the side theorem of the base-$\beta$ program),
+ and the range of large $M$ where $W_M(e,f)$ is known to be tiled, are outside the window; the theorem says
+ nothing about them.
+\item Targets other than $W_M(e,f)$, in particular $T_M(e,f)$ (apex $3\alpha$) and the isosceles targets of
+ Section~\ref{sec:band}: Theorem~\ref{thm:tapex} is all that is proved for $T_M$.
+\item The decision of a value of $N$ requires every representation of $N$ as a tile count to be excluded; the
+ theorems exclude $W$-representations only (Section~\ref{sec:census}).
+\end{enumerate}
+
+\section{Isosceles targets with base angles $\alpha+\beta$: the notch family and the band theorem}\label{sec:band}
+
+\emph{Roadmap.} This section constructs tilings (it excludes nothing). We define the isosceles targets $\theta_t(e,f)$,
+state the notch seed family with its explicit threshold $t_0(e,f)$ (\ref{sub:band:notch}), the exact case $e=1$,
+the band theorem and its odd-$e$ corollary (\ref{sub:band:band}), the $1{,}410$ instances (\ref{sub:band:inst}), and what is not claimed.
+
+\begin{remark}[Standing]\label{rem:band:status}
+All theorems here are theorems of the Lean library (mark \sF; standard axioms; no \texttt{sorry}), audited
+inside the project only (work items \rec{thetanotch\_2026-11-14}, \rec{thetanotch4\_2026-11-14},
+\rec{thetaband\_2026-11-15}, \rec{thetabandinst\_2026-11-15}); no reader outside the project has compared the formal
+statements with the printed ones. They construct tilings: they add tile counts and exclude nothing.
+\end{remark}
+
+\subsection{Setting}\label{sub:band:setting}
+Let $1\le e<f$ and put $b=f^2-e^2$, $\tau=\tau(e,f)=(ef,\,b,\,f^2)$ as in Section~\ref{sub:wgap:setting}. For an integer $t\ge1$ let
+$\theta_t=\theta_t(e,f)$ be the isosceles triangle with apex angle $\alpha$, base angles $\alpha+\beta$, legs $t\,f\,b$
+and base $t\,e\,b$. Its area is $bt^2$ times that of $\tau$. We write $t\in\Theta(e,f)$ if $\theta_t$ is cut into
+$bt^2$ copies of $\tau$ (mirror images allowed, not edge-to-edge); in Lean this is
+\texttt{ThetaTiled e f b t} (\lean{ThetaUnitStep.lean:38}) with $b=f^2-e^2$: a \texttt{CongruentDissection (b*t*t)} whose
+target has sides $(tbf,tbf,tbe)$ and whose model has sides $(ef,b,f^2)$. If $t\in\Theta(e,f)$ then $bt^2$ is a tile
+count. For $g\ge1$ let $\alpha_g$ be the isosceles triangle with base angles $\alpha$, legs $gbf^2$ and base
+$gb(2f^2-e^2)$ (\texttt{AlphaTiled}).
+
+\paragraph{Prior art (not claimed).} For every tile of the family, $\Theta(e,f)$ contains all large $t$: Paliy's
+two-annulus theorem (annuli around the apex adding $e$ and $f$ to the scale from a threshold on). Beeson
+(arXiv 1206.2229 v5, Thms.~23, 24, Cor.~4, Fig.~16) gives the $48$-tile seed $\theta_4(1,2)$ and a family of
+theta targets. The thresholds below are explicit in $(e,f)$ and the seed is constructed, which is the part we
+add; for $e=1$ the threshold is exact.
+
+\subsection{The notch seed family}\label{sub:band:notch}
+For coprime $1\le e<f$ put
+\[
+ n_0=\Big\lceil\frac{e}{f-e}\Big\rceil,\quad j_0=\Big\lceil\frac{n_0e}{b}\Big\rceil,\quad
+ M_0=\max\Big(\Big\lceil\frac{fn_0}{e}\Big\rceil,\ n_0+\Big\lceil\frac{en_0}{f}\Big\rceil\Big),\quad
+ t_0(e,f)=j_0f+M_0 .
+\]
+
+\begin{theorem}[Notch seed family; \sF]\label{thm:notch}
+For all coprime $1\le e<f$ and all $t\ge t_0(e,f)$, $t\in\Theta(e,f)$. Hence $(f^2-e^2)t^2$ is a tile count for
+every such $t$.
+\end{theorem}
+\noindent\emph{In words.} Every sufficiently large isosceles triangle $\theta_t(e,f)$ is tiled, and $t_0$ says how large.
+\emph{Example.} For $(e,f)=(2,3)$: $n_0=2$, $j_0=1$, $M_0=4$, so $t_0=7$, and $\theta_7(2,3)$ is tiled by $5\cdot49=245$ copies of $\tau(2,3)$.
+(For $t=6$ the question is open.)\\
+\noindent Lean: \texttt{Erdos634.Draft.ThetaNotch.thetaTiled\_all}
+(\lean{ThetaNotch4Rho.lean:156}), with \texttt{t0f} $=t_0$ (\lean{ThetaNotch3Gen.lean:36}); the general case uses
+\texttt{thetaTiled\_general} (\lean{ThetaNotch3Gen.lean:99}, hypothesis $e M_0\not\equiv0\bmod f$, proved for
+all coprime pairs in \texttt{rho0f\_ne\_zero}) and $e=1$ uses \texttt{thetaTiled\_e1}. The proof is a seed (the
+notch frame: a block $(fn)\tau$ at the apex, leg strips, and a notch region filled by one parallelogram of
+the lattice of $\tau$) followed by a unit step $\theta_t\to\theta_{t+1}$ (Lean \texttt{ThetaUnit*}); the proofs are in the
+earlier draft \rec{notch\_family\_2026-11-14.tex}. $t_0$ is not claimed sharp for $e\ge2$ ($\theta_6(2,3)$ is open
+although $t_0(2,3)=7$).
+
+\begin{theorem}[The case $e=1$ is exact; \sF]\label{thm:e1}
+For $f\ge2$ and $t\ge1$: $\theta_t(1,f)$ is tiled by copies of $(f,f^2-1,f^2)$ if and only if $t\ge2f$.
+\end{theorem}
+\noindent\emph{In words.} For $e=1$ the threshold is sharp: $\theta_t(1,f)$ is tiled exactly from $t=2f$ on.
+\emph{Example.} $f=2$: the tile is $(2,3,4)$, $\theta_4(1,2)$ has $3\cdot16=48$ tiles (Beeson's $48$-tile seed), and
+$\theta_t(1,2)$ is not tiled for $t\le3$.\\
+\noindent Lean: \texttt{ThetaNotch.thetaTiled\_e1\_iff} (\lean{ThetaNotchE1.lean:24}), $\texttt{ThetaTiled 1 f (f*f-1) t}\iff 2f\le t$.
+The direction ``tiled implies $t\ge2f$'' is \texttt{ThetaKill.theta\_e1}, whose own audit found one inherited gap
+(work item \rec{thetakill\_e1\_2026-11-14}, SOUND WITH GAPS); the other direction is Theorem~\ref{thm:notch}.
+
+\begin{proposition}[Alpha hub; \sF]\label{prop:hub}
+If $1\le e<f$, $1\le g$ and $t=gf\in\Theta(e,f)$, then $\alpha_g(e,f)$ is tiled: it is the union of $(gb)\tau$ and
+$\theta_{gf}$, with $(gb)^2+b(gf)^2=b\,(2f^2-e^2)\,g^2$ tiles.
+\end{proposition}
+\noindent Lean: \texttt{ThetaNotch.alphaTiled\_of\_thetaTiled} (\lean{ThetaNotch4Glue.lean:178}); instances
+\texttt{tileCount\_2576}, \texttt{4025}, \texttt{5796}, \texttt{7008} (\lean{ThetaNotch4Alpha.lean:43ff}). Gluing: Beeson (1206.2229 v5, Cor.~8,
+Fig.~25), then Paliy.
+
+\subsection{The band theorem}\label{sub:band:band}
+\begin{theorem}[Band theorem; \sF]\label{thm:band}
+Let $e,f,n,M,k,s,x,r,m\in\N$ satisfy
+\begin{enumerate}
+\item[(a)] $1\le e<f$, $1\le n$, $e\le(f-e)\,n$ and $fn\le eM$;
+\item[(b)] $0<k<s<M+k$, $e+(f-e)k\le(f-e)s$, and $en+sf\le(M+k)f$;
+\item[(c)] $e\mid M+k-s$;
+\item[(d)] $e\,k\,(f^2-e^2)=e\,e\,n\,f+x\,(ef)+r\,(f^2-e^2)+m\,f^2$;
+\item[(e)] $f\nmid eM$.
+\end{enumerate}
+Then $M+k\in\Theta(e,f)$; in particular $(f^2-e^2)(M+k)^2$ is a tile count.
+\end{theorem}
+\noindent\emph{In words.} If the parameters satisfy a short list of inequalities (a frame fits in $\theta_{M+k}$) and
+divisibility conditions (the leftover notch region is a union of lattice pieces), then $\theta_{M+k}$ is tiled by an explicit construction.\\
+\noindent Lean: \texttt{Erdos634.Draft.ThetaOddE.thetaTiled\_band} (\lean{ThetaOddEBand.lean:33}), with the hypotheses
+in the order \texttt{he hef hn ha1 ha2 hk hks hst hd hc hw hY hrho}. Coprimality of $e,f$ is \emph{not} assumed
+(a non-coprime pair gives a dilated, still valid, statement); hypothesis (e) is a restriction that the hand
+statement did not have (the case $f\mid eM$ is a different case of the notch and is not formalized). Every
+quantity is a natural number and all subtractions are of the form $a-b$ with $b\le a$ by the hypotheses.
+
+\paragraph{Proof (sketch; hand proof \sW, formal \sF).} The hand proof is \rec{internal working notes of 2026-11-15}
+\S S1--S2 (Theorem~B, proof B.3). The triangle $\theta_{M+k}$ is the union of $k$ leg strips, a triangle $U$, the
+block $(fn)\tau$ and a pentagon $R$ (the \emph{notch region}, with corners of angles $\alpha+\beta$, $\gamma$,
+$\alpha+\beta$, $\pi-\alpha$, $\pi-\beta$); inequalities (a),(b) say the frame fits; (c),(d) say that the
+pentagon is the union of seven convex polygons, each a lattice parallelogram or triangle of $\tau$, whose
+sides are integer combinations of $a,b,c$ ($e\mid M+k-s$ for the column widths, (d) for the left wall, which lies on the
+base). The Lean proof builds the seven pieces and the volume identity, and obtains the cover from the volume
+identity; it does not use the hand text.
+
+\begin{corollary}[Odd $e$; \sF]\label{cor:odde}
+For odd $e\ge3$ and $t\ge(e^2+5e+2)/2$: $\theta_t(e,e+1)$ is tiled; hence $(2e+1)t^2$ is a tile count.
+\end{corollary}
+\noindent\emph{In words.} Tiles $\tau(e,e+1)$ with $e\ge3$ odd have an explicit and simple threshold. \emph{Example.} $e=3$: the
+threshold is $(9+15+2)/2=13$, and $\theta_{13}(3,4)$ has $7\cdot169=1183$ tiles.\\
+\noindent Lean: \texttt{ThetaOddE.thetaTiled\_oddE} (\lean{ThetaOddEFinal.lean:49}) and \texttt{tileCount\_oddE} (:67). Instances:
+$\theta_{13}(3,4)$ (found by machine search on 15 Nov 2026, then built), and the tile counts $756$, $1183$, $2695$,
+$77824$, $80275$, $85291$.
+
+\subsection{The $1{,}410$ instances}\label{sub:band:inst}
+The modules \texttt{ThetaBandInst1..10}, \texttt{ThetaBandInstH}, \texttt{ThetaBandInstLib}
+(\lean{lean/Erdos634/Draft/}) prove \texttt{TileCount N} for $1{,}410$ values $N\le10^6$: $1{,}360$ of the form
+$(f^2-e^2)t^2$ by Theorem~\ref{thm:band} or Theorem~\ref{thm:notch} (the parameters are tabulated in each file), and $50$
+via Proposition~\ref{prop:hub}. Each instance applies the theorem with literal parameters; the internal audit
+(\rec{thetabandinst\_2026-11-15}) read the helper library and sampled instances (SOUND), and a rerun of the census
+reproduces exactly this set of $1{,}410$ values.
+
+\subsection{What is not claimed}\label{sub:band:limits}
+The band theorem does not say that $\theta_t(e,f)$ is \emph{not} tiled outside its hypotheses; the only exact
+threshold is $e=1$. Theorem~\ref{thm:band} reaches $t<t_0(e,f)$ only for some $(e,f,t)$; the table of $t$ below $t_0$
+that no frame reaches is part of the open list of Section~\ref{sec:census}. Nothing here bears on the prime case.
+\section{Further tile counts by explicit tilings}\label{sec:tilings}
+\emph{Roadmap.} One paragraph: what the $132$ tilings are, how they were obtained and checked, and where the details are.
+In addition to the theorems above, $132$ integers $N\le10^6$ were shown to be tile counts by explicit tilings
+produced by programs and verified by exact rational checkers (mark \sS: machine-verified, \emph{not} checked by the
+Lean kernel): $57$ values (tiles with a $2\pi/3$ angle, shapes $F_1,F_2$) obtained by lifting the layout of a known
+tiling, $15$ values of shape $F_3$ obtained by Zhang's nesting construction applied to an $F_2$ tiling, and $60$
+values of shapes $F_1$ and isosceles obtained by a strip step and a transfer. All three groups are later than
+release v5.0, and each tiling was checked by at least two independent programs, with a negative control. The shapes
+$F_1,F_2,F_3$ and the nesting are due to Zhang (arXiv 2512.22696) and Harries; the $143$-tiling used in the lift is
+Herdt's skeleton; a structural statement of Paliy covers six of the nine $F_2$ values. The strip step and the
+transfer are the project's. The constructions, the list of the $132$ values, the verification statement and the
+tables are given in the companion data paper; no person outside the project has examined these tilings, and they
+are not part of the Lean-verified results of this paper. Their effect on the census is counted in
+Section~\ref{sec:census}.
+
+\section{The census of tile counts up to $10^6$}\label{sec:census}
+
+\emph{Roadmap.} We say what the census counts (\ref{sub:cen:def}), give the step-by-step counts and the reconciliation with
+release v5.0 (\ref{sub:cen:counts}), describe the four families of open representations, the \emph{walls} (\ref{sub:cen:walls}),
+state three open conjectures (\ref{sub:cen:conj}), and say what the census does not show (\ref{sub:cen:not}).
+
+\begin{remark}[Standing]\label{rem:cen:status}
+This section reports the output of programs (mark \sS) built on the theorems and tilings of this paper; it is not a
+theorem about each integer. The programs are \rec{rust/census\_v5\_20261116} (reproduces the lists below) and the
+regression guard \rec{code/census\_guard.sh}; the decision rule for a value excluded is the Lean statement
+\texttt{not\_tileCount\_of\_CNzFixW} (Section~\ref{sub:wgap:setting}) or an earlier Lean leaf theorem; a value
+included is a tile count by an explicit tiling or a Lean \texttt{TileCount} instance. The
+\emph{representation table} of each value (the list of shapes $T,W,\theta,\alpha,\gamma,\dots$ in which it could be a
+tile count) is produced by program, and its completeness was re-enumerated independently by program only
+(work item \rec{wgap\_gaps\_2026-11-16}, gap~G3): it is not a Lean statement. All audits are internal.
+\end{remark}
+
+\subsection{Definition}\label{sub:cen:def}
+The \emph{census universe} is the set of non-squarefree integers $N\le10^6$ ($392{,}074$ values). Each $N$ is, in
+the census, \emph{decided} (a tile count, by tiling or Lean instance; or not a tile count, by Lean theorems for each
+of its representations) or \emph{undecided}. Squarefree $N$ are treated by other theorems of the project and are not
+counted here.
+
+\subsection{Counts}\label{sub:cen:counts}
+\begin{center}
+\begin{tabular}{lrr}
+\hline
+list (work item \rec{CENSUS\_*}) & undecided $N\le10^6$ & step\\\hline
+2026-11-14d & 60,655 & \\
+2026-11-15a: band theorem and hub (A3) & 59,245 & $-1{,}410$\\
+2026-11-15b: recovered closures and leaf fixes (corrections) & 57,922 & $-921-402$\\
+2026-11-15c: isosceles leaf with the second parity (correction) & 57,770 & $-152$\\
+2026-11-15d: $F_3$ nesting tilings & 57,755 & $-15$\\
+2026-11-16a: W-rung 2 & 57,678 & $-77$\\
+2026-11-16b: 57 lift tilings & 57,621 & $-57$\\
+2026-11-16c: W-rung 3 & 57,556 & $-65$\\
+2026-11-16d: W-rung 4 & 57,458 & $-98$\\
+2026-11-16e: W-gap theorem & 52,107 & $-5{,}351$\\
+2026-11-16f: two values by \texttt{CNzFixW} & 52,105 & $-2$\\
+2026-11-16g: 60 tilings (companion data paper) & \textbf{52,045} & $-60$\\\hline
+\end{tabular}
+\end{center}
+Hence $60{,}655\to52{,}045$ ($-8{,}610$). Of the $392{,}074$ values of the universe, $340{,}029$ are decided in the
+census. The undecided values by size: $27$ with $N\le10^3$, $111$ with $N\le3{,}000$, $462$ with $N\le10^4$,
+$5{,}115$ with $N\le10^5$, $52{,}045$ with $N\le10^6$. The twenty-seven values $N\le1000$ still open are
+\begin{center}
+{\small 236, 280, 284, 332, 351, 423, 444, 524, 531, 552, 594, 644, 668, 716, 732, 747, 816, 840, 855,
+876, 880, 908, 912, 924, 927, 944, 999.}
+\end{center}
+Every $N\le200$ is decided (this is unchanged since v4.0 and v5.0).
+\emph{Baseline and reconciliation.} The release v5.0 (1 November 2026) published, on the basis of the sifter (non-squarefree
+$N\le10^6$), $62{,}372$ undecided values ($129{,}420$ known tile counts, $200{,}282$ excluded). The list of this section
+is a subset of the v5.0 list (by a set comparison of the reconstructed v5.0 list with the list 2026-11-16g: no value of the
+current list is outside it), so since v5.0 the undecided count fell by exactly $62{,}372-52{,}045=10{,}327$. By category
+(one value counted once, at the step that decided it): W-gap theorem $5{,}351$; W rungs $2$--$4$ $77+65+98=240$;
+theta and alpha notch family $2{,}694$; band theorem and hub $1{,}410$; recovered closures $319$; isosceles parity $152$;
+explicit tilings $161$ ($24+5+15+57+60$; machine-verified, not Lean; the $132=15+57+60$ of Section~\ref{sec:tilings} and $29$ further tilings of
+12--14 November 2026, outside the scope of this paper); so
+$10{,}166$ values by Lean theorems and hand families and $161$ by tilings. (The chain of the table above starts from the
+list of 14 November 2026, which is an earlier state of the sifter and had $1{,}056$ values that v5.0 had already decided;
+a difference measured from that start is therefore not a difference since v5.0.) The reconstruction of the v5.0 list is by
+set arithmetic on the files of the v5.0 run, not by a rerun of the sifter.
+
+Of the $10{,}327$ values, $471=319+152$ are \emph{corrections} ($319$ closures made earlier and lost by a rebuild of the
+program, recovered and now protected by a guard, and $152$ values excluded by a strengthened parity condition on the isosceles
+leaf), not new mathematics. The new theorems and families account for the rest.
+
+\subsection{What remains: the four walls}\label{sub:cen:walls}
+Every undecided value has at least one open \emph{representation}. The open representations fall into four families,
+the \emph{walls}. The sizes below are from the work item tables \rec{SUBATOM\_*\_2026-11-16}; the bases differ (they were
+tabulated before the last steps of the table above) and are stated for each line.
+\begin{center}
+\begin{tabular}{p{4.3cm}p{2.2cm}p{4.2cm}p{2.6cm}}
+\hline
+wall & open representations & distinct $N$ & base list\\\hline
+$T_M(e,f)$ (apex $3\alpha$, base-$\beta$ side) & $26{,}053$ & $20{,}478$ ($19{,}866$ with no other open leaf) & 16f ($52{,}105$)\\
+$W_M(e,f)$ (corner $2\alpha$), residual: bottom rung & $2{,}529$ & $2{,}487$ ($2{,}113$ sole) & 15d ($57{,}755$), before W-gap\\
+$\theta_t(e,f)$ and the alpha hub & $24{,}089+201$ triples & $17{,}185$ ($16{,}476$ open) & 15d\\
+$\gamma=2\alpha$ ($G$) & $35{,}099$ & $26{,}599$ ($10{,}997$ sole) & 15d\\\hline
+\end{tabular}
+\end{center}
+(The $W$ row counts only the bottom-rung representations, since the W-gap representations are now excluded; $W$ before
+the theorem had $9{,}239$ open representations, $8{,}785$ values.) The smallest open instance of $T$ is
+$236=\tau(4,5)$ at $M=2$; the smallest open $\gamma=2\alpha$ value on its list is $816$ (pair $(7,10)$, $g=4$); the
+smallest open $\theta$ cells begin at $N=1836$. On the base list of 2026-11-15c ($57{,}770$, not a release), the leaf sets
+were: $T$ alone $19{,}209$; $G+\theta$ $14{,}141$; $G$ $10{,}997$; $W$ $7{,}704$; $\theta$ $2{,}087$; $T+W$ $924$; and
+smaller classes, with $2{,}102$ values blocked by a leaf of another type ($E$, $F_1$, Iso, $R_8$).
+
+\subsection{Open statements}\label{sub:cen:conj}
+Each of the following would, if proved, decide the stated number of values (counted by the program on the lists named;
+\emph{conditional on the representation tables}). None is proved; we do not assert that any of them holds.
+
+\begin{conjecture}[T-threshold; open, \sS-supported only]\label{conj:T}
+No representation $T_M(e,f)$ that is open in the program's table is tiled. By the program this would decide $19{,}866$
+values with no other open leaf. Evidence on file: engine runs that ended without a tiling on some small instances (observations, not exclusions) and Theorem~\ref{thm:tapex}.
+\end{conjecture}
+\begin{conjecture}[Theta lower bound; open]\label{conj:theta}
+$\theta_t(e,f)$ is not tiled for $t<t_B(e,f)$, the bound tabulated in work item \rec{SUBATOM\_THETA\_2026-11-16}, for the
+open cells; this would decide the $\theta$-only values ($2{,}087$) and, together with the next, the $G+\theta$ values.
+\end{conjecture}
+\begin{conjecture}[Gamma $=2\alpha$; open]\label{conj:G}
+Targets $T(g)$ with base angles $\alpha$ of the tiles with $\gamma=2\alpha$ are not tiled for $g\le2v$ (all
+representations $(u,v)$, $\gcd(u,v)=1$, $u<v<2u$), beyond the margin $g\le g_D=\lfloor(u-1)/(v-u)\rfloor+1$ that Lean
+excludes (Theorem D$'$, \texttt{ThmD.thmD\_all\_g}).
+\end{conjecture}
+\noindent The bottom rung of $W$ has no conjecture attached: its two corner words are Theorem~\ref{thm:wbottom} and
+nothing else is known.
+
+\subsection{What the census does not say}\label{sub:cen:not}
+It does not say that the open values are not tile counts; it does not classify the tile counts; the density of
+the decided values is a property of the program's tables. It does not touch the prime case, which is settled
+by other theorems.
+
+\section*{Credits and acknowledgements for the results of this release}\label{sec:credits_v6}
+
+The results of Sections~\ref{sec:wgap}--\ref{sec:census} rest on the work of others, and we say where.
+\begin{itemize}
+\item \textbf{M.~Beeson.} The theta targets, the $48$-tile seed $\theta_4(1,2)$ and the hub gluing (arXiv 1206.2229 v5, Thms.~23, 24,
+Cor.~4, Cor.~8, Figs.~16, 25); the isosceles-tile program (arXiv 1206.1974, Thm.~11.7, Fig.~24 for the collar at
+$(2,3)$); Lemma~52 of 1206.2229 (the finding that the Fig.~5 configuration of Laczkovich is prior art, not a gap).
+\item \textbf{M.~Beeson and F.~Ro\c{s}u.} The boundary-run method and Theorem~37 (arXiv 2607.23453), of which
+Theorem~\ref{thm:tapex} is the scale-$M$ form at the $3\alpha$ apex, and the corner-run theorem used in
+Theorem~\ref{thm:wrun}; the lemmas on the sides of the tile family on which our induction (Lemmas AD, U3, RL) is modelled.
+\item \textbf{D.~Paliy.} The first proof of the prime case (2026-09-29), the two-annulus theorem for the isosceles
+targets (the large-$t$ statement that Theorem~\ref{thm:notch} makes explicit), the alpha hub and the annulus ideas used for the
+band theorem and the collar, and a structural statement covering six of the nine $F_2$ values of Section~\ref{sec:tilings}.
+\item \textbf{Y.~X.~Zhang.} The families of tilings with a $2\pi/3$ angle and Props.~9--11 (arXiv 2512.22696): the shapes
+$F_1,F_2,F_3$, the nesting of Prop.~11 used for the $F_3$ values, and Props.~10(2), 11(2) (the forty values of the
+module \texttt{ZhangInst40}); with Beeson, the rationality results (2604.01314).
+\item \textbf{Herdt.} The skeletons: the $143$-tiling (tile $(3,5,7)$), the $1125$ tiling and the layouts of Figs.~23, 24 on which
+the lift tool and the collar chain are modelled.
+\item \textbf{J.~P.~Harries.} The row constructions $I$--$V$ and the hand tails for the $F_1$ and $F_2$ shapes that
+the values of Section~\ref{sec:tilings} are compared with.
+\item \textbf{M.~Laczkovich.} The classification of tilings of a triangle (Discrete Math.~140, 1995; Discrete Comput.
+Geom.~48, 2012), Lemma~6.2 and Theorem~2.4 of the first and the junction lemmas on which Lemma~M and the thin-$W$
+base lemma depend.
+\end{itemize}
+(The collar construction at $(2,3)$, the instances of Zhang's propositions and the thin-$W$ base lemma were published in
+release v5.0 of 1 November 2026 and are not new here.) What is the project's own in this release: the notch seed family and the explicit threshold, the band theorem, the
+proofs and Lean statements of the W-gap theorem, its rungs and the structural theorems, the strip step and the
+transfer, the census programs and the verification of the tilings. Every Lean statement named in this release is
+in the formalization repository with a docstring crediting the sources.
+
+\paragraph{Disclosure.} This work was carried out with substantial assistance from an artificial-intelligence system
+(Anthropic's Claude), under the author's direction and review. It has not been refereed, and no reader outside the
+project has checked any statement of this release.
+\end{document}

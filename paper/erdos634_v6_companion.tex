@@ -1,0 +1,300 @@
+\documentclass[11pt,reqno]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{graphicx}
+\usepackage{array,longtable}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{computation}[theorem]{Computation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\DeclareMathOperator{\Area}{Area}
+\newcommand{\sF}{\textup{\textsf{F}}}
+\newcommand{\sW}{\textup{\textsf{W}}}
+\newcommand{\sS}{\textup{\textsf{S}}}
+\DeclareUrlCommand{\lean}{\urlstyle{tt}}
+\newcommand{\rec}[1]{\textup{\texttt{#1}}}
+\emergencystretch=2em\sloppy
+
+\title[Companion data paper]{Erd\H{o}s Problem 634, release 6.0, companion data paper: $132$ tile counts by explicit tilings}
+\author{Vico Bonfioli}
+\date{18 November 2026 (release 6.0; not refereed)}
+\begin{document}
+\begin{abstract}
+A positive integer $N$ is a \emph{tile count} if some triangle can be cut into $N$ congruent triangles (Erd\H{o}s Problem~634).
+This companion to the release-6.0 paper lists $132$ integers $N\le10^6$ that were open in the project's census and are shown here
+to be tile counts by \emph{explicit tilings}: $57$ obtained by lifting the layout of a known tiling, $15$ by Zhang's nesting
+construction, and $60$ by a strip step and a transfer. The tilings were produced by programs and verified by exact rational
+checkers; they are \emph{not} checked by the Lean kernel. The problem is not solved here, and no reader outside the project has examined the tilings.
+\end{abstract}
+\maketitle
+
+\section{Overview}\label{sec:comp:overview}
+\emph{Roadmap.} This paper has three parts: the families of tiles and targets and the constructions (Section~\ref{sec:tilings}), the list of
+the $132$ values with the verification statement (Theorem~\ref{thm:tiles132}, Tables~\ref{tab:lift57} and \ref{tab:follow60}), and the effect on the census of
+non-squarefree $N\le10^6$ (Section~\ref{sec:comp:census}). The main paper of the release treats the Lean results and the census in full.
+
+\textbf{How to read the labels.} \sS{} means the output of a computer search with exact verification but without a Lean
+certificate; \sF{} means a theorem of the Lean~4 library (used here only for the scale ladder). \emph{Machine-verified} is
+our word for a tiling that passed the exact checkers. All checking is internal to the project.
+
+\textbf{Notation.} Here the tile is a triangle with sides $(a,b,c)$, $c^2=a^2+ab+b^2$, with an angle $2\pi/3$ opposite $c$
+(Section~\ref{sub:til:tiles}); the letters $a,b,c$ are \emph{not} the sides $(ef,f^2-e^2,f^2)$ of the main paper. A tile count is an
+$N$ such that some triangle is cut into $N$ copies of one tile; $F_1,F_2,F_3,\mathrm{Iso}_m$ are target shapes defined in
+Section~\ref{sub:til:tiles}.
+
+
+\section{One hundred and thirty-two further tile counts, by explicit tilings}\label{sec:tilings}
+
+\begin{remark}[Standing]\label{rem:til:status}
+The tile counts of this section are established by \emph{explicit tilings} produced by programs and checked by
+exact rational checkers (mark \sS: computer outcome with exact verification, not a certificate checked by the Lean
+kernel). They are not theorems of the Lean library, and they have been checked inside the project only: by two
+independent checkers on every value, by three on a subset, and by a rejected negative control (a tiling with its
+first tile dropped is rejected). No person outside the project has examined them. The tilings are stored
+compressed in the project work items; their construction rules are stated below in a form a reader can redo by hand.
+\end{remark}
+
+\subsection{Tiles with a $2\pi/3$ angle}\label{sub:til:tiles}
+All tiles in this section are primitive triples $(a,b,c)$ with $c^2=a^2+ab+b^2$, $\gcd(a,b,c)=1$: the angle opposite
+$c$ is $2\pi/3$, $\alpha$ is opposite $a$ and $\beta$ opposite $b$, $\alpha+\beta=\pi/3$. Following Zhang
+(arXiv 2512.22696, Props.~9--11) and Harries, there are three target shapes (angles in the order of the sides):
+\begin{align*}
+ F_1&:\ (\alpha,\ \alpha+\beta,\ \alpha+2\beta),& N&=m^2\,b\,(a+b)\quad(\text{sides }k\,(a,\,c,\,a+b),\ k=mb),\\
+ F_2&:\ (2\alpha,\ \alpha+\beta,\ 2\beta),& N&=k^2\,(a+2b)(2a+b),\\
+ F_3&:\ (\alpha,\ 2\alpha,\ 3\beta),& N&=3(a+b)(a+2b)k^2,
+\end{align*}
+and an isosceles target $\mathrm{Iso}_m$ with $N=m^2\,b\,(a+2b)$ (the union of an $F_1$ target and a triangle of
+$k^2=m^2b^2$ tiles). All counts were checked against the area ($N=\Area(\text{target})/\Area(\tau)$) and by
+integer side arithmetic in $\Q(\sqrt{-3})$.
+
+\subsection{Constructions}\label{sub:til:constr}
+\paragraph{Strip step $F_1\to F_1$ (project's construction, hand statement).} Let $m\ge2$ and suppose $F_1$ at
+scale $m-1$ is tiled. The target $F_1$ at scale $m$ has a corner $P_0$ of angle $\pi/3$ and sides
+$P_0P_1=mba\,e_1$, $P_0P_2=mb(a+b)\,e_2$. It is the union of the scale-$(m-1)$ target translated by $ab\,e_1$ and a
+\emph{cap}, a quadrilateral with a side $x=mb(a+b)$, which is tiled by one scaled tile with $c^2$ tiles (its
+$c$-side on a side of the cap), one scaled tile with $a^2$ tiles, and a lattice parallelogram patch of sides $ab$ and
+$x-c^2=ia+jb$ ($i,j\ge0$) cut into $2(\text{cells})$ tiles. Count: $m^2b(a+b)$.
+\paragraph{Transfer $F_1\to\mathrm{Iso}$ (project's construction).} Given a tiling of $F_1$ at scale $m$, glue to it
+a triangle $\tau'$ with a $2\pi/3$ angle at $P_0$ such that $Q,P_0,P_2$ are collinear; $\tau'$ is the $k^2$-subdivision of
+a scaled tile, $k=mb$. The union is isosceles with $N=m^2b(a+b)+m^2b^2$.
+\paragraph{Lift tool.} A search program lifts the layout of a known tiling (the $143$-tiling of $(39,49,55)$
+by $(3,5,7)$ for $F_2$, and the layout of the project's $F_1$-160 tiling of the tile $(11,24,31)$) to a new tile with a
+$2\pi/3$ angle by solving, in exact rational arithmetic, for the sizes of the lattice pieces. Each output is a list
+of $N$ triangles checked by the verifiers.
+\paragraph{Nesting $F_2\to F_3$ (Zhang's Prop.~11).} An $F_3$ target is obtained from an $F_2$ band tiling of the
+project by Zhang's nesting construction; the multiples follow by the scale ladder (a Lean theorem, \texttt{thm:ladder}).
+Prop.~11 is due to Zhang; the $F_2$ input and the verified tilings are ours.
+
+\subsection{The three groups}\label{sub:til:groups}
+\begin{theorem}[$132$ tile counts; \sS]\label{thm:tiles132}
+Each of the following $132$ integers is the number of triangles congruent to the stated tile into which some
+triangle is cut. (a) The $57$ values of Table~\ref{tab:lift57}: $48$ of shape $F_1$ and $9$ of shape $F_2$, from the lift tool.
+(b) The $15$ values $6552$, $26208$, $58968$, $104832$, $163800$, $235872$, $321048$ (multiples of the primitive $6552$,
+tile $(16,5,19)$), $50760$, $203040$, $456840$, $812160$ (from $50760$, $(33,7,37)$), $230880$, $923520$ (from $230880$,
+$(56,9,61)$), $770400$ ($(85,11,91)$) and $421740$ (the non-primitive multiple $4\cdot(16,39,49)$), of shape $F_3$.
+(c) The $60$ values of Table~\ref{tab:follow60}: $21$ of shape $F_1$ ($17$ by the strip step, $4$ by the lift tool) and
+$39$ of shape $\mathrm{Iso}$ (by the transfer).
+\end{theorem}
+
+\noindent \emph{In words.} For each of these $132$ values we have written down an actual tiling and checked it by exact
+arithmetic; this adds $132$ tile counts, but the tilings are machine-verified, not Lean-checked.
+\emph{Example (from Table~\ref{tab:follow60}).} The tile $(16,39,49)$ has $a=16$, $b=39$ ($49^2=16^2+16\cdot39+39^2$). The
+value $19305=3^2\cdot39\cdot55$ is an $F_1$ tile count at scale $m=3$; the transfer adds a triangle of $m^2b^2=13689$ tiles,
+giving the isosceles count $32994=19305+13689=3^2\cdot39\cdot94$.
+
+\noindent \emph{Verification statement.} For (a) and (c): every tiling was regenerated and checked by
+(A) \texttt{bte verify} v2.18.0, (B) an exact checker \texttt{liftchk} written for this purpose (line count $=N$;
+each tile congruent to the tile; target equal to the convex hull of all vertices with exactly three corners; area
+count; all pairs of tiles with disjoint interiors by a spatial grid; exact angle decomposition), and, for $23$ of (a)
+and the $7$ values of (c) with $N\le120{,}000$, (C) the quadratic checker \texttt{tilingcheck} 1.0.0; every value
+passes every checker run on it. For (b): the four primitive values $6552$, $50760$, $230880$, $770400$ pass \texttt{bte} and \texttt{f3chk}; \texttt{tilingcheck}
+was run on $6552$ and $50760$ only; the multiples follow from the Lean scale ladder
+(\texttt{Subdivision.ladderDissection}, \sF). Rooms: \rec{VERIFY\_LIFT55\_2026-11-16}, \rec{VERIFY\_F3\_2026-11-15},
+\rec{LIFT\_FOLLOWON\_2026-11-16}. Negative controls: dropping the first tile is rejected by \texttt{liftchk} on all
+$117$ of (a),(c) and by \texttt{bte} on a sample. None of the $132$ is in a no-tiling row of the project ledger. All three groups are later than release v5.0
+(1 November 2026): the $15$ of (b) were found and checked on 15 November, the $57$ of (a) on 15--16 November and the $60$ of (c)
+on 16 November 2026, so none of them is among the $117$ explicit tile counts of v5.0 (a list comparison with the $117$ is to be run before release).
+
+\paragraph{Prior art and credit.} Shapes $F_1,F_2,F_3$ and the nesting are Zhang's (2512.22696) and Harries's
+constructions (hand tail $F_1$, $m\ge3R$; $F_2$, $k\ge\lceil3R/2\rceil$); six of the nine $F_2$ values of (a) are
+covered by a structural statement of Paliy (nested corner at scale $m$). The $143$-tiling is Herdt's skeleton in our
+search. The strip step and the transfer are the project's. The values are tile counts that were open in the project's
+census; the statement that they were not previously known rests on the files on disk and on the sources listed in
+\texttt{PRIORITY.md}, and should be rechecked online.
+
+\begin{longtable}{rlll}
+\caption{The $57$ values of Theorem~\ref{thm:tiles132}(a): tile, shape, source layout.}\label{tab:lift57}\\
+\hline $N$ & tile & shape & layout\\ \hline\endfirsthead
+\hline $N$ & tile & shape & layout\\ \hline\endhead
+10856 & $(11,24,31)$ & F2 & 143 \\
+13440 & $(11,24,31)$ & F1 & F1\_160 \\
+13860 & $(32,45,67)$ & F1 & F1\_160 \\
+19305 & $(16,39,49)$ & F1 & F1\_160 \\
+20252 & $(13,35,43)$ & F2 & 143 \\
+21000 & $(11,24,31)$ & F1 & F1\_160 \\
+26696 & $(16,39,49)$ & F2 & 143 \\
+30240 & $(11,24,31)$ & F1 & F1\_160 \\
+31185 & $(32,45,67)$ & F1 & F1\_160 \\
+36036 & $(40,77,103)$ & F1 & F1\_160 \\
+41160 & $(11,24,31)$ & F1 & F1\_160 \\
+45567 & $(13,35,43)$ & F2 & 143 \\
+53625 & $(16,39,49)$ & F1 & F1\_160 \\
+53760 & $(11,24,31)$ & F1 & F1\_160 \\
+53856 & $(65,88,133)$ & F1 & F1\_160 \\
+58240 & $(69,91,139)$ & F1 & F1\_160 \\
+68040 & $(11,24,31)$ & F1 & F1\_160 \\
+77220 & $(16,39,49)$ & F1 & F1\_160 \\
+84000 & $(11,24,31)$ & F1 & F1\_160 \\
+101640 & $(11,24,31)$ & F1 & F1\_160 \\
+101745 & $(24,95,109)$ & F1 & F1\_160 \\
+105105 & $(16,39,49)$ & F1 & F1\_160 \\
+116025 & $(40,51,79)$ & F1 & F1\_160 \\
+144144 & $(40,77,103)$ & F1 & F1\_160 \\
+173745 & $(16,39,49)$ & F1 & F1\_160 \\
+180880 & $(24,95,109)$ & F1 & F1\_160 \\
+214500 & $(16,39,49)$ & F1 & F1\_160 \\
+215424 & $(65,88,133)$ & F1 & F1\_160 \\
+225225 & $(40,77,103)$ & F1 & F1\_160 \\
+227409 & $(40,51,79)$ & F1 & F1\_160 \\
+232960 & $(69,91,139)$ & F1 & F1\_160 \\
+259545 & $(16,39,49)$ & F1 & F1\_160 \\
+259688 & $(56,115,151)$ & F2 & 143 \\
+274560 & $(23,120,133)$ & F1 & F1\_160 \\
+297024 & $(40,51,79)$ & F1 & F1\_160 \\
+313352 & $(75,112,163)$ & F2 & 143 \\
+324324 & $(40,77,103)$ & F1 & F1\_160 \\
+328185 & $(56,165,199)$ & F1 & F1\_160 \\
+336600 & $(65,88,133)$ & F1 & F1\_160 \\
+384384 & $(25,143,157)$ & F1 & F1\_160 \\
+406980 & $(24,95,109)$ & F1 & F1\_160 \\
+429000 & $(23,120,133)$ & F1 & F1\_160 \\
+441441 & $(40,77,103)$ & F1 & F1\_160 \\
+543752 & $(87,160,217)$ & F2 & 143 \\
+553945 & $(24,95,109)$ & F1 & F1\_160 \\
+566865 & $(64,221,259)$ & F1 & F1\_160 \\
+574560 & $(13,120,127)$ & F1 & F1\_160 \\
+576576 & $(40,77,103)$ & F1 & F1\_160 \\
+600600 & $(25,143,157)$ & F1 & F1\_160 \\
+696764 & $(93,187,247)$ & F2 & 143 \\
+723520 & $(24,95,109)$ & F1 & F1\_160 \\
+782040 & $(13,120,127)$ & F1 & F1\_160 \\
+840840 & $(23,120,133)$ & F1 & F1\_160 \\
+864864 & $(25,143,157)$ & F1 & F1\_160 \\
+911625 & $(56,165,199)$ & F1 & F1\_160 \\
+915705 & $(24,95,109)$ & F1 & F1\_160 \\
+947144 & $(133,192,283)$ & F2 & 143 \\
+\hline
+\end{longtable}
+
+\begin{longtable}{rllll}
+\caption{The $60$ values of Theorem~\ref{thm:tiles132}(c): tile, shape and scale $m$, construction, source value.}\label{tab:follow60}\\
+\hline $N$ & tile & shape & construction & source\\ \hline\endfirsthead
+\hline $N$ & tile & shape & construction & source\\ \hline\endhead
+32994 & $(16,39,49)$ & Iso 3 & isotransfer & 19305 \\
+59752 & $(40,77,103)$ & Iso 2 & isotransfer & 36036 \\
+81081 & $(40,77,103)$ & F1 3 & f1strip & 36036 \\
+83776 & $(75,112,163)$ & F1 2 & f1lift160 & F1\_160 layout S=16800 \\
+84832 & $(65,88,133)$ & Iso 2 & isotransfer & 53856 \\
+91000 & $(9,56,61)$ & F1 5 & f1lift160 & F1\_160 layout S=2520 \\
+91364 & $(69,91,139)$ & Iso 2 & isotransfer & 58240 \\
+121176 & $(65,88,133)$ & F1 3 & f1strip & 53856 \\
+131040 & $(69,91,139)$ & F1 3 & f1strip & 58240 \\
+133952 & $(75,112,163)$ & Iso 2 & isotransfer & 83776 \\
+134442 & $(40,77,103)$ & Iso 3 & isotransfer & 81081 \\
+158080 & $(87,160,217)$ & F1 2 & f1lift160 & F1\_160 layout S=27840 \\
+167076 & $(40,51,79)$ & F1 6 & f1strip & 116025 \\
+170016 & $(85,168,223)$ & F1 2 & f1lift160 & F1\_160 layout S=28560 \\
+178360 & $(9,56,61)$ & F1 7 & f1strip & 131040\_9\_56 \\
+181050 & $(40,51,79)$ & Iso 5 & isotransfer & 116025 \\
+182970 & $(24,95,109)$ & Iso 3 & isotransfer & 101745 \\
+188496 & $(75,112,163)$ & F1 3 & f1strip & 83776 \\
+190872 & $(65,88,133)$ & Iso 3 & isotransfer & 121176 \\
+205569 & $(69,91,139)$ & Iso 3 & isotransfer & 131040 \\
+239008 & $(40,77,103)$ & Iso 4 & isotransfer & 144144 \\
+260480 & $(87,160,217)$ & Iso 2 & isotransfer & 158080 \\
+260712 & $(40,51,79)$ & Iso 6 & isotransfer & 167076 \\
+282625 & $(24,95,109)$ & F1 5 & f1strip & 180880 \\
+282912 & $(85,168,223)$ & Iso 2 & isotransfer & 170016 \\
+301392 & $(75,112,163)$ & Iso 3 & isotransfer & 188496 \\
+325280 & $(24,95,109)$ & Iso 4 & isotransfer & 180880 \\
+335104 & $(75,112,163)$ & F1 4 & f1strip & 188496 \\
+339328 & $(65,88,133)$ & Iso 4 & isotransfer & 215424 \\
+354858 & $(40,51,79)$ & Iso 7 & isotransfer & 227409 \\
+355680 & $(87,160,217)$ & F1 3 & f1strip & 158080 \\
+365456 & $(69,91,139)$ & Iso 4 & isotransfer & 232960 \\
+373450 & $(40,77,103)$ & Iso 5 & isotransfer & 225225 \\
+382536 & $(85,168,223)$ & F1 3 & f1strip & 170016 \\
+463488 & $(40,51,79)$ & Iso 8 & isotransfer & 297024 \\
+504960 & $(23,120,133)$ & Iso 4 & isotransfer & 274560 \\
+508250 & $(24,95,109)$ & Iso 5 & isotransfer & 282625 \\
+523600 & $(75,112,163)$ & F1 5 & f1strip & 335104 \\
+530200 & $(65,88,133)$ & Iso 5 & isotransfer & 336600 \\
+535808 & $(75,112,163)$ & Iso 4 & isotransfer & 335104 \\
+537768 & $(40,77,103)$ & Iso 6 & isotransfer & 324324 \\
+571025 & $(69,91,139)$ & Iso 5 & isotransfer & 364000 \\
+573210 & $(56,165,199)$ & Iso 3 & isotransfer & 328185 \\
+583440 & $(56,165,199)$ & F1 4 & f1strip & 328185 \\
+586080 & $(87,160,217)$ & Iso 3 & isotransfer & 355680 \\
+617760 & $(23,120,133)$ & F1 6 & f1strip & 429000 \\
+632320 & $(87,160,217)$ & F1 4 & f1strip & 355680 \\
+636552 & $(85,168,223)$ & Iso 3 & isotransfer & 382536 \\
+680064 & $(85,168,223)$ & F1 4 & f1strip & 382536 \\
+711568 & $(25,143,157)$ & Iso 4 & isotransfer & 384384 \\
+731880 & $(24,95,109)$ & Iso 6 & isotransfer & 406980 \\
+731962 & $(40,77,103)$ & Iso 7 & isotransfer & 441441 \\
+753984 & $(75,112,163)$ & F1 6 & f1strip & 523600 \\
+763488 & $(65,88,133)$ & Iso 6 & isotransfer & 484704 \\
+789000 & $(23,120,133)$ & Iso 5 & isotransfer & 429000 \\
+822276 & $(69,91,139)$ & Iso 6 & isotransfer & 524160 \\
+837200 & $(75,112,163)$ & Iso 5 & isotransfer & 523600 \\
+956032 & $(40,77,103)$ & Iso 8 & isotransfer & 576576 \\
+988000 & $(87,160,217)$ & F1 5 & f1strip & 632320 \\
+996170 & $(24,95,109)$ & Iso 7 & isotransfer & 553945 \\
+\hline
+\end{longtable}
+
+\section{Effect on the census}\label{sec:comp:census}
+\emph{Roadmap.} We recall what the census counts and show the three steps at which the $132$ tilings enter it.
+
+The census universe is the set of non-squarefree integers $N\le10^6$ ($392{,}074$ values). A value is \emph{decided} if it is
+known to be a tile count or is excluded (proved not to be a tile count), and \emph{undecided} otherwise. The programs
+are internal and their lists are described in the main paper of the release.
+\begin{center}
+\begin{tabular}{lrr}
+\hline
+list & undecided $N\le10^6$ & step\\\hline
+2026-11-15c: before the tilings & 57,770 & \\
+2026-11-15d: $F_3$ nesting tilings & 57,755 & $-15$\\
+2026-11-16b: 57 lift tilings & 57,621 & $-57$\\
+2026-11-16g: 60 tilings & 52,045 & $-60$\\\hline
+\end{tabular}
+\end{center}
+(Steps of the chain that are Lean results of the main paper are omitted from this table, so consecutive lines differ by more than the step shown.)
+The three groups lower the undecided count by $15+57+60=132$. The other steps of the chain are Lean results of the main
+paper. Since release v5.0 (1 November 2026) the undecided count fell from $62{,}372$ to $52{,}045$, of which
+$161$ values are decided by tilings ($24+5+15+57+60$); the $132$ of this paper are those of the last three groups, and $29$
+further tilings of 12--14 November 2026 are outside its scope.
+
+\section*{Credits and disclosure}
+The shapes $F_1,F_2,F_3$ and the nesting construction are due to Y.~X.~Zhang (arXiv 2512.22696, Props.~9--11) and J.~P.~Harries
+(row constructions and hand tails); the $143$-tiling used by the lift tool is Herdt's skeleton; a structural statement of
+D.~Paliy covers six of the nine $F_2$ values. The strip step, the transfer, the lift tool and the checkers are the project's.
+\paragraph{Disclosure.} This work was carried out with substantial assistance from an artificial-intelligence system
+(Anthropic's Claude), under the author's direction and review. It has not been refereed, and no reader outside the
+project has checked any statement of this release.
+\end{document}

@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 title: "Congruent dissections of a triangle: prime counts, the counts up to 200, and a family of isosceles targets"
-version: "5.0"
-date-released: "2026-11-01"
+version: "6.0"
+date-released: "2026-11-18"
 doi: "10.5281/zenodo.23400433"
 authors:
   - family-names: Bonfioli
@@ -13,7 +13,10 @@ abstract: >-
   of tile counts. Not refereed; not audited outside the project. Version 4.0 added a band theorem
   (Lean, internal audit) and a census update. Version 5.0 adds, with labels, an up-set theorem for isosceles
   targets (hand proof; not formalized in Lean), a Lean collar at (2,3) (internal audit), 117 further explicit tile counts
-  (Zhang's 40 also as Lean instances, kernel-checked, NOT audited) and a census update.
+  (Zhang's 40 also as Lean instances, kernel-checked, NOT audited) and a census update. Version 6.0 adds, with labels,
+  a W-gap no-tiling theorem for the base-beta targets W_M(e,f) (Lean, internal audit only) with a kernel-checked Lean
+  statement for each of 5,593 excluded values of N, notch and band theorems (Lean, internal audit only), 132 further
+  explicit tile counts (exact checkers, not Lean) and a census update (52,045 undecided non-squarefree N up to 10^6).
 keywords:
   - Erdős problem 634
   - triangle tiling

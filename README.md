@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1420385447.svg)](https://doi.org/10.5281/zenodo.23400433)
 
-This version (v5.0, 1 November 2026): doi:[10.5281/zenodo.23857682](https://doi.org/10.5281/zenodo.23857682). Previous versions: v4.0 (22 October 2026; doi:[10.5281/zenodo.23557194](https://doi.org/10.5281/zenodo.23557194)); v3.1: doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114); v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
+This version (v6.0, 18 November 2026): DOI to be filled after the Zenodo record exists. Previous versions: v5.0 (1 November 2026): doi:[10.5281/zenodo.23857682](https://doi.org/10.5281/zenodo.23857682); v4.0 (22 October 2026; doi:[10.5281/zenodo.23557194](https://doi.org/10.5281/zenodo.23557194)); v3.1: doi:[10.5281/zenodo.23488114](https://doi.org/10.5281/zenodo.23488114); v3.0: doi:[10.5281/zenodo.23483290](https://doi.org/10.5281/zenodo.23483290). All versions (concept DOI): doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433).
 
 **Author:** Vico Bonfioli (vicobonfioli@gmail.com). The work was carried out with the assistance of Claude (Anthropic)
 throughout, under the author's direction.
@@ -10,6 +10,8 @@ throughout, under the author's direction.
 **Archive:** Zenodo, doi:[10.5281/zenodo.23400433](https://doi.org/10.5281/zenodo.23400433) (all versions); version 1.0: doi:[10.5281/zenodo.23400434](https://doi.org/10.5281/zenodo.23400434).
 
 **Papers (version 3.0, two):** `paper/erdos634_v3W2.pdf` (Paper W, 13 pp., source `.tex`): Tilings of W_M and T_M below the threshold scale (Theorem W, the six-piece template); and `paper/erdos634_v3C.pdf` (companion): the collar family, macro-piece tile counts, the thick regime (no-tiling rungs), Conjecture C, the census, corrections and what is not proved. They share `paper/notation_table.tex`; the companion uses the version 2.2 paper for the exclusion side. **Companion papers:** `paper/erdos634_primes_and_N200.pdf` (version 2.2: runs, windows and the corner, Theorem F, the census to one million, the prime case), `paper/erdos634_primes_and_N200_v1.pdf` (the first paper). Talk and FAQ: `docs/`. **Supplement (version 5.0):** `paper/erdos634_v5_supplement.pdf` (source `.tex`): the collar construction at coprime pairs (u,v), the up-set theorem, the Lean statements of the collar at (2,3) and of the thin-W base lemma, and the table of 117 further explicit tile counts.
+
+**Papers (version 6.0):** `paper/erdos634_v6_main.pdf` (12 pp.): the W-gap theorem, notch and band theorems, structural theorems, the 132 tilings and the census, with labels; `paper/erdos634_v6_companion.pdf` (6 pp.): the data paper on the 132 tilings and the census. Sources `.tex` beside them. Not refereed.
 
 Standing marks used below, as in the paper: **F** = theorem of the accompanying Lean 4 library, with the standard axioms
 only (`propext`, `Classical.choice`, `Quot.sound`) and no `sorry`; **W** = written proof in the paper, not formalized;
@@ -235,7 +237,25 @@ of the set of tile counts still requires. No withdrawal or retraction notice is 
 | `data/registry/registry_tile_counts_TILING_EXISTS_5.0.tsv`, `data/witnesses/` | 117 new tile counts, witnesses (30 files) and regenerating recipes (version 5.0) |
 | `paper/erdos634_v5_supplement.pdf`, `.tex` | supplement of version 5.0 |
 | `docs/CLAIMS_5.0.md` | register of claims of version 5.0: label, evidence, what is not claimed |
+| `paper/erdos634_v6_main.pdf`, `paper/erdos634_v6_companion.pdf` (and `.tex`) | the two papers of version 6.0 (W-gap, notch and band theorems, 132 tilings, census) |
+| `docs/CLAIMS_6.0.md`, `RELEASE_NOTES_v6.0.md` | register of claims and notes of version 6.0 |
+| `lean/Erdos634/AllV6*.lean`, `lean/axioms/AxiomsAllV6*.lean`, `lean/PAPER_MAP_V6.md` | aggregates of version 6.0 (leaf modules, not imported by `Erdos634.All`; the per-value statements are in `AllV6h*`), their axioms files, rows of the paper map |
+| `data/wgap_bulk_2026-11-18/` | archive of the generator, manifests, gate and scan results of the 5,593 per-value statements; `SHA256_PUBLIC.txt` |
+| `data/registry/registry_tile_counts_TILING_EXISTS_6.0.tsv`, `data/witnesses/explicit_6.0/`, `data/census/undecided_6.0.txt` | 132 new tile counts with 50 witnesses; the 52,045 undecided values |
 | `rust/` | `mrv2` (floating-point refutation search and its driver `pf4.sh`, `tricert.py`), `certgenm` and `certgenx` (exact-arithmetic replay of a search tree into Lean modules), `bonfioli_tiling_engine` (independent exact tiling verifier), `bonfioli_template` (the template search `bto` that found the tilings of v1.15; source only) |
+
+## Release v6.0: W-gap theorem with 5,593 per-value Lean statements, notch and band theorems, 132 further tile counts, census update
+
+**The problem is not solved. The prime case is unchanged. Not refereed; not audited outside the project. No reader outside the project has checked any of this.** See `RELEASE_NOTES_v6.0.md`, `docs/CLAIMS_6.0.md` (what each claim is, its evidence, and what is not claimed), `paper/erdos634_v6_main.pdf` and `paper/erdos634_v6_companion.pdf`. Reflections of the tile are allowed throughout.
+
+* **W-gap theorem. LEAN (internal audit only; standard axioms).** For coprime 2 <= e < f, f <= Me, M(f-e) < f, the triangle W_M(e,f) is not tiled by (2f^2-e^2)M^2 copies of (ef, f^2-e^2, f^2) (`WGapRung.no_tiling_W_gap`; rungs M(f-e) <= e+2..e+5: `no_tiling_W_rung2..5`). With the decision rule `not_tileCount_of_CNzFixW` it excludes 5,593 values of N <= 10^6, and **each of the 5,593 has its own kernel-checked Lean theorem `not (TileCount N)`** (aggregates `AllV6h*`; no program output enters these statements). Credit: Beeson-Rosu (boundary run, Theorem 37), Laczkovich (junction lemmas), Paliy, Beeson.
+* **Notch seed family, e = 1 threshold, band theorem, alpha hub. LEAN (internal audit only).** `thetaTiled_all`, `thetaTiled_e1_iff`, `thetaTiled_band`, `thetaTiled_oddE`, `alphaTiled_of_thetaTiled`; 1,410 tile-count instances. Credit: Beeson (theta targets, the seed, hub gluing, Lemma 52), Paliy (two-annulus theorem, alpha hub), Laczkovich (Lemma 2.2).
+* **Structural corner theorems. LEAN (statement audit, one reader).** `w_corner_run_long`, `w_bottom_rung_words`, `t_apex_one_leg_long`: they decide no N.
+* **A refuted conjecture. COMPUTED.** The foot property for tilings of T_M(e,f) is false for M > f (T_3(1,2), N = 99; T_4(1,2), N = 176).
+* **132 further explicit tile counts. COMPUTED (exact checkers; not Lean).** 57 by a lift tool, 15 by Zhang's nesting, 60 by the F1 strip step, the lift tool and the F1-to-isosceles transfer (`data/registry/registry_tile_counts_TILING_EXISTS_6.0.tsv`; 50 witnesses of at most 2 MB in `data/witnesses/explicit_6.0/`). Credit: Zhang (families F1 to F3), Harries (row constructions), Herdt (143 tiling, skeleton layouts), Paliy.
+* **Census** (non-squarefree N <= 10^6): undecided **52,045** (v5.0: 62,372; fewer by 10,327; list in `data/census/undecided_6.0.txt`); open N <= 1000: 27 values; every N <= 200 is decided (unchanged). Program output of the internal census tool; the 5,593 W-gap exclusions are the part with per-value Lean statements.
+* **Two modules changed in code** (`PropNorm`, `NogoCount37`: `native_decide` replaced by kernel evaluation or removed); see the release notes.
+* **Prime case: unchanged** (Paliy 29 September 2026 first; Beeson-Rosu; ours independent; dates as in v4.0).
 
 ## Release v5.0: collar at every pair, up-set theorem, 117 further tile counts, census update
 
