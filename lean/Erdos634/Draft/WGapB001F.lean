@@ -1,0 +1,61 @@
+/- WGapB001F: HEAVY batch of not-TileCount theorems (gen_fx.sh).  Credits: Beeson (theta targets, Lemma 52), Paliy, Beeson-Rosu, Laczkovich, Zhang, Herdt.  UNAUDITED beyond internal checks.  No sorry, no native_decide. -/
+import Erdos634.Draft.WGapLightLink2
+import Erdos634.Draft.WGapB001c0
+import Erdos634.Draft.WGapB001c1
+import Erdos634.Draft.WGapB001c2
+import Erdos634.Draft.WGapB001c3
+import Erdos634.Draft.WGapB001c4
+import Erdos634.Draft.WGapB001c5
+import Erdos634.Draft.WGapB001c6
+namespace Erdos634.Draft.WGapPure
+theorem b_final_1724 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 1724 := not_tileCount_of_P 1724 (cnzFixP_of_P2 b_cp2c_1724)
+theorem b_final_5704 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 5704 := not_tileCount_of_P 5704 (cnzFixP_of_P2 b_cp2c_5704)
+theorem b_final_10232 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 10232 := not_tileCount_of_P 10232 (cnzFixP_of_P2 b_cp2c_10232)
+theorem b_final_10684 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 10684 := not_tileCount_of_P 10684 (cnzFixP_of_P2 b_cp2c_10684)
+theorem b_final_10948 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 10948 := not_tileCount_of_P 10948 (cnzFixP_of_P2 b_cp2c_10948)
+theorem b_final_11036 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 11036 := not_tileCount_of_P 11036 (cnzFixP_of_P2 b_cp2c_11036)
+theorem b_final_11144 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 11144 := not_tileCount_of_P 11144 (cnzFixP_of_P2 b_cp2c_11144)
+theorem b_final_11512 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 11512 := not_tileCount_of_P 11512 (cnzFixP_of_P2 b_cp2c_11512)
+theorem b_final_11684 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 11684 := not_tileCount_of_P 11684 (cnzFixP_of_P2 b_cp2c_11684)
+theorem b_final_12088 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12088 := not_tileCount_of_P 12088 (cnzFixP_of_P2 b_cp2c_12088)
+theorem b_final_12292 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12292 := not_tileCount_of_P 12292 (cnzFixP_of_P2 b_cp2c_12292)
+theorem b_final_12488 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12488 := not_tileCount_of_P 12488 (cnzFixP_of_P2 b_cp2c_12488)
+theorem b_final_12572 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12572 := not_tileCount_of_P 12572 (cnzFixP_of_P2 b_cp2c_12572)
+theorem b_final_12856 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12856 := not_tileCount_of_P 12856 (cnzFixP_of_P2 b_cp2c_12856)
+theorem b_final_12942 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12942 := not_tileCount_of_P 12942 (cnzFixP_of_P2 b_cp2c_12942)
+theorem b_final_12988 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 12988 := not_tileCount_of_P 12988 (cnzFixP_of_P2 b_cp2c_12988)
+theorem b_final_13372 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 13372 := not_tileCount_of_P 13372 (cnzFixP_of_P2 b_cp2c_13372)
+theorem b_final_13496 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 13496 := not_tileCount_of_P 13496 (cnzFixP_of_P2 b_cp2c_13496)
+theorem b_final_13564 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 13564 := not_tileCount_of_P 13564 (cnzFixP_of_P2 b_cp2c_13564)
+theorem b_final_14012 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14012 := not_tileCount_of_P 14012 (cnzFixP_of_P2 b_cp2c_14012)
+theorem b_final_14084 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14084 := not_tileCount_of_P 14084 (cnzFixP_of_P2 b_cp2c_14084)
+theorem b_final_14428 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14428 := not_tileCount_of_P 14428 (cnzFixP_of_P2 b_cp2c_14428)
+theorem b_final_14536 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14536 := not_tileCount_of_P 14536 (cnzFixP_of_P2 b_cp2c_14536)
+theorem b_final_14756 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14756 := not_tileCount_of_P 14756 (cnzFixP_of_P2 b_cp2c_14756)
+theorem b_final_14968 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 14968 := not_tileCount_of_P 14968 (cnzFixP_of_P2 b_cp2c_14968)
+theorem b_final_15068 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 15068 := not_tileCount_of_P 15068 (cnzFixP_of_P2 b_cp2c_15068)
+theorem b_final_15608 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 15608 := not_tileCount_of_P 15608 (cnzFixP_of_P2 b_cp2c_15608)
+theorem b_final_15932 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 15932 := not_tileCount_of_P 15932 (cnzFixP_of_P2 b_cp2c_15932)
+theorem b_final_16047 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 16047 := not_tileCount_of_P 16047 (cnzFixP_of_P2 b_cp2c_16047)
+theorem b_final_16156 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 16156 := not_tileCount_of_P 16156 (cnzFixP_of_P2 b_cp2c_16156)
+theorem b_final_16504 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 16504 := not_tileCount_of_P 16504 (cnzFixP_of_P2 b_cp2c_16504)
+theorem b_final_16636 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 16636 := not_tileCount_of_P 16636 (cnzFixP_of_P2 b_cp2c_16636)
+theorem b_final_17276 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 17276 := not_tileCount_of_P 17276 (cnzFixP_of_P2 b_cp2c_17276)
+theorem b_final_17703 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 17703 := not_tileCount_of_P 17703 (cnzFixP_of_P2 b_cp2c_17703)
+theorem b_final_17788 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 17788 := not_tileCount_of_P 17788 (cnzFixP_of_P2 b_cp2c_17788)
+theorem b_final_18104 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18104 := not_tileCount_of_P 18104 (cnzFixP_of_P2 b_cp2c_18104)
+theorem b_final_18116 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18116 := not_tileCount_of_P 18116 (cnzFixP_of_P2 b_cp2c_18116)
+theorem b_final_18268 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18268 := not_tileCount_of_P 18268 (cnzFixP_of_P2 b_cp2c_18268)
+theorem b_final_18558 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18558 := not_tileCount_of_P 18558 (cnzFixP_of_P2 b_cp2c_18558)
+theorem b_final_18716 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18716 := not_tileCount_of_P 18716 (cnzFixP_of_P2 b_cp2c_18716)
+theorem b_final_18872 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 18872 := not_tileCount_of_P 18872 (cnzFixP_of_P2 b_cp2c_18872)
+theorem b_final_19168 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 19168 := not_tileCount_of_P 19168 (cnzFixP_of_P2 b_cp2c_19168)
+theorem b_final_19431 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 19431 := not_tileCount_of_P 19431 (cnzFixP_of_P2 b_cp2c_19431)
+theorem b_final_19576 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 19576 := not_tileCount_of_P 19576 (cnzFixP_of_P2 b_cp2c_19576)
+theorem b_final_19964 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 19964 := not_tileCount_of_P 19964 (cnzFixP_of_P2 b_cp2c_19964)
+theorem b_final_20104 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 20104 := not_tileCount_of_P 20104 (cnzFixP_of_P2 b_cp2c_20104)
+theorem b_final_20356 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 20356 := not_tileCount_of_P 20356 (cnzFixP_of_P2 b_cp2c_20356)
+theorem b_final_21244 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 21244 := not_tileCount_of_P 21244 (cnzFixP_of_P2 b_cp2c_21244)
+theorem b_final_21368 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 21368 := not_tileCount_of_P 21368 (cnzFixP_of_P2 b_cp2c_21368)
+theorem b_final_21436 : ¬ Erdos634.Draft.TileCountFamilies.TileCount 21436 := not_tileCount_of_P 21436 (cnzFixP_of_P2 b_cp2c_21436)
+end Erdos634.Draft.WGapPure

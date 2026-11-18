@@ -1,0 +1,3 @@
+# Release 6.0: the hashes of the sources of the per-value modules are in two files.
+# SHA256_SOURCES_internal.txt  hashes of the internal sources (as used by the gate script of the internal run).
+# SHA256_PUBLIC.txt            hashes of the sanitized copies in this repository (identical code, comments and docstrings differ).

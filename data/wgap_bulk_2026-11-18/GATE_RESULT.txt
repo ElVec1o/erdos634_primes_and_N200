@@ -1,0 +1,2 @@
+GATE PASS Wed Nov 18 13:39:36 +07 2026
+expected 5593 ; verified standard-axioms-only: 5593 ; missing: [] ; extra (outside list): []

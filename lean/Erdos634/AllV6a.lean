@@ -1,0 +1,25 @@
+/- AllV6a (2026-11-16): import-only aggregate of release-6.0 leaf modules; see internal working notes Build via code/the build script Erdos634.AllV6a. -/
+import Erdos634.Draft.Collar23A
+import Erdos634.Draft.Collar23B
+import Erdos634.Draft.Collar23C
+import Erdos634.Draft.Collar23D
+import Erdos634.Draft.Collar23E
+import Erdos634.Draft.Collar23Seed
+import Erdos634.Draft.Collar23SeedChk
+import Erdos634.Draft.Collar23SeedLib
+import Erdos634.Draft.Collar23SeedP01
+import Erdos634.Draft.Collar23SeedP02
+import Erdos634.Draft.Collar23SeedP03
+import Erdos634.Draft.Collar23SeedP04
+import Erdos634.Draft.Collar23SeedP05
+import Erdos634.Draft.Collar23SeedP06
+import Erdos634.Draft.Collar23SeedP07
+import Erdos634.Draft.Collar23SeedP08
+import Erdos634.Draft.Collar23SeedP09
+import Erdos634.Draft.Collar23SeedTab
+import Erdos634.Draft.LaczFormalThinW
+import Erdos634.Draft.SplusThickArith
+import Erdos634.Draft.SplusThickFinal
+import Erdos634.Draft.SplusThickGeom
+import Erdos634.Draft.SplusThickMain
+import Erdos634.Draft.ZhangInst40

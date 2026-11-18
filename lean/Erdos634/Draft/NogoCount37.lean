@@ -2,12 +2,13 @@ import Erdos634.JunctionAutomaton
 
 
 /-!
-# Member-specific count for the (3,7) member
+# `prop:nogoauto` — member-specific count for the (3,7) member
 
-Over all 120 words `a⁷c⁴` ending in `c` and all `2¹¹` orientations, exactly 10 560
-configurations satisfy every junction constraint together with the endpoint constraints below.
+Paper: `paper/erdos-634-obstructions.tex`, `prop:nogoauto`:
+> "Over all 120 words `a⁷c⁴` ending in `c` and all `2¹¹` orientations, exactly 10 560
+> configurations satisfy every junction constraint together with Lemma lem:endpoints."
 
-This file formalises the numerical statement for `(e,f) = (3,7)`.
+This file formalises the numerical corollary for `(e,f) = (3,7)`.
 The general automaton fact (`only_forbidden_pair_is_gg`) lives in `JunctionAutomaton.lean`.
 
 ## Orientation convention
@@ -17,7 +18,7 @@ Orientation `true` = first-listed flank is on the apex side (top).
   A: true → top=β, bot=γ;  false → top=γ, bot=β
   C: true → top=α, bot=β;  false → top=β, bot=α
 
-Endpoint constraints:
+Endpoint constraints (lem:endpoints):
   first-edge bottom = β  (base-corner figure = {β})
   last-edge  top    = α  (apex figure = {3α}, last edge is c with top = α)
 -/
@@ -138,27 +139,9 @@ inductive EqEdge | A | C deriving DecidableEq, Repr
 -- Theorems
 -- ---------------------------------------------------------------------------
 
-/-- **(3,7)-member count.**
-Over all C(10,3) = 120 boundary words `a⁷c⁴` ending in `c` and all 2¹¹ orientations,
-exactly 10 560 configurations satisfy the junction-admissibility and endpoint constraints.
-Proved by `native_decide` (uses `Lean.reduceBool`, so not standard axioms only); the same count with
-standard axioms only is `NogoCount37Kernel.nogoCount37_eq_10560_std`.  A kernel `decide` on the flat
-enumeration of the 245 760 pairs needs too much memory (no memoization across `allOrients11` evaluations). -/
-theorem nogoCount37_eq_10560 : countValid37 = 10560 := by native_decide
+-- 2026-11-16 (Definition S): the `native_decide` theorem `nogoCount37_eq_10560` was removed;
+-- the standard-axioms theorem is `NogoCount37Kernel.nogoCount37_eq_10560_std` (same statement).
 
-#print axioms nogoCount37_eq_10560
-
-/-- **γ-junction lower bound, (3,7)-member abstract form.**
-In every valid configuration (admissible junctions + endpoint constraints), every junction that
-carries γ — necessarily in the {γ,α,β} figure, since {3α,2β} has no γ — accounts for
-exactly 7 junctions (one per a-edge; admissibility prevents two adjacent a-edges from both
-orienting γ toward their shared junction, since (γ,γ) is the unique inadmissible pair).
-
-This gives `x ≥ 7` for abstract configurations.  The version for real tilings
-requires the geometric bridge (junctions carry straight figures), which is not part of this file.
-The same statement with standard axioms only is `NogoGamma37Kernel.nogoGammaJunctions_eq_7_std`. -/
-theorem nogoGammaJunctions_eq_7 : minGammaCount37 = 7 := by native_decide
-
-#print axioms nogoGammaJunctions_eq_7
+-- 2026-11-16: likewise `nogoGammaJunctions_eq_7` was removed; see `NogoGamma37Kernel.nogoGammaJunctions_eq_7_std`.
 
 end Erdos634.NogoCount37

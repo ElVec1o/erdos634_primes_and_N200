@@ -7,7 +7,7 @@ import Erdos634.Draft.FDBMod12Converse
 import Erdos634.ThinHole
 
 /-!
-# The area ratio cannot exclude primes
+# prop:norm: area ratio cannot exclude primes  (Erdős #634, obstructions paper)
 
 Main content:
 1. `ℤ[√3]` is a Euclidean domain (hence PID, UFD).
@@ -16,10 +16,11 @@ Main content:
 4. Exactly 144 distinct primes of the form `3f²−e²`, gcd 1, `1 ≤ e < f < 40`.
 5. `prop_norm_structural` wrapper.
 
-All theorems are sorry-free.
+All theorems are sorry-free (2026-10-05).
 
-Axioms: `[propext, Classical.choice, Quot.sound]` for all except `count_144`, which uses
-`native_decide` (kernel primality checks hit ~100K recursion depth; adds `Lean.ofReducible`).
+Axioms: `[propext, Classical.choice, Quot.sound]` for all, including `count_144`
+(2026-11-16: `native_decide` replaced by `decide +kernel` with a trial-division-to-the-square-root
+primality decision procedure, which keeps the kernel evaluation small).
 -/
 
 open Zsqrtd
@@ -203,6 +204,16 @@ theorem primes_11_mod_12_infinite :
 
 -- biUnion over f avoids building the 39×39 Cartesian product in the kernel.
 -- Each inner filter is over Finset.Icc 1 f (≤39 elements), staying under recursion depth.
+section CountKernel
+/-- Kernel-cheap decision procedure for primality (trial division up to the square root);
+equal to Mathlib's `Nat.Prime` by `Nat.prime_def_le_sqrt`. -/
+private def primeDecSqrt (p : ℕ) : Decidable (Nat.Prime p) :=
+  haveI : Decidable (∀ m, 2 ≤ m → m < Nat.sqrt p + 1 → ¬ m ∣ p) :=
+    Nat.decidableLoHi 2 (Nat.sqrt p + 1) (fun m => ¬ m ∣ p)
+  decidable_of_iff' (2 ≤ p ∧ ∀ m, 2 ≤ m → m < Nat.sqrt p + 1 → ¬ m ∣ p)
+    (by rw [Nat.prime_def_le_sqrt]; simp only [Nat.lt_succ_iff])
+local instance (priority := high) : DecidablePred Nat.Prime := primeDecSqrt
+
 private def normPairs : Finset (ℕ × ℕ) :=
   (Finset.Icc 1 39).biUnion fun f =>
     (Finset.Icc 1 f).filter (fun e => e < f ∧ Nat.Coprime e f ∧ (3 * f ^ 2 - e ^ 2 : ℕ).Prime)
@@ -211,11 +222,10 @@ private def normPairs : Finset (ℕ × ℕ) :=
 private def normPrimes : Finset ℕ :=
   normPairs.image (fun ef => 3 * ef.2 ^ 2 - ef.1 ^ 2)
 
--- kernel `decide` exceeds recursion depth for the primality checks (~100K nested calls).
--- `native_decide` works (Python-confirmed: exactly 144 pairs give 144 distinct primes).
--- This adds Lean.ofReducible to the axiom closure of count_144 only.
-set_option maxHeartbeats 800000 in
-theorem count_144 : normPrimes.card = 144 := by native_decide
+-- 2026-11-16: kernel evaluation (no `native_decide`, no `Lean.ofReduceBool`); the square-root
+-- bound cuts the primality checks from ~4500 to ~70 trial divisions each.
+theorem count_144 : normPrimes.card = 144 := by decide +kernel
+end CountKernel
 
 /-! ## Assembly -/
 
@@ -229,7 +239,7 @@ exclude primes.  Four-clause assembly matching the paper's statement.
     `ThinHole.rep_unique`).
 (C) Infinitely many primes ≡ 11 (mod 12) (Dirichlet, Mathlib).
 (D) Exactly 144 distinct primes occur with `gcd(e,f)=1`, `1 ≤ e < f < 40`
-    (`count_144`, via `native_decide`; adds `Lean.ofReducible` to axiom closure only here).  -/
+    (`count_144`, via `decide +kernel`; standard axioms only).  -/
 theorem prop_norm_structural :
     -- (A)
     (∀ z : Z3, Nat.Prime (Zsqrtd.norm z).natAbs → Irreducible z) ∧
